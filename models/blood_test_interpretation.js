@@ -1,0 +1,17 @@
+const { Model, DataTypes } = require("sequelize");
+const sequelize = require("../config/db");
+
+const BloodTestInterpretation = sequelize.define("BloodTestInterpretation", {
+    value_1_id: DataTypes.INTEGER,
+    value_2_id: DataTypes.INTEGER,
+    value_3_id: DataTypes.INTEGER,
+    value_4_id: DataTypes.INTEGER,
+    value_5_id: DataTypes.INTEGER,
+}, {
+    sequelize,
+    modelName: "BloodTestInterpretation",
+    tableName: "blood_test_interpretation", // ต้องตรงกับชื่อ table จริง
+}
+);
+
+module.exports = BloodTestInterpretation;

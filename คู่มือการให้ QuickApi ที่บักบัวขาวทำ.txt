@@ -1,0 +1,50 @@
+1.ตัวอย่างโครงสร้างไฟล์
+my-project/
+│
+├─ package.json
+├─ app.js                # entry point ของโปรเจกต์
+├─ config/
+│   └─ db.js             # ตั้งค่า database (Sequelize instance)
+│
+├─ models/               # เก็บ model (เหมือน Laravel Models)
+│   └─ user.js
+│
+├─ controllers/          # เก็บ controller
+│   └─ userController.js
+│
+├─ routes/               # เก็บ route ของแต่ละ resource
+│   └─ userRoutes.js
+│
+├─ seeders/              # เก็บ seed data
+│   └─ userSeeder.js
+│
+├─ migrations/           # เก็บ migration file
+│   └─ 20250820-create-users.js
+│
+├─ middleware/           # เก็บ middleware (เช่น auth, logger)
+│   └─ auth.js
+│
+└─ utils/                # เก็บ function helper
+    └─ hashPassword.js
+
+2.สร้างโฟลเดอร์โปรเจกต์
+2.1 mkdir my-project ใส่คำสั่งนี้ก่อน my-project คือชื่อโปรเจค
+2.2 cd my-project
+2.3 npm install express ติดตั้ง express
+2.4 npm install sequelize mysql2 ติดตั้ง MySQL
+2.5 npm install --save-dev sequelize-cli ติดตั้ง sequelize-cli เผื่อต้องการใช้ seeder migration
+3.สร้าง migration
+3.1 npx sequelize-cli migration:generate --name add-phone-to-users  users คือชื่อที่เราสามารถเเก้ไขได้
+4.up migration 
+4.1 npx sequelize-cli db:migrate:undo  rollback (undo migration ล่าสุด)
+4.2 npx sequelize-cli db:migrate:undo:all rollback ทั้งหมด
+5.down migration
+5.1 npx sequelize-cli db:migrate:undo วิธีลบ table ใน Sequelize CLI
+6.up seeder
+6.1 node seeders/seed.js seeders คือชื่อ folder seed.js คือชื่อไฟล์ที่ต้อง seed ไป
+7.ติดตั้ง bcryptjs สำหรับ hash password
+7.1 npm install bcryptjs 
+8.run server
+8.1 npm install --save-dev nodemon
+>>>>>>> bb38b62 (choice and user)
+8.2 npx nodemon app.js
