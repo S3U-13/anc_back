@@ -53,7 +53,7 @@ async function seed() {
         },
         {
             choice_type_id: "6",
-            choice_name: "ใตั้งครรภ์ต่อ"
+            choice_name: "ตั้งครรภ์ต่อ"
         },
         {
             choice_type_id: "7",

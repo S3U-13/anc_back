@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-const User = require("../models/user"); // model ที่ import มา
-const hashPassword = require("../utils/hashPassword");
-
-async function seed() {
-  await User.bulkCreate([   // ใช้ Test แทน User
-    { name: "Nes", email: "nes@gmail.com", password: await hashPassword("12345678") },
-  ]);
-
-  console.log("✅ Users seeded with hashed passwords");
-}
-
-=======
 const User = require("../models/user"); // model ที่ import มา
 const hashPassword = require("../utils/hashPassword");
 
@@ -30,5 +17,4 @@ async function seed() {
   console.log("✅ Users seeded with hashed passwords");
 }
 
->>>>>>> bb38b62 (choice and user)
 seed(); // ไม่ต้องส่ง parameter
