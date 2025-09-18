@@ -161,10 +161,18 @@ async function seed() {
         },
         {
             choice_type_id: "15",
-            choice_name: "ในจังหวัด"
+            choice_name: "รับ Refer"
         },
         {
             choice_type_id: "15",
+            choice_name: "ส่งต่อ Refer"
+        },
+        {
+            choice_type_id: "16",
+            choice_name: "ในจังหวัด"
+        },
+        {
+            choice_type_id: "16",
             choice_name: "ต่างจังหวัด"
         },
     ]);

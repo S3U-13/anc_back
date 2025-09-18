@@ -16,6 +16,9 @@ db.ChoiceValue = require("./choice_value");
 db.BloodTestInterpretation = require("./blood_test_interpretation");
 db.Cbe = require("./cbe");
 db.Referral = require("./referral");
+db.TextValueWife = require("./text_value_wife");
+db.TextValueHusband = require("./text_value_husband");
+db.Anc = require("./anc");
 
 //associations
 db.User.belongsTo(db.Role, { foreignKey: "role_id"});
@@ -31,16 +34,16 @@ db.ChoiceValue.belongsTo(db.AllChoice, { foreignKey: "cordo_id", as:"cordo"});
 db.ChoiceValue.belongsTo(db.AllChoice, { foreignKey: "abortion_id", as:"abortion"});
 db.ChoiceValue.belongsTo(db.AllChoice, { foreignKey: "tdap_id", as:"tdap"});
 db.ChoiceValue.belongsTo(db.AllChoice, { foreignKey: "iip_id", as:"iip"});
-db.BloodTestInterpretation.belongsTo(db.AllChoice, { foreignKey: "value_1_id", as:"value_1"});
-db.BloodTestInterpretation.belongsTo(db.AllChoice, { foreignKey: "value_2_id", as:"value_2"});
-db.BloodTestInterpretation.belongsTo(db.AllChoice, { foreignKey: "value_3_id", as:"value_3"});
-db.BloodTestInterpretation.belongsTo(db.AllChoice, { foreignKey: "value_4_id", as:"value_4"});
-db.BloodTestInterpretation.belongsTo(db.AllChoice, { foreignKey: "value_5_id", as:"value_5"});
+db.BloodTestInterpretation.belongsTo(db.AllChoice, { foreignKey: "bti_value_1_id", as:"bti_value_1"});
+db.BloodTestInterpretation.belongsTo(db.AllChoice, { foreignKey: "bti_value_2_id", as:"bti_value_2"});
+db.BloodTestInterpretation.belongsTo(db.AllChoice, { foreignKey: "bti_value_3_id", as:"bti_value_3"});
+db.BloodTestInterpretation.belongsTo(db.AllChoice, { foreignKey: "bti_value_4_id", as:"bti_value_4"});
+db.BloodTestInterpretation.belongsTo(db.AllChoice, { foreignKey: "bti_value_5_id", as:"bti_value_5"});
 db.ChoiceValue.belongsTo(db.BloodTestInterpretation, { foreignKey: "bti_id", as:"bti"});
-db.Cbe.belongsTo(db.AllChoice, { foreignKey: "value_1_id", as:"value_1"});
-db.Cbe.belongsTo(db.AllChoice, { foreignKey: "value_2_id", as:"value_2"});
-db.Cbe.belongsTo(db.AllChoice, { foreignKey: "value_3_id", as:"value_3"});
-db.Cbe.belongsTo(db.AllChoice, { foreignKey: "value_4_id", as:"value_4"});
+db.Cbe.belongsTo(db.AllChoice, { foreignKey: "cbe_value_1_id", as:"cbe_value_1"});
+db.Cbe.belongsTo(db.AllChoice, { foreignKey: "cbe_value_2_id", as:"cbe_value_2"});
+db.Cbe.belongsTo(db.AllChoice, { foreignKey: "cbe_value_3_id", as:"cbe_value_3"});
+db.Cbe.belongsTo(db.AllChoice, { foreignKey: "cbe_value_4_id", as:"cbe_value_4"});
 db.ChoiceValue.belongsTo(db.Cbe, { foreignKey: "cbe_id", as:"cbe"});
 db.ChoiceValue.belongsTo(db.AllChoice, { foreignKey: "birads_id", as:"birads"});
 db.ChoiceValue.belongsTo(db.AllChoice, { foreignKey: "per_os_id", as:"per_os"});
@@ -52,6 +55,10 @@ db.Referral.belongsTo(db.AllChoice, { foreignKey: "ref_out_id", as:"ref_out"});
 db.ChoiceValue.belongsTo(db.Referral, { foreignKey: "referral_id", as:"referral"});
 db.ChoiceValue.belongsTo(db.AllChoice, { foreignKey: "ref_in_choice_id", as:"ref_in_choice"});
 db.ChoiceValue.belongsTo(db.AllChoice, { foreignKey: "ref_out_choice_id", as:"ref_out_choice"});
+db.Anc.belongsTo(db.ChoiceValue, { foreignKey: "choice_value_id", as:"choice_value"});
+db.Anc.belongsTo(db.TextValueWife, { foreignKey: "text_value_wife_id", as:"text_value_wife"});
+db.Anc.belongsTo(db.TextValueHusband, { foreignKey: "text_value_husband_id", as:"text_value_husband"});
+
 
 // db.Role.hasMany(db.User, { foreignKey: "role_id"});
 // db.Position.hasMany(db.User, { foreignKey: "position_id"});

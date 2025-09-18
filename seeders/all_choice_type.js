@@ -16,6 +16,7 @@ async function seed() {
         { choice_type_name: "per_os" },
         { choice_type_name: "antenatal care" },
         { choice_type_name: "ultrasound" },
+        { choice_type_name: "referral" },
         { choice_type_name: "ref choice" },
     ]);
     

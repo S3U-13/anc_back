@@ -5,20 +5,20 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("blood_test_interpretation", {
       id: { primaryKey: true, allowNull: false, autoIncrement: true, type: Sequelize.INTEGER.UNSIGNED, },
-      value_1_id: { type: Sequelize.INTEGER.UNSIGNED, allowNull: true, references: { model: "all_choice", key: "id" }, onUpdate: "CASCADE", onDelete: "CASCADE", name: "fk_value_1_id" },
-      value_2_id: { type: Sequelize.INTEGER.UNSIGNED, allowNull: true, references: { model: "all_choice", key: "id" }, onUpdate: "CASCADE", onDelete: "CASCADE", name: "fk_value_2_id" },
-      value_3_id: { type: Sequelize.INTEGER.UNSIGNED, allowNull: true, references: { model: "all_choice", key: "id" }, onUpdate: "CASCADE", onDelete: "CASCADE", name: "fk_value_3_id" },
-      value_4_id: { type: Sequelize.INTEGER.UNSIGNED, allowNull: true, references: { model: "all_choice", key: "id" }, onUpdate: "CASCADE", onDelete: "CASCADE", name: "fk_value_4_id" },
-      value_5_id: { type: Sequelize.INTEGER.UNSIGNED, allowNull: true, references: { model: "all_choice", key: "id" }, onUpdate: "CASCADE", onDelete: "CASCADE", name: "fk_value_5_id" },
+      bti_value_1_id: { type: Sequelize.INTEGER.UNSIGNED, allowNull: true, references: { model: "all_choice", key: "id" }, onUpdate: "CASCADE", onDelete: "CASCADE", name: "fk_bti_value_1_id" },
+      bti_value_2_id: { type: Sequelize.INTEGER.UNSIGNED, allowNull: true, references: { model: "all_choice", key: "id" }, onUpdate: "CASCADE", onDelete: "CASCADE", name: "fk_bti_value_2_id" },
+      bti_value_3_id: { type: Sequelize.INTEGER.UNSIGNED, allowNull: true, references: { model: "all_choice", key: "id" }, onUpdate: "CASCADE", onDelete: "CASCADE", name: "fk_bti_value_3_id" },
+      bti_value_4_id: { type: Sequelize.INTEGER.UNSIGNED, allowNull: true, references: { model: "all_choice", key: "id" }, onUpdate: "CASCADE", onDelete: "CASCADE", name: "fk_bti_value_4_id" },
+      bti_value_5_id: { type: Sequelize.INTEGER.UNSIGNED, allowNull: true, references: { model: "all_choice", key: "id" }, onUpdate: "CASCADE", onDelete: "CASCADE", name: "fk_bti_value_5_id" },
       createdAt: { allowNull: false, type: Sequelize.DATE },
       updatedAt: { allowNull: false, type: Sequelize.DATE }
     });
     await queryInterface.createTable("cbe", {
       id: { primaryKey: true, allowNull: false, autoIncrement: true, type: Sequelize.INTEGER.UNSIGNED, },
-      value_1_id: { type: Sequelize.INTEGER.UNSIGNED, allowNull: true, references: { model: "all_choice", key: "id" }, onUpdate: "CASCADE", onDelete: "CASCADE", name: "fk_value_1_id" },
-      value_2_id: { type: Sequelize.INTEGER.UNSIGNED, allowNull: true, references: { model: "all_choice", key: "id" }, onUpdate: "CASCADE", onDelete: "CASCADE", name: "fk_value_2_id" },
-      value_3_id: { type: Sequelize.INTEGER.UNSIGNED, allowNull: true, references: { model: "all_choice", key: "id" }, onUpdate: "CASCADE", onDelete: "CASCADE", name: "fk_value_3_id" },
-      value_4_id: { type: Sequelize.INTEGER.UNSIGNED, allowNull: true, references: { model: "all_choice", key: "id" }, onUpdate: "CASCADE", onDelete: "CASCADE", name: "fk_value_4_id" },
+      cbe_value_1_id: { type: Sequelize.INTEGER.UNSIGNED, allowNull: true, references: { model: "all_choice", key: "id" }, onUpdate: "CASCADE", onDelete: "CASCADE", name: "fk_cbe_value_1_id" },
+      cbe_value_2_id: { type: Sequelize.INTEGER.UNSIGNED, allowNull: true, references: { model: "all_choice", key: "id" }, onUpdate: "CASCADE", onDelete: "CASCADE", name: "fk_cbe_value_2_id" },
+      cbe_value_3_id: { type: Sequelize.INTEGER.UNSIGNED, allowNull: true, references: { model: "all_choice", key: "id" }, onUpdate: "CASCADE", onDelete: "CASCADE", name: "fk_cbe_value_3_id" },
+      cbe_value_4_id: { type: Sequelize.INTEGER.UNSIGNED, allowNull: true, references: { model: "all_choice", key: "id" }, onUpdate: "CASCADE", onDelete: "CASCADE", name: "fk_cbe_value_4_id" },
       createdAt: { allowNull: false, type: Sequelize.DATE },
       updatedAt: { allowNull: false, type: Sequelize.DATE }
     });
@@ -74,9 +74,9 @@ module.exports = {
       cordo_other_text: { type: Sequelize.STRING, allowNull: true, },
       td_num: { type: Sequelize.INTEGER, allowNull: true, },
       td_last_date: { type: Sequelize.DATE, allowNull: true, },
-      dp_round_1: { type: Sequelize.DATE, allowNull: true, },
-      dp_round_2: { type: Sequelize.DATE, allowNull: true, },
-      dp_round_3: { type: Sequelize.DATE, allowNull: true, },
+      tdap_round_1: { type: Sequelize.DATE, allowNull: true, },
+      tdap_round_2: { type: Sequelize.DATE, allowNull: true, },
+      tdap_round_3: { type: Sequelize.DATE, allowNull: true, },
       iip_date: { type: Sequelize.DATE, allowNull: true, },
       lab_2: { type: Sequelize.STRING, allowNull: false, },
       hct: { type: Sequelize.STRING, allowNull: false, },
@@ -131,15 +131,12 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * 
-     */
     await queryInterface.dropTable('choice_value');
     await queryInterface.dropTable('blood_test_interpretation');
     await queryInterface.dropTable('cbe');
     await queryInterface.dropTable('referral');
+    await queryInterface.dropTable('text_value_wife');
+    await queryInterface.dropTable('text_value_husband');
+    await queryInterface.dropTable('anc');
   }
 };

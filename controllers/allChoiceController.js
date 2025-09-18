@@ -30,20 +30,20 @@ exports.ChoiceValue = async (req, res) => {
             { model: db.AllChoice, as: "ref_out_choice", attributes: ["choice_name"] },
             {
                 model: db.BloodTestInterpretation, as: "bti", attributes: ["value_1_id", "value_2_id", "value_3_id", "value_4_id", "value_5_id"], include: [
-                    { model: db.AllChoice, as: "value_1", attributes: ["choice_name"] },
-                    { model: db.AllChoice, as: "value_2", attributes: ["choice_name"] },
-                    { model: db.AllChoice, as: "value_3", attributes: ["choice_name"] },
-                    { model: db.AllChoice, as: "value_4", attributes: ["choice_name"] },
-                    { model: db.AllChoice, as: "value_5", attributes: ["choice_name"] },
+                    { model: db.AllChoice, as: "bti_value_1", attributes: ["choice_name"] },
+                    { model: db.AllChoice, as: "bti_value_2", attributes: ["choice_name"] },
+                    { model: db.AllChoice, as: "bti_value_3", attributes: ["choice_name"] },
+                    { model: db.AllChoice, as: "bti_value_4", attributes: ["choice_name"] },
+                    { model: db.AllChoice, as: "bti_value_5", attributes: ["choice_name"] },
                 ]
             },
             {
                 model: db.Cbe, as: "cbe", attributes: ["value_1_id", "value_2_id", "value_3_id", "value_4_id"],
                 include: [
-                    { model: db.AllChoice, as: "value_1", attributes: ["choice_name"] },
-                    { model: db.AllChoice, as: "value_2", attributes: ["choice_name"] },
-                    { model: db.AllChoice, as: "value_3", attributes: ["choice_name"] },
-                    { model: db.AllChoice, as: "value_4", attributes: ["choice_name"] },
+                    { model: db.AllChoice, as: "cbe_value_1", attributes: ["choice_name"] },
+                    { model: db.AllChoice, as: "cbe_value_2", attributes: ["choice_name"] },
+                    { model: db.AllChoice, as: "cbe_value_3", attributes: ["choice_name"] },
+                    { model: db.AllChoice, as: "cbe_value_4", attributes: ["choice_name"] },
                 ],
             },
             {

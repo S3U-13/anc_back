@@ -2,6 +2,11 @@ const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
 const Anc = sequelize.define("Anc", {
+    anc_no: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
     hn: DataTypes.INTEGER,
     patvisit_id: DataTypes.INTEGER,
     patreg_id: DataTypes.INTEGER,
