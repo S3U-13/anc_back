@@ -1,0 +1,16 @@
+SELECT id,
+  hn,
+  firstname,
+  lastname,
+  birthdate,
+  house,
+  moo,
+  soy,
+  road,
+  tambon,
+  amphur,
+  province,
+  postcode,
+  phone,
+  email
+FROM pathopat;
