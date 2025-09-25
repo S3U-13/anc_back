@@ -2,8 +2,29 @@ const db = require("../models");
 const { sequelize } = db;
 
 exports.index = async (req, res) => {
-    const anc = await db.Anc.findAll();
-    res.json(anc);
+    try {
+        const ancList = await db.Anc.findAll(); // มาจาก DB A
+
+        const dataWithPat = await Promise.all(
+            ancList.map(async (anc) => {
+                const wifeRes = await fetch(`http://localhost:3000/api/pat/${anc.hn_wife}`);
+                const wife = await wifeRes.json();
+
+                const husbandRes = await fetch(`http://localhost:3000/api/pat/${anc.hn_husband}`);
+                const husband = await husbandRes.json();
+
+                return {
+                    ...anc.toJSON(),
+                    wife,
+                    husband,
+                };
+            })
+        );
+
+        res.json(dataWithPat);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 }
 
 exports.create_anc = async (req, res) => {
@@ -11,14 +32,10 @@ exports.create_anc = async (req, res) => {
         const {
             hn_wife,
             hn_husband,
-            lmp,
-            edc,
         } = req.body
         const requiredFields = [
             "hn_wife",
             "hn_husband",
-            "lmp",
-            "edc",
         ]
         for (const field of requiredFields) {
             if (!req.body[field]) {
@@ -28,8 +45,6 @@ exports.create_anc = async (req, res) => {
         const anc = await db.Anc.create({
             hn_wife,
             hn_husband,
-            lmp,
-            edc,
         });
         res.status(201).json({ message: "เพิ่มข้อมูลสำเร็จ", anc });
     } catch (error) {

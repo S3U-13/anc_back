@@ -127,8 +127,6 @@ module.exports = {
       anc_no: { type: Sequelize.INTEGER.UNSIGNED, primaryKey: true, autoIncrement: true, allowNull: false },
       hn_wife: { type: Sequelize.INTEGER, allowNull: false },
       hn_husband: { type: Sequelize.INTEGER, allowNull: false },
-      lmp: { type: Sequelize.DATE, allowNull: false },
-      edc: { type: Sequelize.DATE, allowNull: false },
       createdAt: { allowNull: false, type: Sequelize.DATE },
       updatedAt: { allowNull: false, type: Sequelize.DATE },
     });

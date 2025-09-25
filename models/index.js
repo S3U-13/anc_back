@@ -26,17 +26,16 @@ db.Address = require("./address");
 db.PatVitalSign = require("./pat_vitalsign");
 
 //associations
-db.User.belongsTo(db.Role, { foreignKey: "role_id"});
-db.User.belongsTo(db.Position, { foreignKey: "position_id"});
+db.User.belongsTo(db.Role, { foreignKey: "role_id" });
+db.User.belongsTo(db.Position, { foreignKey: "position_id" });
 
-db.AllChoice.belongsTo(db.AllChoiceType, { foreignKey: "choice_type_id"});
+db.AllChoice.belongsTo(db.AllChoiceType, { foreignKey: "choice_type_id" });
 
 // 📌 Pat ↔ PatAddress (1:1)
 db.Pat.hasOne(db.PatAddress, { foreignKey: "hn", as: "pat_address" });
 db.PatAddress.belongsTo(db.Pat, { foreignKey: "hn", as: "pat_address" });
-
 // pat -> occupation
-db.Pat.belongsTo(db.Occupation, { foreignKey: "occupation", targetKey: "lookupid", as:"occupation_detail" })
+db.Pat.belongsTo(db.Occupation, { foreignKey: "occupation", targetKey: "lookupid", as: "occupation_detail" })
 
 // Province
 db.PatAddress.belongsTo(db.Address, { foreignKey: "province", targetKey: "addresscode", as: "province_detail" });

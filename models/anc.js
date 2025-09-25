@@ -9,8 +9,6 @@ const Anc = sequelize.define("Anc", {
     },
     hn_wife: DataTypes.INTEGER,
     hn_husband: DataTypes.INTEGER,
-    lmp: DataTypes.DATE,
-    edc: DataTypes.DATE,
 }, {
     sequelize,
     modelName: "Anc",
