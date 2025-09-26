@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -124,7 +124,12 @@ module.exports = {
     //   updatedAt: { allowNull: false, type: Sequelize.DATE },
     // });
     await queryInterface.createTable("anc", {
-      anc_no: { type: Sequelize.INTEGER.UNSIGNED, primaryKey: true, autoIncrement: true, allowNull: false },
+      anc_no: {
+        type: Sequelize.INTEGER.UNSIGNED, // เลขบวก
+        primaryKey: true, // เป็น primary key
+        allowNull: false, // ต้องมีค่า
+        autoIncrement: true
+      },
       hn_wife: { type: Sequelize.INTEGER, allowNull: false },
       hn_husband: { type: Sequelize.INTEGER, allowNull: false },
       createdAt: { allowNull: false, type: Sequelize.DATE },
@@ -133,12 +138,12 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('choice_value');
-    await queryInterface.dropTable('blood_test_interpretation');
-    await queryInterface.dropTable('cbe');
-    await queryInterface.dropTable('referral');
-    await queryInterface.dropTable('text_value_wife');
-    await queryInterface.dropTable('text_value_husband');
-    await queryInterface.dropTable('anc');
-  }
+    await queryInterface.dropTable("choice_value");
+    await queryInterface.dropTable("blood_test_interpretation");
+    await queryInterface.dropTable("cbe");
+    await queryInterface.dropTable("referral");
+    await queryInterface.dropTable("text_value_wife");
+    await queryInterface.dropTable("text_value_husband");
+    await queryInterface.dropTable("anc");
+  },
 };

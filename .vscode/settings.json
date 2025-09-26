@@ -27,7 +27,8 @@
             "driver": "MySQL",
             "name": "PPK_test_Now",
             "username": "applog",
-            "database": "ppkhosp"
+            "database": "ppkhosp",
+            "askForPassword": true
         }
     ]
 }

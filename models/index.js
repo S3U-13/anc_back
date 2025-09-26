@@ -1,4 +1,3 @@
-
 const Sequelize = require("sequelize");
 const sequelize = require("../config/db");
 
@@ -35,20 +34,36 @@ db.AllChoice.belongsTo(db.AllChoiceType, { foreignKey: "choice_type_id" });
 db.Pat.hasOne(db.PatAddress, { foreignKey: "hn", as: "pat_address" });
 db.PatAddress.belongsTo(db.Pat, { foreignKey: "hn", as: "pat_address" });
 // pat -> occupation
-db.Pat.belongsTo(db.Occupation, { foreignKey: "occupation", targetKey: "lookupid", as: "occupation_detail" })
+db.Pat.belongsTo(db.Occupation, {
+  foreignKey: "occupation",
+  targetKey: "lookupid",
+  as: "occupation_detail",
+});
 
 // Province
-db.PatAddress.belongsTo(db.Address, { foreignKey: "province", targetKey: "addresscode", as: "province_detail" });
+db.PatAddress.belongsTo(db.Address, {
+  foreignKey: "province",
+  targetKey: "addresscode",
+  as: "province_detail",
+});
 
 // Amphur
-db.PatAddress.belongsTo(db.Address, { foreignKey: "amphur", targetKey: "addresscode", as: "amphur_detail" });
+db.PatAddress.belongsTo(db.Address, {
+  foreignKey: "amphur",
+  targetKey: "addresscode",
+  as: "amphur_detail",
+});
 
 // Tambon
-db.PatAddress.belongsTo(db.Address, { foreignKey: "tambon", targetKey: "addresscode", as: "tambon_detail" });
+db.PatAddress.belongsTo(db.Address, {
+  foreignKey: "tambon",
+  targetKey: "addresscode",
+  as: "tambon_detail",
+});
 
 // 📌 Pat ↔ PatVitalSign (1:N)
 db.Pat.hasMany(db.PatVitalSign, { foreignKey: "hn", as: "pat_vitalsign" });
-db.PatVitalSign.belongsTo(db.Pat, { foreignKey: "hn", as: "pat_vitalsign" });;
+db.PatVitalSign.belongsTo(db.Pat, { foreignKey: "hn", as: "pat_vitalsign" });
 
 // db.ChoiceValue.belongsTo(db.AllChoice, { foreignKey: "ma_id", as:"ma"});
 // db.ChoiceValue.belongsTo(db.AllChoice, { foreignKey: "hr_id", as:"hr"});
@@ -82,7 +97,6 @@ db.PatVitalSign.belongsTo(db.Pat, { foreignKey: "hn", as: "pat_vitalsign" });;
 // db.Anc.belongsTo(db.ChoiceValue, { foreignKey: "choice_value_id", as:"choice_value"});
 // db.Anc.belongsTo(db.TextValueWife, { foreignKey: "text_value_wife_id", as:"text_value_wife"});
 // db.Anc.belongsTo(db.TextValueHusband, { foreignKey: "text_value_husband_id", as:"text_value_husband"});
-
 
 // db.Role.hasMany(db.User, { foreignKey: "role_id"});
 // db.Position.hasMany(db.User, { foreignKey: "position_id"});
