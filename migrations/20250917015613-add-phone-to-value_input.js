@@ -3,6 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
+
     // await queryInterface.createTable("blood_test_interpretation", {
     //   id: { primaryKey: true, allowNull: false, autoIncrement: true, type: Sequelize.INTEGER.UNSIGNED, },
     //   bti_value_1_id: { type: Sequelize.INTEGER.UNSIGNED, allowNull: true, references: { model: "all_choice", key: "id" }, onUpdate: "CASCADE", onDelete: "CASCADE", name: "fk_bti_value_1_id" },
@@ -13,6 +14,7 @@ module.exports = {
     //   createdAt: { allowNull: false, type: Sequelize.DATE },
     //   updatedAt: { allowNull: false, type: Sequelize.DATE }
     // });
+
     // await queryInterface.createTable("cbe", {
     //   id: { primaryKey: true, allowNull: false, autoIncrement: true, type: Sequelize.INTEGER.UNSIGNED, },
     //   cbe_value_1_id: { type: Sequelize.INTEGER.UNSIGNED, allowNull: true, references: { model: "all_choice", key: "id" }, onUpdate: "CASCADE", onDelete: "CASCADE", name: "fk_cbe_value_1_id" },
@@ -22,6 +24,7 @@ module.exports = {
     //   createdAt: { allowNull: false, type: Sequelize.DATE },
     //   updatedAt: { allowNull: false, type: Sequelize.DATE }
     // });
+
     // await queryInterface.createTable("referral", {
     //   id: { primaryKey: true, allowNull: false, autoIncrement: true, type: Sequelize.INTEGER.UNSIGNED, },
     //   ref_in_id: { type: Sequelize.INTEGER.UNSIGNED, allowNull: true, references: { model: "all_choice", key: "id" }, onUpdate: "CASCADE", onDelete: "CASCADE", name: "fk_ref_in_id" },
@@ -29,7 +32,8 @@ module.exports = {
     //   createdAt: { allowNull: false, type: Sequelize.DATE },
     //   updatedAt: { allowNull: false, type: Sequelize.DATE }
     // });
-    // await queryInterface.createTable("choice_value", {
+
+    // await queryInterface.createTable("wife_choice_value", {
     //   id: { type: Sequelize.INTEGER.UNSIGNED, primaryKey: true, autoIncrement: true, allowNull: false },
     //   ma_id: { type: Sequelize.INTEGER.UNSIGNED, allowNull: false, references: { model: "all_choice", key: "id" }, onUpdate: "CASCADE", onDelete: "CASCADE", name: "fk_ma_id" },
     //   hr_id: { type: Sequelize.INTEGER.UNSIGNED, allowNull: false, references: { model: "all_choice", key: "id" }, onUpdate: "CASCADE", onDelete: "CASCADE", name: "fk_hr_id" },
@@ -52,6 +56,7 @@ module.exports = {
     //   createdAt: { allowNull: false, type: Sequelize.DATE },
     //   updatedAt: { allowNull: false, type: Sequelize.DATE },
     // });
+
     // await queryInterface.createTable("text_value_wife", {
     //   id: { type: Sequelize.INTEGER.UNSIGNED, primaryKey: true, autoIncrement: true, allowNull: false },
     //   da_text: { type: Sequelize.STRING, allowNull: true, },
@@ -88,6 +93,7 @@ module.exports = {
     //   createdAt: { allowNull: false, type: Sequelize.DATE },
     //   updatedAt: { allowNull: false, type: Sequelize.DATE },
     // });
+
     // await queryInterface.createTable("text_value_husband", {
     //   id: { type: Sequelize.INTEGER.UNSIGNED, primaryKey: true, autoIncrement: true, allowNull: false },
     //   husband_name: { type: Sequelize.STRING, allowNull: false },
@@ -123,6 +129,7 @@ module.exports = {
     //   createdAt: { allowNull: false, type: Sequelize.DATE },
     //   updatedAt: { allowNull: false, type: Sequelize.DATE },
     // });
+
     await queryInterface.createTable("anc", {
       anc_no: {
         type: Sequelize.INTEGER.UNSIGNED, // เลขบวก
