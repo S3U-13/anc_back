@@ -13,6 +13,7 @@ router.get("/ChoiceValue" , AllChoiceController.ChoiceValue);
 router.get("/anc" , ancController.index);
 router.post("/anc" , ancController.create_anc);
 router.get("/pat/:value", patController.pat);
+// router.get("/PatReg/:value", patController.pat_reg);
 
 
 module.exports = router;

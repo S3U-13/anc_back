@@ -23,6 +23,9 @@ db.Occupation = require("./occupation");
 db.PatAddress = require("./pataddress");
 db.Address = require("./address");
 db.PatVitalSign = require("./pat_vitalsign");
+db.PatReg = require("./pat_reg");
+db.Location = require("./location");
+db.PatVisit = require("./pat_visit");
 
 //associations
 db.User.belongsTo(db.Role, { foreignKey: "role_id" });
@@ -64,6 +67,14 @@ db.PatAddress.belongsTo(db.Address, {
 // 📌 Pat ↔ PatVitalSign (1:N)
 db.Pat.hasMany(db.PatVitalSign, { foreignKey: "hn", as: "pat_vitalsign" });
 db.PatVitalSign.belongsTo(db.Pat, { foreignKey: "hn", as: "pat_vitalsign" });
+
+// pat_reg & pat_visit -> pat 
+db.Pat.hasMany(db.PatReg, { foreignKey: "hn",  as: "pat_reg"});
+db.Pat.hasMany(db.PatVisit, { foreignKey: "hn",  as: "pat_visit"});
+db.PatReg.belongsTo(db.PatVisit, { foreignKey: "patvisitid", as: "PatVisit" });
+// location -> pat_reg
+db.PatReg.belongsTo(db.Location, { foreignKey: "locationid", as: "Location" });
+
 
 // db.ChoiceValue.belongsTo(db.AllChoice, { foreignKey: "ma_id", as:"ma"});
 // db.ChoiceValue.belongsTo(db.AllChoice, { foreignKey: "hr_id", as:"hr"});
