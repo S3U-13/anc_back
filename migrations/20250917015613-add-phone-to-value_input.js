@@ -115,7 +115,7 @@ module.exports = {
         onDelete: "CASCADE",
         name: "fk_receive_in_id",
       },
-      hos_id: { allowNull: true, type: Sequelize.INTEGER },
+      hos_in_id: { allowNull: true, type: Sequelize.INTEGER },
       createdAt: { allowNull: false, type: Sequelize.DATE },
       updatedAt: { allowNull: false, type: Sequelize.DATE },
     });
@@ -138,7 +138,7 @@ module.exports = {
         onDelete: "CASCADE",
         name: "fk_receive_out_id",
       },
-      hos_id: { allowNull: true, type: Sequelize.INTEGER },
+      hos_out_id: { allowNull: true, type: Sequelize.INTEGER },
       createdAt: { allowNull: false, type: Sequelize.DATE },
       updatedAt: { allowNull: false, type: Sequelize.DATE },
     });
