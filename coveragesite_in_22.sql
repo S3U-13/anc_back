@@ -1,0 +1,1 @@
+SELECT * FROM coveragesite WHERE provcode=22 AND typecode NOT IN ('A', 'B', 'D', 'O', 'P')

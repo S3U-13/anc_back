@@ -1,5 +1,6 @@
 const db = require("../models");
 const { sequelize } = db;
+const { Op } = require("sequelize");
 
 exports.anc_service = async (req, res) => {
   const anc_data = await db.AncService.findAll();
@@ -26,7 +27,21 @@ exports.create = async (req, res) => {
       hr_id,
       hr_detail,
       am_id,
-      lab_wife_result_id,
+      gct_1_wife,
+      gct_2_wife,
+      ogtt_1_wife,
+      ogtt_2_wife,
+      hbsag_wife,
+      vdrl__wife,
+      anti_hiv_wife,
+      bl_gr_wife,
+      rh_wife,
+      hct_wife,
+      of_wife,
+      dcip_wife,
+      mcv_wife,
+      mch_wife,
+      hb_typing_wife,
       pcr_wife_id,
       pcr_wife_text,
       cordo_id,
@@ -58,7 +73,17 @@ exports.create = async (req, res) => {
       birads_id,
       cbe_result,
       per_os_id,
-      lab_husband_result_id,
+      hbsag_husband,
+      vdrl__husband,
+      anti_hiv_husband,
+      bl_gr_husband,
+      rh_husband,
+      hct_husband,
+      of_husband,
+      dcip_husband,
+      mcv_husband,
+      mch_husband,
+      hb_typing_husband,
       pcr_hus_id,
       pcr_hus_text,
       anc_id,
@@ -66,7 +91,7 @@ exports.create = async (req, res) => {
       ref_in_id,
       ref_out_id,
       receive_in_id,
-      hos_id,
+      hos_in_id,
       receive_out_id,
       hos_out_id,
     } = req.body;
@@ -81,7 +106,50 @@ exports.create = async (req, res) => {
       "ma_id",
       "hr_id",
       "am_id",
-      "lab_wife_result_id",
+      "gct_1_wife",
+      "gct_1_wife",
+      "gct_2_wife",
+      "gct_2_wife",
+      "gct_2_wife",
+      "ogtt_1_wife",
+      "ogtt_1_wife",
+      "ogtt_1_wife",
+      "ogtt_2_wife",
+      "ogtt_2_wife",
+      "ogtt_2_wife",
+      "hbsag_wife",
+      "hbsag_wife",
+      "hbsag_wife",
+      "vdrl__wife",
+      "vdrl__wife",
+      "vdrl__wife",
+      "anti_hiv_wife",
+      "anti_hiv_wife",
+      "anti_hiv_wife",
+      "bl_gr_wife",
+      "bl_gr_wife",
+      "bl_gr_wife",
+      "rh_wife",
+      "rh_wife",
+      "rh_wife",
+      "hct_wife",
+      "hct_wife",
+      "hct_wife",
+      "of_wife",
+      "of_wife",
+      "of_wife",
+      "dcip_wife",
+      "dcip_wife",
+      "dcip_wife",
+      "mcv_wife",
+      "mcv_wife",
+      "mcv_wife",
+      "mch_wife",
+      "mch_wife",
+      "mch_wife",
+      "hb_typing_wife",
+      "hb_typing_wife",
+      "hb_typing_wife",
       "pcr_wife_id",
       "cordo_id",
       "abortion_id",
@@ -93,7 +161,17 @@ exports.create = async (req, res) => {
       "vdrl_2",
       "h",
       "per_os_id",
-      "lab_husband_result_id",
+      "hbsag_husband",
+      "vdrl__husband",
+      "anti_hiv_husband",
+      "bl_gr_husband",
+      "rh_husband",
+      "hct_husband",
+      "of_husband",
+      "dcip_husband",
+      "mcv_husband",
+      "mch_husband",
+      "hb_typing_husband",
       "pcr_hus_id",
       "pcr_hus_text",
       "anc_id",
@@ -119,7 +197,7 @@ exports.create = async (req, res) => {
     });
     const ref_in_choice = await db.RefInChoice.create({
       receive_in_id,
-      hos_id,
+      hos_in_id,
     });
     const ref_out_choice = await db.RefOutChoice.create({
       receive_out_id,
@@ -149,6 +227,25 @@ exports.create = async (req, res) => {
       ref_in_choice_id: ref_in_choice.id,
       ref_out_choice_id: ref_out_choice.id,
     });
+
+    const lab_wife_result = await db.LabWifeResult.create({
+      gct_1_wife,
+      gct_2_wife,
+      ogtt_1_wife,
+      ogtt_2_wife,
+      hbsag_wife,
+      vdrl__wife,
+      anti_hiv_wife,
+      bl_gr_wife,
+      rh_wife,
+      hct_wife,
+      of_wife,
+      dcip_wife,
+      mcv_wife,
+      mch_wife,
+      hb_typing_wife,
+    });
+
     const wife_text_value = await db.WifeTextValue.create({
       para,
       g,
@@ -160,7 +257,7 @@ exports.create = async (req, res) => {
       ga,
       ma_detail,
       hr_detail,
-      lab_wife_result_id,
+      lab_wife_result_id: lab_wife_result.id,
       pcr_wife_text,
       cordo_text,
       cordo_other_text,
@@ -177,8 +274,23 @@ exports.create = async (req, res) => {
       bti_date,
       cbe_result,
     });
+
+    const lab_husband_result = await db.LabHusbandResult.create({
+      hbsag_husband,
+      vdrl__husband,
+      anti_hiv_husband,
+      bl_gr_husband,
+      rh_husband,
+      hct_husband,
+      of_husband,
+      dcip_husband,
+      mcv_husband,
+      mch_husband,
+      hb_typing_husband,
+    });
+
     const husband_value = await db.HusbandValue.create({
-      lab_husband_result_id,
+      lab_husband_result_id: lab_husband_result.id,
       pcr_hus_id,
       pcr_hus_text,
     });
@@ -202,7 +314,9 @@ exports.create = async (req, res) => {
       ref_in_choice,
       ref_out_choice,
       wife_choice_value,
+      lab_wife_result,
       wife_text_value,
+      lab_husband_result,
       husband_value,
       anc_service,
     });
@@ -213,5 +327,23 @@ exports.create = async (req, res) => {
       /* ignore */
     }
     return res.status(500).json({ message: error.message });
+  }
+};
+
+exports.coverage_site = async (req, res) => {
+  try {
+    const coverage_site = await db.CoverageSite.findAll({
+      where: {
+        provcode: 22, // เท่ากับ
+        typecode: {
+          [Op.notIn]: ["A", "B", "D", "O", "P"], // ไม่อยู่ใน list
+        },
+      },
+    });
+
+    res.json(coverage_site);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
   }
 };

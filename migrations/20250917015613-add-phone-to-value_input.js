@@ -317,6 +317,54 @@ module.exports = {
       updatedAt: { allowNull: false, type: Sequelize.DATE },
     });
 
+    await queryInterface.createTable("lab_wife_result", {
+      id: {
+        type: Sequelize.INTEGER.UNSIGNED,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
+      gct_1_wife: { allowNull: true, type: Sequelize.STRING(30) },
+      gct_2_wife: { allowNull: true, type: Sequelize.STRING(30) },
+      ogtt_1_wife: { allowNull: true, type: Sequelize.STRING(30) },
+      ogtt_2_wife: { allowNull: true, type: Sequelize.STRING(30) },
+      hbsag_wife: { allowNull: true, type: Sequelize.STRING(30) },
+      vdrl__wife: { allowNull: true, type: Sequelize.STRING(30) },
+      anti_hiv_wife: { allowNull: true, type: Sequelize.STRING(30) },
+      bl_gr_wife: { allowNull: true, type: Sequelize.STRING(30) },
+      rh_wife: { allowNull: true, type: Sequelize.STRING(30) },
+      hct_wife: { allowNull: true, type: Sequelize.STRING(30) },
+      of_wife: { allowNull: true, type: Sequelize.STRING(30) },
+      dcip_wife: { allowNull: true, type: Sequelize.STRING(30) },
+      mcv_wife: { allowNull: true, type: Sequelize.STRING(30) },
+      mch_wife: { allowNull: true, type: Sequelize.STRING(30) },
+      hb_typing_wife: { allowNull: true, type: Sequelize.STRING(30) },
+      createdAt: { allowNull: false, type: Sequelize.DATE },
+      updatedAt: { allowNull: false, type: Sequelize.DATE },
+    });
+
+    await queryInterface.createTable("lab_husband_result", {
+      id: {
+        type: Sequelize.INTEGER.UNSIGNED,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
+      hbsag_husband: { allowNull: true, type: Sequelize.STRING(30) },
+      vdrl__husband: { allowNull: true, type: Sequelize.STRING(30) },
+      anti_hiv_husband: { allowNull: true, type: Sequelize.STRING(30) },
+      bl_gr_husband: { allowNull: true, type: Sequelize.STRING(30) },
+      rh_husband: { allowNull: true, type: Sequelize.STRING(30) },
+      hct_husband: { allowNull: true, type: Sequelize.STRING(30) },
+      of_husband: { allowNull: true, type: Sequelize.STRING(30) },
+      dcip_husband: { allowNull: true, type: Sequelize.STRING(30) },
+      mcv_husband: { allowNull: true, type: Sequelize.STRING(30) },
+      mch_husband: { allowNull: true, type: Sequelize.STRING(30) },
+      hb_typing_husband: { allowNull: true, type: Sequelize.STRING(30) },
+      createdAt: { allowNull: false, type: Sequelize.DATE },
+      updatedAt: { allowNull: false, type: Sequelize.DATE },
+    });
+
     await queryInterface.createTable("wife_text_value", {
       id: {
         type: Sequelize.INTEGER.UNSIGNED,
@@ -335,8 +383,10 @@ module.exports = {
       ma_detail: { type: Sequelize.STRING, allowNull: true },
       hr_detail: { type: Sequelize.STRING, allowNull: true },
       lab_wife_result_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER.UNSIGNED,
         allowNull: true,
+        references: { model: "lab_wife_result", key: "id" },
+        name: "fk_lab_wife_result",
       },
       pcr_wife_text: { type: Sequelize.STRING, allowNull: true },
       cordo_text: { type: Sequelize.STRING, allowNull: true },
@@ -365,8 +415,10 @@ module.exports = {
         allowNull: false,
       },
       lab_husband_result_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER.UNSIGNED,
         allowNull: true,
+        references: { model: "lab_husband_result", key: "id" },
+        name: "fk_lab_husband_result",
       },
       pcr_hus_id: {
         type: Sequelize.INTEGER.UNSIGNED,
@@ -405,8 +457,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER.UNSIGNED,
         references: { model: "anc", key: "anc_no" },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
         name: "fk_anc",
       },
       patvisit_id: {
@@ -421,22 +471,16 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER.UNSIGNED,
         references: { model: "wife_choice_value", key: "id" },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
       },
       wife_text_value_id: {
         allowNull: false,
         type: Sequelize.INTEGER.UNSIGNED,
         references: { model: "wife_text_value", key: "id" },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
       },
       husband_value_id: {
         allowNull: false,
         type: Sequelize.INTEGER.UNSIGNED,
         references: { model: "husband_value", key: "id" },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
       },
       round: {
         allowNull: true,

@@ -1,0 +1,1 @@
+SELECT * FROM pat WHERE prename like '%นาย%' AND birthdatetime > '1998'

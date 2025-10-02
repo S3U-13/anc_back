@@ -20,7 +20,7 @@ async function seed() {
         { choice_type_name: "ref choice" },
     ]);
     
-    console.log("✅ AllChoiceType seeded with all_choice_type and AllChoice seeded with all_choice");
+    console.log("✅ AllChoiceType seeded with all_choice_type and AllChoice seeded with all_choice_type");
 }
 
 seed(); // ไม่ต้องส่ง parameter
