@@ -5,7 +5,7 @@ const LabHusbandResult = sequelize.define(
   "LabHusbandResult",
   {
     hbsag_husband: DataTypes.STRING,
-    vdrl__husband: DataTypes.STRING,
+    vdrl_husband: DataTypes.STRING,
     anti_hiv_husband: DataTypes.STRING,
     bl_gr_husband: DataTypes.STRING,
     rh_husband: DataTypes.STRING,

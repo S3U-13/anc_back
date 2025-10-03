@@ -32,9 +32,9 @@ exports.pat = async (req, res) => {
         {
           model: db.PatReg,
           as: "pat_reg",
-          // separate: true,
-          // limit: 1,
-          // order: [["visitdate", "DESC"]],
+          separate: true,
+          limit: 1,
+          order: [["visitdate", "DESC"]],
           include: [
             { model: db.Location, as: "Location" },
             { model: db.PatVisit, as: "PatVisit" },
@@ -46,10 +46,10 @@ exports.pat = async (req, res) => {
     if (!pat) return res.status(404).json({ error: "Not found" });
 
     // เอา pat_reg แค่ object เดียว
-    // if (pat.pat_reg && pat.pat_reg.length > 0) {
-    //   pat.pat_reg = pat.pat_reg[0];
-    // }
-    
+    if (pat.pat_reg && pat.pat_reg.length > 0) {
+      pat.pat_reg = pat.pat_reg[0];
+    }
+
     res.json(pat);
   } catch (err) {
     res.status(500).json({ error: err.message });

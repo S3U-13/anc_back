@@ -32,8 +32,6 @@ module.exports = {
           model: "all_choice_type",
           key: "id",
         },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
       },
       id: {
         primaryKey: true,

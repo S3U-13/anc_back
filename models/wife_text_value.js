@@ -26,7 +26,8 @@ const WifeTextValue = sequelize.define("WifeTextValue", {
     vdrl_2: { type: DataTypes.STRING(30), allowNull: false },
     hct: { type: DataTypes.STRING(30), allowNull: false },
     h: { type: DataTypes.STRING(30), allowNull: false },
-    bti_date: { type: DataTypes.TEXT, allowNull: false },
+    bti_1_date: { type: DataTypes.DATE, allowNull: false },
+    bti_2_date: { type: DataTypes.DATE, allowNull: false },
     cbe_result: DataTypes.STRING,
 },
     {

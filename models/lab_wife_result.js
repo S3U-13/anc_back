@@ -9,7 +9,7 @@ const LabWifeResult = sequelize.define(
     ogtt_1_wife: DataTypes.STRING,
     ogtt_2_wife: DataTypes.STRING,
     hbsag_wife: DataTypes.STRING,
-    vdrl__wife: DataTypes.STRING,
+    vdrl_wife: DataTypes.STRING,
     anti_hiv_wife: DataTypes.STRING,
     bl_gr_wife: DataTypes.STRING,
     rh_wife: DataTypes.STRING,
