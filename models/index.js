@@ -195,6 +195,10 @@ db.HusbandValue.belongsTo(db.LabHusbandResult, {
   foreignKey: "lab_husband_result_id",
   as: "lab_husband",
 });
+db.AncService.belongsTo(db.Anc, {
+  foreignKey: "anc_no",
+  as: "AncNo",
+});
 db.AncService.belongsTo(db.WifeChoiceValue, {
   foreignKey: "wife_choice_value_id",
   as: "wife_choice_value",

@@ -1,12 +1,38 @@
 const db = require("../models");
 const { sequelize } = db;
-const { Op } = require("sequelize");
+const { Op, Model } = require("sequelize");
 
 exports.anc_service = async (req, res) => {
-  const anc_data = await db.AncService.findAll();
-  res.json(anc_data);
-};
+  try {
+    const anc_data = await db.AncService.findAll({
+      include: [
+        { model: db.Anc, as: "AncNo" },
+      ]
+    });
+    const ancList = await Promise.all(
+      anc_data.map(async (anc) => {
+        const wifeRes = await fetch(
+          `http://localhost:3000/api/pat/${anc.AncNo.hn_wife}`
+        );
+        const wife = await wifeRes.json();
 
+        const husbandRes = await fetch(
+          `http://localhost:3000/api/pat/${anc.AncNo.hn_husband}`
+        );
+        const husband = await husbandRes.json();
+
+        return {
+          ...anc.toJSON(),
+          wife,
+          husband,
+        };
+      })
+    );
+    res.json(ancList);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 exports.create = async (req, res) => {
   const t = await sequelize.transaction(); // เริ่ม transaction
   try {
@@ -89,8 +115,8 @@ exports.create = async (req, res) => {
       pcr_hus_text,
       anc_id,
       usg_id,
-      ref_in_id,
-      ref_out_id,
+      ref_1_id,
+      ref_2_id,
       receive_in_id,
       hos_in_id,
       receive_out_id,
@@ -176,8 +202,8 @@ exports.create = async (req, res) => {
       hos_out_id,
     });
     const referral = await db.Referral.create({
-      ref_in_id,
-      ref_out_id,
+      ref_1_id,
+      ref_2_id,
     });
     const wife_choice_value = await db.WifeChoiceValue.create({
       ma_id,

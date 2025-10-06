@@ -16,8 +16,10 @@ async function seed() {
         { choice_type_name: "per_os" },
         { choice_type_name: "antenatal care" },
         { choice_type_name: "ultrasound" },
-        { choice_type_name: "referral" },
-        { choice_type_name: "ref choice" },
+        { choice_type_name: "refer in" },
+        { choice_type_name: "refer out" },
+        { choice_type_name: "ref in choice" },
+        { choice_type_name: "ref out choice" },
     ]);
     
     console.log("✅ AllChoiceType seeded with all_choice_type and AllChoice seeded with all_choice_type");

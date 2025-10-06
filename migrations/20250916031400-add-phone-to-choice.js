@@ -37,7 +37,7 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
-        type: Sequelize.INTEGER.UNSIGNED,
+        type: Sequelize.INTEGER,
       },
       choice_name: {
         allowNull: false,

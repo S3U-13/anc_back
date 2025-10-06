@@ -6,7 +6,7 @@ const Anc = sequelize.define(
   "Anc", // model name
   {
     anc_no: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.INTEGER,
       primaryKey: true,
       allowNull: false,
       autoIncrement: true,

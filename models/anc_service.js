@@ -5,7 +5,7 @@ const AncService = sequelize.define(
   "AncService",
   {
     anc_no: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.INTEGER,
       primaryKey: true,
       allowNull: false,
       autoIncrement: true,
