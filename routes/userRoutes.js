@@ -16,7 +16,10 @@ router.post("/anc" , ancController.create_anc);
 router.get("/coveragesite" , ancserviceController.coverage_site);
 router.get("/ancservice" , ancserviceController.anc_service);
 router.post("/ancservice" , ancserviceController.create);
+router.get("/pull-anc" , ancController.pull_anc);
 router.get("/pat/:value", patController.pat);
+router.get("/pat-anc-index/:value", patController.pat_anc_index);
+router.get("/pat-anc-service-index/:value", patController.pat_anc_service_index);
 // router.get("/PatReg/:value", patController.pat_reg);
 
 

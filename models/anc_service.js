@@ -4,12 +4,13 @@ const sequelize = require("../config/db");
 const AncService = sequelize.define(
   "AncService",
   {
-    anc_no: {
+    id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       allowNull: false,
       autoIncrement: true,
     },
+    anc_no: DataTypes.INTEGER,
     patvisit_id: DataTypes.INTEGER,
     patreg_id: DataTypes.INTEGER,
     wife_choice_value_id: DataTypes.INTEGER,

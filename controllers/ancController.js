@@ -7,10 +7,10 @@ exports.index = async (req, res) => {
 
         const dataWithPat = await Promise.all(
             ancList.map(async (anc) => {
-                const wifeRes = await fetch(`http://localhost:3000/api/pat/${anc.hn_wife}`);
+                const wifeRes = await fetch(`http://localhost:3000/api/pat-anc-index/${anc.hn_wife}`);
                 const wife = await wifeRes.json();
 
-                const husbandRes = await fetch(`http://localhost:3000/api/pat/${anc.hn_husband}`);
+                const husbandRes = await fetch(`http://localhost:3000/api/pat-anc-index/${anc.hn_husband}`);
                 const husband = await husbandRes.json();
 
                 return {
@@ -26,6 +26,32 @@ exports.index = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 }
+
+exports.pull_anc = async (req, res) => {
+  try {
+    const ancList = await db.Anc.findAll(); // มาจาก DB A
+
+        const dataWithPat = await Promise.all(
+            ancList.map(async (anc) => {
+                const wifeRes = await fetch(`http://localhost:3000/api/pat/${anc.hn_wife}`);
+                const wife = await wifeRes.json();
+
+                const husbandRes = await fetch(`http://localhost:3000/api/pat/${anc.hn_husband}`);
+                const husband = await husbandRes.json();
+
+                return {
+                    ...anc.toJSON(),
+                    wife,
+                    husband,
+                };
+            })
+        );
+
+        res.json(dataWithPat);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
 exports.create_anc = async (req, res) => {
     try {

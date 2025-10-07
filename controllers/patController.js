@@ -56,25 +56,49 @@ exports.pat = async (req, res) => {
   }
 };
 
-// exports.pat_reg = async (req, res) => {
-//   try {
-//     const { value } = req.params;
-//     const pat_reg = await db.PatReg.findOne({
-//       where: {
-//         [Op.or]: [{ hn: value }],
-//       },
-//       include: [
-//         {
-//           model: db.Location,
-//           as: "Location",
-//         },
-//         { model: db.PatVisit, as: "PatVisit" },
-//       ],
-//     });
+exports.pat_anc_index = async (req, res) => {
+  try {
+    const { value } = req.params; // สมมติส่งมา param เดียว เช่น /pat/:value
 
-//     if (!pat) return res.status(404).json({ error: "not found" });
-//     res,json(pat_reg);
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
+    const pat = await db.Pat.findOne({
+      where: {
+        [Op.or]: [{ hn: value }, { citizencardno: value }],
+      },
+    });
+
+    if (!pat) return res.status(404).json({ error: "Not found" });
+
+    res.json(pat);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.pat_anc_service_index = async (req, res) => {
+  try {
+    const { value } = req.params; // สมมติส่งมา param เดียว เช่น /pat/:value
+
+    const pat = await db.Pat.findOne({
+      where: {
+        [Op.or]: [{ hn: value }, { citizencardno: value }],
+      },
+      include: [
+        {
+          model: db.PatAddress,
+          as: "pat_address",
+          include: [
+            { model: db.Address, as: "province_detail" },
+            { model: db.Address, as: "amphur_detail" },
+            { model: db.Address, as: "tambon_detail" },
+          ],
+        },
+      ],
+    });
+
+    if (!pat) return res.status(404).json({ error: "Not found" });
+
+    res.json(pat);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

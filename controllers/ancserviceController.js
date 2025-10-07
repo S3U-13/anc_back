@@ -5,19 +5,17 @@ const { Op, Model } = require("sequelize");
 exports.anc_service = async (req, res) => {
   try {
     const anc_data = await db.AncService.findAll({
-      include: [
-        { model: db.Anc, as: "AncNo" },
-      ]
+      include: [{ model: db.Anc, as: "AncNo" }],
     });
     const ancList = await Promise.all(
       anc_data.map(async (anc) => {
         const wifeRes = await fetch(
-          `http://localhost:3000/api/pat/${anc.AncNo.hn_wife}`
+          `http://localhost:3000/api/pat-anc-service-index/${anc.AncNo.hn_wife}`
         );
         const wife = await wifeRes.json();
 
         const husbandRes = await fetch(
-          `http://localhost:3000/api/pat/${anc.AncNo.hn_husband}`
+          `http://localhost:3000/api/pat-anc-service-index/${anc.AncNo.hn_husband}`
         );
         const husband = await husbandRes.json();
 
@@ -33,6 +31,7 @@ exports.anc_service = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
 exports.create = async (req, res) => {
   const t = await sequelize.transaction(); // เริ่ม transaction
   try {
