@@ -1,7 +1,9 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
-const WifeTextValue = sequelize.define("WifeTextValue", {
+const WifeTextValue = sequelize.define(
+  "WifeTextValue",
+  {
     para: DataTypes.STRING,
     g: DataTypes.STRING,
     p: DataTypes.STRING,
@@ -22,19 +24,19 @@ const WifeTextValue = sequelize.define("WifeTextValue", {
     tdap_round_2: DataTypes.DATE,
     tdap_round_3: DataTypes.DATE,
     iip_date: DataTypes.DATE,
-    lab_2: { type: DataTypes.STRING(30), allowNull: false },
+    lab_2: DataTypes.DATE,
     vdrl_2: { type: DataTypes.STRING(30), allowNull: false },
     hct: { type: DataTypes.STRING(30), allowNull: false },
     h: { type: DataTypes.STRING(30), allowNull: false },
-    bti_1_date: { type: DataTypes.DATE, allowNull: false },
-    bti_2_date: { type: DataTypes.DATE, allowNull: false },
+    bti_1_date: DataTypes.DATE,
+    bti_2_date: DataTypes.DATE,
     cbe_result: DataTypes.STRING,
-},
-    {
-        sequelize,
-        modelName: "WifeTextValue",
-        tableName: "wife_text_value", // ต้องตรงกับชื่อ table จริง
-    }
+  },
+  {
+    sequelize,
+    modelName: "WifeTextValue",
+    tableName: "wife_text_value", // ต้องตรงกับชื่อ table จริง
+  }
 );
 
 module.exports = WifeTextValue;

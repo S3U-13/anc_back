@@ -112,8 +112,6 @@ exports.create = async (req, res) => {
       hb_typing_husband,
       pcr_hus_id,
       pcr_hus_text,
-      anc_id,
-      usg_id,
       ref_1_id,
       ref_2_id,
       receive_in_id,
@@ -170,9 +168,6 @@ exports.create = async (req, res) => {
       "mch_husband",
       "hb_typing_husband",
       "pcr_hus_id",
-      "pcr_hus_text",
-      "anc_id",
-      "usg_id",
     ];
     for (const field of requiredFields) {
       if (!req.body[field]) {
@@ -218,8 +213,6 @@ exports.create = async (req, res) => {
       birads_id,
       per_os_id,
       pcr_hus_id,
-      anc_id,
-      usg_id,
       referral_id: referral.id,
       ref_in_choice_id: ref_in_choice.id,
       ref_out_choice_id: ref_out_choice.id,

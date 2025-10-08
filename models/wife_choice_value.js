@@ -14,8 +14,6 @@ const WifeChoiceValue = sequelize.define("WifeChoiceValue", {
   cbe_id: DataTypes.INTEGER,
   birads_id: DataTypes.INTEGER,
   per_os_id: DataTypes.INTEGER,
-  anc_id: DataTypes.INTEGER,
-  usg_id: DataTypes.INTEGER,
   referral_id: DataTypes.INTEGER,
   ref_in_choice_id: DataTypes.INTEGER,
   ref_out_choice_id: DataTypes.INTEGER,
