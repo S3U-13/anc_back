@@ -4,11 +4,46 @@ const { Op, Model } = require("sequelize");
 
 exports.anc_service = async (req, res) => {
   try {
+    // ดึงข้อมูลทั้งหมดที่มี anc_no, gravida, round
     const anc_data = await db.AncService.findAll({
-      include: [{ model: db.Anc, as: "AncNo" }],
+      attributes: ["id", "anc_no", "gravida", "round"],
+      include: [
+        {
+          model: db.Anc,
+          as: "AncNo",
+        },
+      ],
+      order: [
+        ["anc_no", "ASC"],
+        ["gravida", "ASC"],
+        ["round", "ASC"],
+      ],
     });
+
+    // ✅ Group ด้วย JS (เพราะ Sequelize group จะรวมค่า aggregate)
+    const grouped = {};
+    anc_data.forEach((item) => {
+      const key = `${item.anc_no}_${item.gravida}`;
+      if (!grouped[key]) {
+        grouped[key] = {
+          anc_no: item.anc_no,
+          gravida: item.gravida,
+          AncNo: item.AncNo,
+          rounds: [],
+        };
+      }
+      grouped[key].rounds.push({
+        id: item.id,
+        round: item.round,
+      });
+    });
+
+    // แปลง object -> array
+    const groupedList = Object.values(grouped);
+
+    // ✅ ดึงข้อมูล wife/husband ต่อ record
     const ancList = await Promise.all(
-      anc_data.map(async (anc) => {
+      groupedList.map(async (anc) => {
         const wifeRes = await fetch(
           `http://localhost:3000/api/pat-anc-service-index/${anc.AncNo.hn_wife}`
         );
@@ -20,12 +55,19 @@ exports.anc_service = async (req, res) => {
         const husband = await husbandRes.json();
 
         return {
-          ...anc.toJSON(),
+          anc_no: anc.anc_no,
+          gravida: anc.gravida,
           wife,
           husband,
+          // 👇 rounds จะใช้ไปทำ dropdown
+          rounds: anc.rounds.map((r) => ({
+            id: r.id,
+            label: `รอบที่ ${r.round}`,
+          })),
         };
       })
     );
+
     res.json(ancList);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -112,8 +154,8 @@ exports.create = async (req, res) => {
       hb_typing_husband,
       pcr_hus_id,
       pcr_hus_text,
-      ref_1_id,
-      ref_2_id,
+      ref_value_1_id,
+      ref_value_2_id,
       receive_in_id,
       hos_in_id,
       receive_out_id,
@@ -196,8 +238,8 @@ exports.create = async (req, res) => {
       hos_out_id,
     });
     const referral = await db.Referral.create({
-      ref_1_id,
-      ref_2_id,
+      ref_value_1_id,
+      ref_value_2_id,
     });
     const wife_choice_value = await db.WifeChoiceValue.create({
       ma_id,
@@ -336,5 +378,63 @@ exports.coverage_site = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("Server Error");
+  }
+};
+
+exports.show_service_round_by_id = async (req, res) => {
+  try {
+    const { RoundId } = req.params;
+
+    // 🔹 ค้นหา AncService พร้อมข้อมูล Anc ที่เชื่อมโยง
+    const service = await db.AncService.findOne({
+      where: { id: RoundId },
+      include: [
+        {
+          model: db.Anc,
+          as: "AncNo",
+        },
+      ],
+    });
+
+    if (!service) {
+      return res.status(404).json({ error: "ไม่พบข้อมูลรอบบริการนี้" });
+    }
+
+    // 🔹 ดึง hn ภรรยา / สามี
+    const hnWife = service.AncNo?.hn_wife;
+    const hnHusband = service.AncNo?.hn_husband;
+
+    // 🔹 ดึงข้อมูลผู้ป่วยจากอีกฐาน
+    const [wife, husband] = await Promise.all([
+      hnWife
+        ? fetch(`http://localhost:3000/api/pat/${hnWife}`).then((r) =>
+            r.ok ? r.json() : null
+          )
+        : null,
+      hnHusband
+        ? fetch(`http://localhost:3000/api/pat/${hnHusband}`).then((r) =>
+            r.ok ? r.json() : null
+          )
+        : null,
+    ]);
+
+    // 🔹 สร้าง response ที่เรียกใช้ง่าย
+    const result = {
+      id: service.id,
+      anc_no: service.AncNo?.anc_no || null,
+      patvisit_id: service.patvisit_id || null,
+      patreg_id: service.patreg_id || null,
+      gravida: service.gravida || null,
+      round: service.round,
+      service_date: service.createdAt,
+      wife,
+      husband,
+    };
+
+    // ✅ ส่งออกข้อมูลแบบ clean
+    return res.json(result);
+  } catch (error) {
+    console.error("❌ show_service_round_by_id error:", error);
+    res.status(500).json({ error: error.message });
   }
 };

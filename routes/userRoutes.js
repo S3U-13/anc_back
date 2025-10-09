@@ -20,6 +20,8 @@ router.get("/pull-anc" , ancController.pull_anc);
 router.get("/pat/:value", patController.pat);
 router.get("/pat-anc-index/:value", patController.pat_anc_index);
 router.get("/pat-anc-service-index/:value", patController.pat_anc_service_index);
+
+router.get("/show-service-by-id/:RoundId", ancserviceController.show_service_round_by_id)
 // router.get("/PatReg/:value", patController.pat_reg);
 
 

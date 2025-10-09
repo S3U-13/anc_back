@@ -130,13 +130,13 @@ module.exports = {
         autoIncrement: true,
         type: Sequelize.INTEGER,
       },
-      ref_1_id: {
+      ref_value_1_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
         references: { model: "all_choice", key: "id" },
         name: "fk_ref_in_id",
       },
-      ref_2_id: {
+      ref_value_2_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
         references: { model: "all_choice", key: "id" },
@@ -412,6 +412,10 @@ module.exports = {
         references: { model: "husband_value", key: "id" },
       },
       round: {
+        allowNull: true,
+        type: Sequelize.STRING(10),
+      },
+      gravida : {
         allowNull: true,
         type: Sequelize.STRING(10),
       },
