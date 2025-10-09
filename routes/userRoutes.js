@@ -7,6 +7,8 @@ const ancserviceController = require("../controllers/ancserviceController");
 const patController = require("../controllers/patController");
 
 //route
+router.get("/position" , userController.position);
+router.get("/role" , userController.role);
 router.get("/user" , userController.index);
 router.post("/addUser" , userController.addUser);
 router.get("/mapAll" , AllChoiceController.mapAll);
