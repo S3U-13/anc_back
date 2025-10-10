@@ -4,27 +4,27 @@ const jwt = require("jsonwebtoken");
 
 exports.login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { user_name, password } = req.body;
 
-    // หา user ตาม email
-    const user = await db.User.findOne({ where: { email } });
+    const user = await db.User.findOne({ where: { user_name } });
     if (!user) return res.status(404).json({ error: "User not found" });
 
-    // เปรียบเทียบ password
     const match = await bcrypt.compare(password, user.password);
     if (!match) return res.status(401).json({ error: "Invalid password" });
 
-    // สร้าง token JWT
     const token = jwt.sign(
       { id: user.id, role_id: user.role_id },
       process.env.JWT_SECRET || "secretkey",
       { expiresIn: "1h" }
     );
 
-    res.json({ message: "Login success", token, user: { id: user.id, name: user.name, role_id: user.role_id } });
+    res.json({
+      message: "Login success",
+      token,
+      user: { id: user.id, name: user.name, role_id: user.role_id },
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Something went wrong" });
   }
 };
-
