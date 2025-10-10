@@ -8,7 +8,6 @@ const AllChoiceController = require("../controllers/allChoiceController");
 const ancController = require("../controllers/ancController");
 const ancserviceController = require("../controllers/ancserviceController");
 const patController = require("../controllers/patController");
-const authController = require("../controllers/authController");
 
 //route
 router.use(authenticateToken, authorizeRole(1));

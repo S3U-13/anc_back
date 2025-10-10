@@ -6,11 +6,17 @@ exports.login = async (req, res) => {
   try {
     const { user_name, password } = req.body;
 
-    const user = await db.User.findOne({ where: { user_name } });
-    if (!user) return res.status(404).json({ error: "User not found" });
+    const user = await db.User.findOne({
+      where: { user_name },
+      include: [
+        { model: db.Role, attributes: ["role_name"] },
+        { model: db.Position, attributes: ["position_name"] },
+      ],
+    });
+    if (!user) return res.status(404).json();
 
     const match = await bcrypt.compare(password, user.password);
-    if (!match) return res.status(401).json({ error: "Invalid password" });
+    if (!match) return res.status(401).json();
 
     const token = jwt.sign(
       { id: user.id, role_id: user.role_id },
@@ -21,7 +27,13 @@ exports.login = async (req, res) => {
     res.json({
       message: "Login success",
       token,
-      user: { id: user.id, name: user.name, role_id: user.role_id },
+      user: {
+        id: user.id,
+        name: user.name,
+        role_id: user.role_id,
+        position_id: user.position_id,
+        position_name: user.Position.position_name,
+      },
     });
   } catch (err) {
     console.error(err);

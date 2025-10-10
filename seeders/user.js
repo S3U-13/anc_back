@@ -5,8 +5,17 @@ async function seed() {
   await User.bulkCreate([   
     {
       name: "นาย ปุญฤทธิ์ กวางทอง",
-      user_name: "punyarit",
-      password: await hashPassword("12345678"),
+      user_name: "nes_admin01",
+      password: await hashPassword("0615386694"),
+      role_id: 2,
+      position_id: 1,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      name: "นาย ปุญฤทธิ์ กวางทอง",
+      user_name: "nes_user01",
+      password: await hashPassword("0615386694"),
       role_id: 1,
       position_id: 1,
       createdAt: new Date(),
