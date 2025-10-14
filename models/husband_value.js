@@ -6,7 +6,7 @@ const TextValueHusband = sequelize.define(
   {
     lab_husband_result_id: DataTypes.INTEGER,
     pcr_hus_id: DataTypes.INTEGER,
-    pcr_hus_text: DataTypes.STRING, 
+    pcr_hus_text: DataTypes.STRING,
   },
   {
     sequelize,

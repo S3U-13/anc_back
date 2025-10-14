@@ -5,6 +5,7 @@ const { Op, Model } = require("sequelize");
 exports.anc_service = async (req, res) => {
   try {
     // ดึงข้อมูลทั้งหมดที่มี anc_no, gravida, round
+    const token = req.headers.authorization;
     const anc_data = await db.AncService.findAll({
       attributes: ["id", "anc_no", "gravida", "round"],
       include: [
@@ -45,12 +46,22 @@ exports.anc_service = async (req, res) => {
     const ancList = await Promise.all(
       groupedList.map(async (anc) => {
         const wifeRes = await fetch(
-          `http://localhost:3000/api/pat-anc-service-index/${anc.AncNo.hn_wife}`
+          `http://localhost:3000/api/user/pat-anc-service-index/${anc.AncNo.hn_wife}`,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
         );
         const wife = await wifeRes.json();
 
         const husbandRes = await fetch(
-          `http://localhost:3000/api/pat-anc-service-index/${anc.AncNo.hn_husband}`
+          `http://localhost:3000/api/user/pat-anc-service-index/${anc.AncNo.hn_husband}`,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
         );
         const husband = await husbandRes.json();
 
@@ -393,6 +404,20 @@ exports.show_service_round_by_id = async (req, res) => {
           model: db.Anc,
           as: "AncNo",
         },
+        {
+          model: db.WifeChoiceValue,
+          as: "wife_choice_value",
+        },
+        {
+          model: db.WifeTextValue,
+          as: "wife_text_value",
+          include: [{ model: db.LabWifeResult, as: "lab_wife" }],
+        },
+        {
+          model: db.HusbandValue,
+          as: "husband_value",
+          include: [{ model: db.LabHusbandResult, as: "lab_husband" }],
+        },
       ],
     });
 
@@ -403,18 +428,22 @@ exports.show_service_round_by_id = async (req, res) => {
     // 🔹 ดึง hn ภรรยา / สามี
     const hnWife = service.AncNo?.hn_wife;
     const hnHusband = service.AncNo?.hn_husband;
-
+    const token = req.headers.authorization;
     // 🔹 ดึงข้อมูลผู้ป่วยจากอีกฐาน
     const [wife, husband] = await Promise.all([
       hnWife
-        ? fetch(`http://localhost:3000/api/pat/${hnWife}`).then((r) =>
-            r.ok ? r.json() : null
-          )
+        ? fetch(`http://localhost:3000/api/user/pat/${hnWife}`, {
+            headers: {
+              Authorization: token,
+            },
+          }).then((r) => (r.ok ? r.json() : null))
         : null,
       hnHusband
-        ? fetch(`http://localhost:3000/api/pat/${hnHusband}`).then((r) =>
-            r.ok ? r.json() : null
-          )
+        ? fetch(`http://localhost:3000/api/user/pat/${hnHusband}`, {
+            headers: {
+              Authorization: token,
+            },
+          }).then((r) => (r.ok ? r.json() : null))
         : null,
     ]);
 
@@ -427,8 +456,15 @@ exports.show_service_round_by_id = async (req, res) => {
       gravida: service.gravida || null,
       round: service.round,
       service_date: service.createdAt,
+
+      // ข้อมูลผู้ป่วยจาก fetch
       wife,
       husband,
+
+      // ข้อมูลจาก relation table
+      wife_choice_value: service.wife_choice_value || null,
+      wife_text_value: service.wife_text_value || null,
+      husband_value: service.husband_value || null,
     };
 
     // ✅ ส่งออกข้อมูลแบบ clean

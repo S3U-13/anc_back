@@ -157,8 +157,6 @@ db.HusbandValue.belongsTo(db.AllChoice, {
   foreignKey: "pcr_hus_id",
   as: "pcr_hus",
 });
-db.WifeChoiceValue.belongsTo(db.AllChoice, { foreignKey: "anc_id", as: "anc" });
-db.WifeChoiceValue.belongsTo(db.AllChoice, { foreignKey: "usg_id", as: "usg" });
 db.Referral.belongsTo(db.AllChoice, { foreignKey: "ref_in_id", as: "ref_in" });
 db.Referral.belongsTo(db.AllChoice, {
   foreignKey: "ref_out_id",
