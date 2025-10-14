@@ -187,6 +187,26 @@ db.WifeChoiceValue.belongsTo(db.Referral, {
 // db.ChoiceValue.belongsTo(db.AllChoice, { foreignKey: "ref_in_choice_id", as:"ref_in_choice"});
 // db.ChoiceValue.belongsTo(db.AllChoice, { foreignKey: "ref_out_choice_id", as:"ref_out_choice"});
 
+db.WifeChoiceValue.belongsTo(db.BloodTestInterpretation, {
+  foreignKey: "bti_id",
+  as: "bti_value",
+});
+db.WifeChoiceValue.belongsTo(db.Cbe, {
+  foreignKey: "cbe_id",
+  as: "cbe_value",
+});
+db.WifeChoiceValue.belongsTo(db.Referral, {
+  foreignKey: "referral",
+  as: "referral_value",
+});
+db.WifeChoiceValue.belongsTo(db.RefInChoice, {
+  foreignKey: "ref_in_choice",
+  as: "ref_in_value",
+});
+db.WifeChoiceValue.belongsTo(db.RefOutChoice, {
+  foreignKey: "ref_out_choice",
+  as: "ref_out_value",
+});
 db.WifeTextValue.belongsTo(db.LabWifeResult, {
   foreignKey: "lab_wife_result_id",
   as: "lab_wife",
