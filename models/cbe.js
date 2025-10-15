@@ -4,10 +4,10 @@ const sequelize = require("../config/db");
 const Cbe = sequelize.define(
   "Cbe",
   {
-    cbi_value_1_id: DataTypes.INTEGER,
-    cbi_value_2_id: DataTypes.INTEGER,
-    cbi_value_3_id: DataTypes.INTEGER,
-    cbi_value_4_id: DataTypes.INTEGER,
+    cbe_value_1_id: DataTypes.INTEGER,
+    cbe_value_2_id: DataTypes.INTEGER,
+    cbe_value_3_id: DataTypes.INTEGER,
+    cbe_value_4_id: DataTypes.INTEGER,
   },
   {
     sequelize,

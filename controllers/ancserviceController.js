@@ -391,22 +391,159 @@ exports.coverage_site = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
+exports.coverage_site_by_it = async (req, res) => {
+  try {
+    const { HosId } = req.params;
+    const coverage_site = await db.CoverageSite.findAll({
+      where: {
+        siteid: HosId,
+        provcode: 22, // เท่ากับ
+        typecode: {
+          [Op.notIn]: ["A", "B", "D", "O", "P"], // ไม่อยู่ใน list
+        },
+      },
+    });
+
+    res.json(coverage_site);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
+};
 
 exports.show_service_round_by_id = async (req, res) => {
   try {
     const { RoundId } = req.params;
+    const token = req.headers.authorization;
 
-    // 🔹 ค้นหา AncService พร้อมข้อมูล Anc ที่เชื่อมโยง
     const service = await db.AncService.findOne({
       where: { id: RoundId },
       include: [
-        {
-          model: db.Anc,
-          as: "AncNo",
-        },
+        { model: db.Anc, as: "AncNo" },
         {
           model: db.WifeChoiceValue,
           as: "wife_choice_value",
+          include: [
+            { model: db.AllChoice, as: "ma", attributes: ["choice_name"] },
+            { model: db.AllChoice, as: "hr", attributes: ["choice_name"] },
+            { model: db.AllChoice, as: "am", attributes: ["choice_name"] },
+            {
+              model: db.AllChoice,
+              as: "pcr_wife",
+              attributes: ["choice_name"],
+            },
+            { model: db.AllChoice, as: "cordo", attributes: ["choice_name"] },
+            {
+              model: db.AllChoice,
+              as: "abortion",
+              attributes: ["choice_name"],
+            },
+            { model: db.AllChoice, as: "tdap", attributes: ["choice_name"] },
+            { model: db.AllChoice, as: "iip", attributes: ["choice_name"] },
+            { model: db.AllChoice, as: "birads", attributes: ["choice_name"] },
+            { model: db.AllChoice, as: "per_os", attributes: ["choice_name"] },
+            {
+              model: db.BloodTestInterpretation,
+              as: "bti",
+              include: [
+                {
+                  model: db.AllChoice,
+                  as: "bti_value_1",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "bti_value_2",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "bti_value_3",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "bti_value_4",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "bti_value_5",
+                  attributes: ["choice_name"],
+                },
+              ],
+            },
+            {
+              model: db.Cbe,
+              as: "cbe",
+              include: [
+                {
+                  model: db.AllChoice,
+                  as: "cbe_value_1",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "cbe_value_2",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "cbe_value_3",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "cbe_value_4",
+                  attributes: ["choice_name"],
+                },
+              ],
+            },
+            {
+              model: db.Referral,
+              as: "referral_value",
+              include: [
+                {
+                  model: db.AllChoice,
+                  as: "ref_in",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "ref_out",
+                  attributes: ["choice_name"],
+                },
+              ],
+            },
+            {
+              model: db.RefInChoice,
+              as: "ref_in_choice",
+              attributes: ["receive_in_id", "hos_in_id", "receive_in_detail"],
+              include: [
+                {
+                  model: db.AllChoice,
+                  as: "receive_in",
+                  attributes: ["choice_name"],
+                },
+              ],
+            },
+            {
+              model: db.RefOutChoice,
+              as: "ref_out_choice",
+              attributes: [
+                "receive_out_id",
+                "hos_out_id",
+                "receive_out_detail",
+              ],
+              include: [
+                {
+                  model: db.AllChoice,
+                  as: "receive_out",
+                  attributes: ["choice_name"],
+                },
+              ],
+            },
+          ],
         },
         {
           model: db.WifeTextValue,
@@ -416,7 +553,10 @@ exports.show_service_round_by_id = async (req, res) => {
         {
           model: db.HusbandValue,
           as: "husband_value",
-          include: [{ model: db.LabHusbandResult, as: "lab_husband" }],
+          include: [
+            { model: db.AllChoice, as: "pcr_hus", attributes: ["choice_name"] },
+            { model: db.LabHusbandResult, as: "lab_husband" },
+          ],
         },
       ],
     });
@@ -425,49 +565,66 @@ exports.show_service_round_by_id = async (req, res) => {
       return res.status(404).json({ error: "ไม่พบข้อมูลรอบบริการนี้" });
     }
 
-    // 🔹 ดึง hn ภรรยา / สามี
     const hnWife = service.AncNo?.hn_wife;
     const hnHusband = service.AncNo?.hn_husband;
-    const token = req.headers.authorization;
-    // 🔹 ดึงข้อมูลผู้ป่วยจากอีกฐาน
-    const [wife, husband] = await Promise.all([
+
+    const [wifeProfile, husbandProfile] = await Promise.all([
       hnWife
         ? fetch(`http://localhost:3000/api/user/pat/${hnWife}`, {
-            headers: {
-              Authorization: token,
-            },
+            headers: { Authorization: token },
           }).then((r) => (r.ok ? r.json() : null))
         : null,
       hnHusband
         ? fetch(`http://localhost:3000/api/user/pat/${hnHusband}`, {
-            headers: {
-              Authorization: token,
-            },
+            headers: { Authorization: token },
           }).then((r) => (r.ok ? r.json() : null))
         : null,
     ]);
 
-    // 🔹 สร้าง response ที่เรียกใช้ง่าย
+    const refInId = service?.wife_choice_value?.ref_in_choice?.hos_in_id;
+    const refOutId = service?.wife_choice_value?.ref_out_choice?.hos_out_id;
+
+    const [refIn, refOut] = await Promise.all([
+      refInId
+        ? fetch(`http://localhost:3000/api/user/coveragesite/${refInId}`, {
+            headers: { Authorization: token },
+          }).then((r) => (r.ok ? r.json() : null))
+        : null,
+      refOutId
+        ? fetch(`http://localhost:3000/api/user/coveragesite/${refOutId}`, {
+            headers: { Authorization: token },
+          }).then((r) => (r.ok ? r.json() : null))
+        : null,
+    ]);
+
+    // ✅ แยกโครงสร้างให้ชัดเจน
     const result = {
-      id: service.id,
-      anc_no: service.AncNo?.anc_no || null,
-      patvisit_id: service.patvisit_id || null,
-      patreg_id: service.patreg_id || null,
-      gravida: service.gravida || null,
-      round: service.round,
-      service_date: service.createdAt,
-
-      // ข้อมูลผู้ป่วยจาก fetch
-      wife,
-      husband,
-
-      // ข้อมูลจาก relation table
-      wife_choice_value: service.wife_choice_value || null,
-      wife_text_value: service.wife_text_value || null,
-      husband_value: service.husband_value || null,
+      service_info: {
+        id: service.id,
+        anc_no: service.AncNo?.anc_no || null,
+        gravida: service.gravida || null,
+        round: service.round || null,
+        patvisit_id: service.patvisit_id || null,
+        patreg_id: service.patreg_id || null,
+        service_date: service.createdAt,
+      },
+      wife: {
+        profile: wifeProfile || null,
+        choices: service.wife_choice_value || null,
+        text_values: service.wife_text_value || null,
+      
+        referral: {
+          ref_in: refIn || null,
+          ref_out: refOut || null,
+        },
+      },
+      husband: {
+        profile: husbandProfile || null,
+        choices: service.husband_value || null,
+      
+      },
     };
 
-    // ✅ ส่งออกข้อมูลแบบ clean
     return res.json(result);
   } catch (error) {
     console.error("❌ show_service_round_by_id error:", error);

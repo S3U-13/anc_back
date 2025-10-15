@@ -4,7 +4,7 @@ const sequelize = require("../config/db");
 const RefInChoice = sequelize.define(
   "RefInChoice",
   {
-    receive_id: DataTypes.INTEGER,
+    receive_in_id: DataTypes.INTEGER,
     hos_in_id: DataTypes.INTEGER,
   },
   {

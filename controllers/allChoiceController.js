@@ -49,7 +49,7 @@ exports.ChoiceValue = async (req, res) => {
             {
                 model: db.Referral,
                 as: "referral",
-                attributes: ["ref_in_id", "ref_out_id"],
+                attributes: ["ref_1_id", "ref_2_id"],
                 include: [
                     { model: db.AllChoice, as: "ref_in", attributes: ["choice_name"] },
                     { model: db.AllChoice, as: "ref_out", attributes: ["choice_name"] }

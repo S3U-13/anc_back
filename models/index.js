@@ -81,27 +81,6 @@ db.PatReg.belongsTo(db.PatVisit, { foreignKey: "patvisitid", as: "PatVisit" });
 // location -> pat_reg
 db.PatReg.belongsTo(db.Location, { foreignKey: "locationid", as: "Location" });
 
-db.WifeChoiceValue.belongsTo(db.AllChoice, { foreignKey: "ma_id", as: "ma" });
-db.WifeChoiceValue.belongsTo(db.AllChoice, { foreignKey: "hr_id", as: "hr" });
-db.WifeChoiceValue.belongsTo(db.AllChoice, { foreignKey: "am_id", as: "am" });
-db.WifeChoiceValue.belongsTo(db.AllChoice, {
-  foreignKey: "pcr_wife_id",
-  as: "pcr_wife",
-});
-db.WifeChoiceValue.belongsTo(db.AllChoice, {
-  foreignKey: "cordo_id",
-  as: "cordo",
-});
-db.WifeChoiceValue.belongsTo(db.AllChoice, {
-  foreignKey: "abortion_id",
-  as: "abortion",
-});
-db.WifeChoiceValue.belongsTo(db.AllChoice, {
-  foreignKey: "tdap_id",
-  as: "tdap",
-});
-db.WifeChoiceValue.belongsTo(db.AllChoice, { foreignKey: "iip_id", as: "iip" });
-
 db.BloodTestInterpretation.belongsTo(db.AllChoice, {
   foreignKey: "bti_value_1_id",
   as: "bti_value_1",
@@ -122,6 +101,7 @@ db.BloodTestInterpretation.belongsTo(db.AllChoice, {
   foreignKey: "bti_value_5_id",
   as: "bti_value_5",
 });
+
 db.WifeChoiceValue.belongsTo(db.BloodTestInterpretation, {
   foreignKey: "bti_id",
   as: "bti",
@@ -143,23 +123,29 @@ db.Cbe.belongsTo(db.AllChoice, {
   foreignKey: "cbe_value_4_id",
   as: "cbe_value_4",
 });
+
 db.WifeChoiceValue.belongsTo(db.Cbe, { foreignKey: "cbe_id", as: "cbe" });
 
-db.WifeChoiceValue.belongsTo(db.AllChoice, {
-  foreignKey: "birads_id",
-  as: "birads",
-});
-db.WifeChoiceValue.belongsTo(db.AllChoice, {
-  foreignKey: "per_os_id",
-  as: "per_os",
-});
+// db.WifeChoiceValue.belongsTo(db.AllChoice, {
+//   foreignKey: "birads_id",
+//   as: "birads",
+// });
+// db.WifeChoiceValue.belongsTo(db.AllChoice, {
+//   foreignKey: "per_os_id",
+//   as: "per_os",
+// });
 db.HusbandValue.belongsTo(db.AllChoice, {
   foreignKey: "pcr_hus_id",
   as: "pcr_hus",
 });
-db.Referral.belongsTo(db.AllChoice, { foreignKey: "ref_in_id", as: "ref_in" });
+
 db.Referral.belongsTo(db.AllChoice, {
-  foreignKey: "ref_out_id",
+  foreignKey: "ref_value_1_id",
+  as: "ref_in",
+});
+
+db.Referral.belongsTo(db.AllChoice, {
+  foreignKey: "ref_value_2_id",
   as: "ref_out",
 });
 db.RefInChoice.belongsTo(db.AllChoice, {
@@ -180,7 +166,7 @@ db.WifeChoiceValue.belongsTo(db.RefOutChoice, {
 });
 db.WifeChoiceValue.belongsTo(db.Referral, {
   foreignKey: "referral_id",
-  as: "referral",
+  as: "referral_value",
 });
 // db.ChoiceValue.belongsTo(db.AllChoice, { foreignKey: "ref_in_choice_id", as:"ref_in_choice"});
 // db.ChoiceValue.belongsTo(db.AllChoice, { foreignKey: "ref_out_choice_id", as:"ref_out_choice"});
@@ -189,22 +175,7 @@ db.WifeChoiceValue.belongsTo(db.BloodTestInterpretation, {
   foreignKey: "bti_id",
   as: "bti_value",
 });
-db.WifeChoiceValue.belongsTo(db.Cbe, {
-  foreignKey: "cbe_id",
-  as: "cbe_value",
-});
-db.WifeChoiceValue.belongsTo(db.Referral, {
-  foreignKey: "referral",
-  as: "referral_value",
-});
-db.WifeChoiceValue.belongsTo(db.RefInChoice, {
-  foreignKey: "ref_in_choice",
-  as: "ref_in_value",
-});
-db.WifeChoiceValue.belongsTo(db.RefOutChoice, {
-  foreignKey: "ref_out_choice",
-  as: "ref_out_value",
-});
+
 db.WifeTextValue.belongsTo(db.LabWifeResult, {
   foreignKey: "lab_wife_result_id",
   as: "lab_wife",
@@ -232,4 +203,45 @@ db.AncService.belongsTo(db.HusbandValue, {
 
 db.Role.hasMany(db.User, { foreignKey: "role_id" });
 db.Position.hasMany(db.User, { foreignKey: "position_id" });
+
+db.WifeChoiceValue.belongsTo(db.AllChoice, {
+  foreignKey: "ma_id",
+  as: "ma",
+});
+db.WifeChoiceValue.belongsTo(db.AllChoice, {
+  foreignKey: "hr_id",
+  as: "hr",
+});
+db.WifeChoiceValue.belongsTo(db.AllChoice, {
+  foreignKey: "am_id",
+  as: "am",
+});
+db.WifeChoiceValue.belongsTo(db.AllChoice, {
+  foreignKey: "pcr_wife_id",
+  as: "pcr_wife",
+});
+db.WifeChoiceValue.belongsTo(db.AllChoice, {
+  foreignKey: "cordo_id",
+  as: "cordo",
+});
+db.WifeChoiceValue.belongsTo(db.AllChoice, {
+  foreignKey: "abortion_id",
+  as: "abortion",
+});
+db.WifeChoiceValue.belongsTo(db.AllChoice, {
+  foreignKey: "tdap_id",
+  as: "tdap",
+});
+db.WifeChoiceValue.belongsTo(db.AllChoice, {
+  foreignKey: "iip_id",
+  as: "iip",
+});
+db.WifeChoiceValue.belongsTo(db.AllChoice, {
+  foreignKey: "birads_id",
+  as: "birads",
+});
+db.WifeChoiceValue.belongsTo(db.AllChoice, {
+  foreignKey: "per_os_id",
+  as: "per_os",
+});
 module.exports = db;

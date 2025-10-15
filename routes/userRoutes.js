@@ -16,6 +16,7 @@ router.get("/ChoiceValue", AllChoiceController.ChoiceValue);
 router.get("/anc", ancController.index);
 router.post("/anc", ancController.create_anc);
 router.get("/coveragesite", ancserviceController.coverage_site);
+router.get("/coveragesite/:HosId", ancserviceController.coverage_site_by_it);
 router.get("/ancservice", ancserviceController.anc_service);
 router.post("/ancservice", ancserviceController.create);
 router.get("/pull-anc", ancController.pull_anc);
