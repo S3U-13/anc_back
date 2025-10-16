@@ -1,6 +1,7 @@
 const db = require("../models");
 const { sequelize } = db;
 const { Op, Model } = require("sequelize");
+const jwt = require("jsonwebtoken");
 
 exports.anc_service = async (req, res) => {
   try {
@@ -93,7 +94,7 @@ exports.create = async (req, res) => {
       patvisit_id,
       patreg_id,
       para,
-      g,
+      gravida,
       p,
       a,
       last,
@@ -168,15 +169,17 @@ exports.create = async (req, res) => {
       ref_value_1_id,
       ref_value_2_id,
       receive_in_id,
+      receive_in_detail,
       hos_in_id,
       receive_out_id,
+      receive_out_detail,
       hos_out_id,
     } = req.body;
     const requiredFields = [
       "anc_no",
       "patvisit_id",
       "para",
-      "g",
+      "gravida",
       "p",
       "a",
       "last",
@@ -243,6 +246,7 @@ exports.create = async (req, res) => {
     const ref_in_choice = await db.RefInChoice.create({
       receive_in_id,
       hos_in_id,
+      receive_in_detail,
     });
     const ref_out_choice = await db.RefOutChoice.create({
       receive_out_id,
@@ -251,6 +255,7 @@ exports.create = async (req, res) => {
     const referral = await db.Referral.create({
       ref_value_1_id,
       ref_value_2_id,
+      receive_out_detail,
     });
     const wife_choice_value = await db.WifeChoiceValue.create({
       ma_id,
@@ -291,7 +296,6 @@ exports.create = async (req, res) => {
 
     const wife_text_value = await db.WifeTextValue.create({
       para,
-      g,
       p,
       a,
       last,
@@ -338,6 +342,33 @@ exports.create = async (req, res) => {
       pcr_hus_id,
       pcr_hus_text,
     });
+
+    const lastService = await db.AncService.findOne({
+      where: {
+        anc_no,
+        gravida,
+      },
+      order: [["round", "DESC"]],
+    });
+
+    const nextRound =
+      lastService && !isNaN(lastService.round)
+        ? parseInt(lastService.round, 10) + 1
+        : 1;
+
+    const token = req.headers.authorization?.split(" ")[1]; // ตัด "Bearer "
+    if (!token) return res.status(401).json({ error: "Token not found" });
+
+    let userId;
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || "secretkey");
+      console.log("✅ decoded token:", decoded);
+      userId = decoded.id;
+    } catch (err) {
+      console.error("❌ Token verify failed:", err.message);
+      return res.status(401).json({ error: "Invalid token" });
+    }
+
     const anc_service = await db.AncService.create({
       anc_no,
       patvisit_id,
@@ -345,9 +376,9 @@ exports.create = async (req, res) => {
       wife_choice_value_id: wife_choice_value.id,
       wife_text_value_id: wife_text_value.id,
       husband_value_id: husband_value.id,
-      round: null,
-      create_by_user_id: null,
-      edit_by_user_id: null,
+      gravida,
+      round: nextRound,
+      create_by_user_id: userId,
     });
     await t.commit();
     res.status(201).json({
@@ -612,7 +643,7 @@ exports.show_service_round_by_id = async (req, res) => {
         profile: wifeProfile || null,
         choices: service.wife_choice_value || null,
         text_values: service.wife_text_value || null,
-      
+
         referral: {
           ref_in: refIn || null,
           ref_out: refOut || null,
@@ -621,7 +652,6 @@ exports.show_service_round_by_id = async (req, res) => {
       husband: {
         profile: husbandProfile || null,
         choices: service.husband_value || null,
-      
       },
     };
 

@@ -5,7 +5,6 @@ const WifeTextValue = sequelize.define(
   "WifeTextValue",
   {
     para: DataTypes.STRING,
-    g: DataTypes.STRING,
     p: DataTypes.STRING,
     a: DataTypes.STRING,
     last: DataTypes.STRING,
