@@ -251,11 +251,11 @@ exports.create = async (req, res) => {
     const ref_out_choice = await db.RefOutChoice.create({
       receive_out_id,
       hos_out_id,
+      receive_out_detail,
     });
     const referral = await db.Referral.create({
       ref_value_1_id,
       ref_value_2_id,
-      receive_out_detail,
     });
     const wife_choice_value = await db.WifeChoiceValue.create({
       ma_id,
@@ -579,14 +579,86 @@ exports.show_service_round_by_id = async (req, res) => {
         {
           model: db.WifeTextValue,
           as: "wife_text_value",
-          include: [{ model: db.LabWifeResult, as: "lab_wife" }],
+          include: [
+            {
+              model: db.LabWifeResult,
+              as: "lab_wife",
+              include: [
+                {
+                  model: db.AllChoice,
+                  as: "hbsag_wife_detail",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "vdrl_wife_detail",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "anti_hiv_wife_detail",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "bl_gr_wife_detail",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "rh_wife_detail",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "dcip_wife_detail",
+                  attributes: ["choice_name"],
+                },
+              ],
+            },
+          ],
         },
         {
           model: db.HusbandValue,
           as: "husband_value",
           include: [
             { model: db.AllChoice, as: "pcr_hus", attributes: ["choice_name"] },
-            { model: db.LabHusbandResult, as: "lab_husband" },
+            {
+              model: db.LabHusbandResult,
+              as: "lab_husband",
+              include: [
+                {
+                  model: db.AllChoice,
+                  as: "hbsag_husband_detail",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "vdrl_husband_detail",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "anti_hiv_husband_detail",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "bl_gr_husband_detail",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "rh_husband_detail",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "dcip_husband_detail",
+                  attributes: ["choice_name"],
+                },
+              ],
+            },
           ],
         },
       ],

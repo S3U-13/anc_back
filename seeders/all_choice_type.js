@@ -18,6 +18,12 @@ async function seed() {
         { choice_type_name: "ultrasound" },
         { choice_type_name: "refer" },
         { choice_type_name: "ref choice" },
+        { choice_type_name: "lab HbsAg choice" },
+        { choice_type_name: "lab VDRL choice" },
+        { choice_type_name: "lab Anti-HIV choice" },
+        { choice_type_name: "lab Bl.gr choice" },
+        { choice_type_name: "lab Rh choice" },
+        { choice_type_name: "lab DCIP choice" },
     ]);
     
     console.log("✅ AllChoiceType seeded with all_choice_type and AllChoice seeded with all_choice_type");

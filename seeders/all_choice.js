@@ -174,6 +174,62 @@ async function seed() {
       choice_type_id: "16",
       choice_name: "ต่างจังหวัด",
     },
+    {
+      choice_type_id: "17",
+      choice_name: "Negative",
+    },
+    {
+      choice_type_id: "17",
+      choice_name: "Positive",
+    },
+    {
+      choice_type_id: "18",
+      choice_name: "Non-reactive",
+    },
+    {
+      choice_type_id: "18",
+      choice_name: "Reactive",
+    },
+    {
+      choice_type_id: "19",
+      choice_name: "Negative",
+    },
+    {
+      choice_type_id: "19",
+      choice_name: "Positive",
+    },
+    {
+      choice_type_id: "20",
+      choice_name: "A",
+    },
+    {
+      choice_type_id: "20",
+      choice_name: "B",
+    },
+    {
+      choice_type_id: "20",
+      choice_name: "AB",
+    },
+    {
+      choice_type_id: "20",
+      choice_name: "O",
+    },
+    {
+      choice_type_id: "21",
+      choice_name: "Positive",
+    },
+    {
+      choice_type_id: "21",
+      choice_name: "Negative",
+    },
+    {
+      choice_type_id: "22",
+      choice_name: "Normal",
+    },
+    {
+      choice_type_id: "22",
+      choice_name: "Abnormal",
+    },
   ]);
 
   console.log(

@@ -6,6 +6,7 @@ const RefInChoice = sequelize.define(
   {
     receive_in_id: DataTypes.INTEGER,
     hos_in_id: DataTypes.INTEGER,
+    receive_in_detail: DataTypes.STRING
   },
   {
     sequelize,

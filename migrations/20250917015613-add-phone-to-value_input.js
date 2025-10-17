@@ -258,14 +258,62 @@ module.exports = {
       gct_2_wife: { allowNull: true, type: Sequelize.STRING(30) },
       ogtt_1_wife: { allowNull: true, type: Sequelize.STRING(30) },
       ogtt_2_wife: { allowNull: true, type: Sequelize.STRING(30) },
-      hbsag_wife: { allowNull: true, type: Sequelize.STRING(30) },
-      vdrl_wife: { allowNull: true, type: Sequelize.STRING(30) },
-      anti_hiv_wife: { allowNull: true, type: Sequelize.STRING(30) },
-      bl_gr_wife: { allowNull: true, type: Sequelize.STRING(30) },
-      rh_wife: { allowNull: true, type: Sequelize.STRING(30) },
+      hbsag_wife: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        references: {
+          model: "all_choice",
+          key: "id",
+          name: "fk_hbsag_wife",
+        },
+      },
+      vdrl_wife: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        references: {
+          model: "all_choice",
+          key: "id",
+          name: "fk_vdrl_wife",
+        },
+      },
+      anti_hiv_wife: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        references: {
+          model: "all_choice",
+          key: "id",
+          name: "fk_anti_hiv_wife",
+        },
+      },
+      bl_gr_wife: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        references: {
+          model: "all_choice",
+          key: "id",
+          name: "fk_bl_gr_wife",
+        },
+      },
+      rh_wife: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        references: {
+          model: "all_choice",
+          key: "id",
+          name: "fk_rh_wife",
+        },
+      },
       hct_wife: { allowNull: true, type: Sequelize.STRING(30) },
       of_wife: { allowNull: true, type: Sequelize.STRING(30) },
-      dcip_wife: { allowNull: true, type: Sequelize.STRING(30) },
+      dcip_wife: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        references: {
+          model: "all_choice",
+          key: "id",
+          name: "fk_dcip_wife",
+        },
+      },
       mcv_wife: { allowNull: true, type: Sequelize.STRING(30) },
       mch_wife: { allowNull: true, type: Sequelize.STRING(30) },
       hb_typing_wife: { allowNull: true, type: Sequelize.STRING(30) },
@@ -280,14 +328,62 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
-      hbsag_husband: { allowNull: true, type: Sequelize.STRING(30) },
-      vdrl_husband: { allowNull: true, type: Sequelize.STRING(30) },
-      anti_hiv_husband: { allowNull: true, type: Sequelize.STRING(30) },
-      bl_gr_husband: { allowNull: true, type: Sequelize.STRING(30) },
-      rh_husband: { allowNull: true, type: Sequelize.STRING(30) },
+      hbsag_husband: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        references: {
+          model: "all_choice",
+          key: "id",
+          name: "fk_hbsag_husband",
+        },
+      },
+      vdrl_husband: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        references: {
+          model: "all_choice",
+          key: "id",
+          name: "fK_vdrl_husband",
+        },
+      },
+      anti_hiv_husband: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        references: {
+          model: "all_choice",
+          key: "id",
+          name: "fk_anti_hiv_husband",
+        },
+      },
+      bl_gr_husband: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        references: {
+          model: "all_choice",
+          key: "id",
+          name: "fk_bl_gr_husband",
+        },
+      },
+      rh_husband: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        references: {
+          model: "all_choice",
+          key: "id",
+          name: "fk_rh_husband",
+        },
+      },
       hct_husband: { allowNull: true, type: Sequelize.STRING(30) },
       of_husband: { allowNull: true, type: Sequelize.STRING(30) },
-      dcip_husband: { allowNull: true, type: Sequelize.STRING(30) },
+      dcip_husband: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        references: {
+          model: "all_choice",
+          key: "id",
+          name: "fk_dcip_husband",
+        },
+      },
       mcv_husband: { allowNull: true, type: Sequelize.STRING(30) },
       mch_husband: { allowNull: true, type: Sequelize.STRING(30) },
       hb_typing_husband: { allowNull: true, type: Sequelize.STRING(30) },
@@ -414,7 +510,7 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING(10),
       },
-      gravida : {
+      gravida: {
         allowNull: true,
         type: Sequelize.STRING(10),
       },

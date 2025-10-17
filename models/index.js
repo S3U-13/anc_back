@@ -244,4 +244,55 @@ db.WifeChoiceValue.belongsTo(db.AllChoice, {
   foreignKey: "per_os_id",
   as: "per_os",
 });
+
+db.LabWifeResult.belongsTo(db.AllChoice, {
+  foreignKey: "hbsag_wife",
+  as: "hbsag_wife_detail",
+});
+db.LabWifeResult.belongsTo(db.AllChoice, {
+  foreignKey: "vdrl_wife",
+  as: "vdrl_wife_detail",
+});
+db.LabWifeResult.belongsTo(db.AllChoice, {
+  foreignKey: "anti_hiv_wife",
+  as: "anti_hiv_wife_detail",
+});
+db.LabWifeResult.belongsTo(db.AllChoice, {
+  foreignKey: "bl_gr_wife",
+  as: "bl_gr_wife_detail",
+});
+db.LabWifeResult.belongsTo(db.AllChoice, {
+  foreignKey: "rh_wife",
+  as: "rh_wife_detail",
+});
+db.LabWifeResult.belongsTo(db.AllChoice, {
+  foreignKey: "dcip_wife",
+  as: "dcip_wife_detail",
+});
+
+// Husband
+db.LabHusbandResult.belongsTo(db.AllChoice, {
+  foreignKey: "hbsag_husband",
+  as: "hbsag_husband_detail",
+});
+db.LabHusbandResult.belongsTo(db.AllChoice, {
+  foreignKey: "vdrl_husband",
+  as: "vdrl_husband_detail",
+});
+db.LabHusbandResult.belongsTo(db.AllChoice, {
+  foreignKey: "anti_hiv_husband",
+  as: "anti_hiv_husband_detail",
+});
+db.LabHusbandResult.belongsTo(db.AllChoice, {
+  foreignKey: "bl_gr_husband",
+  as: "bl_gr_husband_detail",
+});
+db.LabHusbandResult.belongsTo(db.AllChoice, {
+  foreignKey: "rh_husband",
+  as: "rh_husband_detail",
+});
+db.LabHusbandResult.belongsTo(db.AllChoice, {
+  foreignKey: "dcip_husband",
+  as: "dcip_husband_detail",
+});
 module.exports = db;
