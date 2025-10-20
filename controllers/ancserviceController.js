@@ -5,14 +5,26 @@ const jwt = require("jsonwebtoken");
 
 exports.anc_service = async (req, res) => {
   try {
-    // ดึงข้อมูลทั้งหมดที่มี anc_no, gravida, round
     const token = req.headers.authorization;
+
     const anc_data = await db.AncService.findAll({
       attributes: ["id", "anc_no", "gravida", "round"],
       include: [
         {
           model: db.Anc,
           as: "AncNo",
+        },
+        {
+          model: db.WifeChoiceValue,
+          as: "wife_choice_value",
+          attributes: ["abortion_id"],
+          include: [
+            {
+              model: db.AllChoice,
+              as: "abortion",
+              attributes: ["choice_name"],
+            },
+          ],
         },
       ],
       order: [
@@ -22,7 +34,7 @@ exports.anc_service = async (req, res) => {
       ],
     });
 
-    // ✅ Group ด้วย JS (เพราะ Sequelize group จะรวมค่า aggregate)
+    // ✅ Group ข้อมูลด้วย anc_no + gravida
     const grouped = {};
     anc_data.forEach((item) => {
       const key = `${item.anc_no}_${item.gravida}`;
@@ -37,44 +49,61 @@ exports.anc_service = async (req, res) => {
       grouped[key].rounds.push({
         id: item.id,
         round: item.round,
+        abortion_id: item.wife_choice_value?.abortion_id ?? null,
+        abortion_name: item.wife_choice_value?.abortion?.choice_name ?? null,
       });
     });
 
-    // แปลง object -> array
     const groupedList = Object.values(grouped);
 
-    // ✅ ดึงข้อมูล wife/husband ต่อ record
+    // ✅ ดึงข้อมูล wife/husband และเช็กสถานะครรภ์
     const ancList = await Promise.all(
       groupedList.map(async (anc) => {
         const wifeRes = await fetch(
           `http://localhost:3000/api/user/pat-anc-service-index/${anc.AncNo.hn_wife}`,
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
+          { headers: { Authorization: token } }
         );
-        const wife = await wifeRes.json();
+        const wife = wifeRes.ok ? await wifeRes.json() : null;
 
         const husbandRes = await fetch(
           `http://localhost:3000/api/user/pat-anc-service-index/${anc.AncNo.hn_husband}`,
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
+          { headers: { Authorization: token } }
         );
-        const husband = await husbandRes.json();
+        const husband = husbandRes.ok ? await husbandRes.json() : null;
+
+        // ✅ หา round ล่าสุด (รอบที่มากสุด)
+        const lastRound = anc.rounds[anc.rounds.length - 1];
+
+        // ✅ ถ้ามี abortion_id = 12 ในรอบใดรอบหนึ่ง → ถือว่าสิ้นสุดการตั้งครรภ์
+        const endedRound = anc.rounds.find((r) => r.abortion_id === 12);
+        const isEnded = Boolean(endedRound);
+
+        // ✅ นับจำนวนรอบ
+        const totalRounds = anc.rounds.length;
+        const roundStatus = totalRounds >= 6 ? "ครบ" : "ไม่ครบ";
+
+        // ✅ choice ใช้จากรอบล่าสุด (หรือรอบที่สิ้นสุด)
+        const choice = isEnded
+          ? {
+              abortion_id: 12,
+              choice_name: "สิ้นสุดการตั้งครรภ์",
+            }
+          : {
+              abortion_id: lastRound.abortion_id,
+              choice_name: lastRound.abortion_name || "ตั้งครรภ์ต่อ",
+            };
 
         return {
           anc_no: anc.anc_no,
           gravida: anc.gravida,
+          choice,
+          round_status: roundStatus,
           wife,
           husband,
-          // 👇 rounds จะใช้ไปทำ dropdown
           rounds: anc.rounds.map((r) => ({
             id: r.id,
             label: `รอบที่ ${r.round}`,
+            abortion_id: r.abortion_id,
           })),
         };
       })
@@ -82,6 +111,7 @@ exports.anc_service = async (req, res) => {
 
     res.json(ancList);
   } catch (err) {
+    console.error("❌ anc_service error:", err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -402,6 +432,265 @@ exports.create = async (req, res) => {
       /* ignore */
     }
     return res.status(500).json({ message: error.message });
+  }
+};
+exports.edit = async (req, res) => {
+  const t = await sequelize.transaction();
+
+  try {
+    const { id } = req.params;
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) return res.status(401).json({ error: "Token not found" });
+
+    const jwt = require("jsonwebtoken");
+    let userId;
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || "secretkey");
+      userId = decoded.id;
+    } catch (err) {
+      return res.status(401).json({ error: "Invalid token" });
+    }
+
+    // ดึง AncService พร้อม relations
+    const anc_service = await db.AncService.findByPk(id, {
+      include: [
+        { model: db.WifeChoiceValue, as: "wife_choice_value" },
+        { model: db.WifeTextValue, as: "wife_text_value" },
+        { model: db.HusbandValue, as: "husband_value" },
+        {
+          model: db.LabWifeResult,
+          as: "wife_text_value",
+          include: [{ model: db.LabWifeResult, as: "lab_wife_result" }],
+        },
+        {
+          model: db.BloodTestInterpretation,
+          as: "wife_choice_value",
+          include: [{ model: db.BloodTestInterpretation, as: "bti" }],
+        },
+        { model: db.Cbe, as: "wife_choice_value" },
+        { model: db.RefInChoice, as: "wife_choice_value" },
+        { model: db.RefOutChoice, as: "wife_choice_value" },
+        { model: db.Referral, as: "wife_choice_value" },
+      ],
+    });
+
+    if (!anc_service)
+      return res.status(404).json({ error: "ไม่พบข้อมูล AncService" });
+
+    // -----------------------------
+    // update blood_test_interpretation
+    if (anc_service.wife_choice_value.bti_id) {
+      await db.BloodTestInterpretation.update(
+        {
+          bti_value_1_id: req.body.bti_value_1_id,
+          bti_value_2_id: req.body.bti_value_2_id,
+          bti_value_3_id: req.body.bti_value_3_id,
+          bti_value_4_id: req.body.bti_value_4_id,
+          bti_value_5_id: req.body.bti_value_5_id,
+        },
+        { where: { id: anc_service.wife_choice_value.bti_id }, transaction: t }
+      );
+    }
+
+    // -----------------------------
+    // update cbe
+    if (anc_service.wife_choice_value.cbe_id) {
+      await db.Cbe.update(
+        {
+          cbe_value_1_id: req.body.cbe_value_1_id,
+          cbe_value_2_id: req.body.cbe_value_2_id,
+          cbe_value_3_id: req.body.cbe_value_3_id,
+          cbe_value_4_id: req.body.cbe_value_4_id,
+        },
+        { where: { id: anc_service.wife_choice_value.cbe_id }, transaction: t }
+      );
+    }
+
+    // -----------------------------
+    // update ref_in_choice
+    if (anc_service.wife_choice_value.ref_in_choice_id) {
+      await db.RefInChoice.update(
+        {
+          receive_in_id: req.body.receive_in_id,
+          hos_in_id: req.body.hos_in_id,
+          receive_in_detail: req.body.receive_in_detail,
+        },
+        {
+          where: { id: anc_service.wife_choice_value.ref_in_choice_id },
+          transaction: t,
+        }
+      );
+    }
+
+    // -----------------------------
+    // update ref_out_choice
+    if (anc_service.wife_choice_value.ref_out_choice_id) {
+      await db.RefOutChoice.update(
+        {
+          receive_out_id: req.body.receive_out_id,
+          hos_out_id: req.body.hos_out_id,
+          receive_out_detail: req.body.receive_out_detail,
+        },
+        {
+          where: { id: anc_service.wife_choice_value.ref_out_choice_id },
+          transaction: t,
+        }
+      );
+    }
+
+    // -----------------------------
+    // update referral
+    if (anc_service.wife_choice_value.referral_id) {
+      await db.Referral.update(
+        {
+          ref_value_1_id: req.body.ref_value_1_id,
+          ref_value_2_id: req.body.ref_value_2_id,
+        },
+        {
+          where: { id: anc_service.wife_choice_value.referral_id },
+          transaction: t,
+        }
+      );
+    }
+
+    // -----------------------------
+    // update wife_choice_value
+    await anc_service.wife_choice_value.update(
+      {
+        ma_id: req.body.ma_id,
+        hr_id: req.body.hr_id,
+        am_id: req.body.am_id,
+        pcr_wife_id: req.body.pcr_wife_id,
+        cordo_id: req.body.cordo_id,
+        abortion_id: req.body.abortion_id,
+        tdap_id: req.body.tdap_id,
+        iip_id: req.body.iip_id,
+        birads_id: req.body.birads_id,
+        per_os_id: req.body.per_os_id,
+        pcr_hus_id: req.body.pcr_hus_id,
+        updated_by_user_id: userId,
+      },
+      { transaction: t }
+    );
+
+    // -----------------------------
+    // update lab_wife_result
+    if (anc_service.wife_text_value.lab_wife_result_id) {
+      await db.LabWifeResult.update(
+        {
+          gct_1_wife: req.body.gct_1_wife,
+          gct_2_wife: req.body.gct_2_wife,
+          ogtt_1_wife: req.body.ogtt_1_wife,
+          ogtt_2_wife: req.body.ogtt_2_wife,
+          hbsag_wife: req.body.hbsag_wife,
+          vdrl_wife: req.body.vdrl_wife,
+          anti_hiv_wife: req.body.anti_hiv_wife,
+          bl_gr_wife: req.body.bl_gr_wife,
+          rh_wife: req.body.rh_wife,
+          hct_wife: req.body.hct_wife,
+          of_wife: req.body.of_wife,
+          dcip_wife: req.body.dcip_wife,
+          mcv_wife: req.body.mcv_wife,
+          mch_wife: req.body.mch_wife,
+          hb_typing_wife: req.body.hb_typing_wife,
+        },
+        {
+          where: { id: anc_service.wife_text_value.lab_wife_result_id },
+          transaction: t,
+        }
+      );
+    }
+
+    // -----------------------------
+    // update wife_text_value
+    await anc_service.wife_text_value.update(
+      {
+        para: req.body.para,
+        p: req.body.p,
+        a: req.body.a,
+        last: req.body.last,
+        lmp: req.body.lmp,
+        edc: req.body.edc,
+        ga: req.body.ga,
+        ma_detail: req.body.ma_detail,
+        hr_detail: req.body.hr_detail,
+        pcr_wife_text: req.body.pcr_wife_text,
+        cordo_text: req.body.cordo_text,
+        cordo_other_text: req.body.cordo_other_text,
+        td_num: req.body.td_num,
+        td_last_date: req.body.td_last_date,
+        tdap_round_1: req.body.tdap_round_1,
+        tdap_round_2: req.body.tdap_round_2,
+        tdap_round_3: req.body.tdap_round_3,
+        iip_date: req.body.iip_date,
+        lab_2: req.body.lab_2,
+        hct: req.body.hct,
+        vdrl_2: req.body.vdrl_2,
+        h: req.body.h,
+        bti_1_date: req.body.bti_1_date,
+        bti_2_date: req.body.bti_2_date,
+        cbe_result: req.body.cbe_result,
+      },
+      { transaction: t }
+    );
+
+    // -----------------------------
+    // update lab_husband_result
+    if (anc_service.husband_value.lab_husband_result_id) {
+      await db.LabHusbandResult.update(
+        {
+          hbsag_husband: req.body.hbsag_husband,
+          vdrl_husband: req.body.vdrl_husband,
+          anti_hiv_husband: req.body.anti_hiv_husband,
+          bl_gr_husband: req.body.bl_gr_husband,
+          rh_husband: req.body.rh_husband,
+          hct_husband: req.body.hct_husband,
+          of_husband: req.body.of_husband,
+          dcip_husband: req.body.dcip_husband,
+          mcv_husband: req.body.mcv_husband,
+          mch_husband: req.body.mch_husband,
+          hb_typing_husband: req.body.hb_typing_husband,
+        },
+        {
+          where: { id: anc_service.husband_value.lab_husband_result_id },
+          transaction: t,
+        }
+      );
+    }
+
+    // -----------------------------
+    // update husband_value
+    await anc_service.husband_value.update(
+      {
+        pcr_hus_id: req.body.pcr_hus_id,
+        pcr_hus_text: req.body.pcr_hus_text,
+      },
+      { transaction: t }
+    );
+
+    // -----------------------------
+    // update anc_service หลัก
+    await anc_service.update(
+      {
+        anc_no: req.body.anc_no,
+        patvisit_id: req.body.patvisit_id,
+        patreg_id: req.body.patreg_id,
+        gravida: req.body.gravida,
+        round: req.body.round || anc_service.round,
+        updated_by_user_id: userId,
+      },
+      { transaction: t }
+    );
+
+    await t.commit();
+
+    return res.status(200).json({
+      message: "แก้ไขข้อมูลสำเร็จ",
+      anc_service,
+    });
+  } catch (error) {
+    await t.rollback();
+    return res.status(500).json({ error: error.message });
   }
 };
 

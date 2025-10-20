@@ -30,6 +30,10 @@ router.get(
   "/show-service-by-id/:RoundId",
   ancserviceController.show_service_round_by_id
 );
+router.put(
+  "/edit-service-by-id/:id",
+  ancserviceController.edit
+);
 // router.get("/PatReg/:value", patController.pat_reg);
 
 module.exports = router;
