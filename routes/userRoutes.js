@@ -8,6 +8,7 @@ const AllChoiceController = require("../controllers/allChoiceController");
 const ancController = require("../controllers/ancController");
 const ancserviceController = require("../controllers/ancserviceController");
 const patController = require("../controllers/patController");
+const chartController = require("../controllers/chartController");
 
 //route
 router.use(authenticateToken, authorizeRole(1));
@@ -34,6 +35,9 @@ router.put(
   "/edit-service-by-id/:id",
   ancserviceController.edit
 );
+
+router.get("/chart-anc-service", chartController.chart_bar_anc_service)
+router.get("/sum-anc-service", chartController.anc_service_sum)
 // router.get("/PatReg/:value", patController.pat_reg);
 
 module.exports = router;

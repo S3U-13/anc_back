@@ -126,14 +126,6 @@ db.Cbe.belongsTo(db.AllChoice, {
 
 db.WifeChoiceValue.belongsTo(db.Cbe, { foreignKey: "cbe_id", as: "cbe" });
 
-// db.WifeChoiceValue.belongsTo(db.AllChoice, {
-//   foreignKey: "birads_id",
-//   as: "birads",
-// });
-// db.WifeChoiceValue.belongsTo(db.AllChoice, {
-//   foreignKey: "per_os_id",
-//   as: "per_os",
-// });
 db.HusbandValue.belongsTo(db.AllChoice, {
   foreignKey: "pcr_hus_id",
   as: "pcr_hus",
@@ -168,8 +160,6 @@ db.WifeChoiceValue.belongsTo(db.Referral, {
   foreignKey: "referral_id",
   as: "referral_value",
 });
-// db.ChoiceValue.belongsTo(db.AllChoice, { foreignKey: "ref_in_choice_id", as:"ref_in_choice"});
-// db.ChoiceValue.belongsTo(db.AllChoice, { foreignKey: "ref_out_choice_id", as:"ref_out_choice"});
 
 db.WifeChoiceValue.belongsTo(db.BloodTestInterpretation, {
   foreignKey: "bti_id",
