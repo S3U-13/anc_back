@@ -38,6 +38,7 @@ router.put(
 
 router.get("/chart-anc-service", chartController.chart_bar_anc_service)
 router.get("/sum-anc-service", chartController.anc_service_sum)
+router.get("/radial-anc-service", chartController.radial_chart)
 // router.get("/PatReg/:value", patController.pat_reg);
 
 module.exports = router;
