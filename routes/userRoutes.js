@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const apiLogger = require("../middleware/apiLogger");
 const {
   authenticateToken,
   authorizeRole,
@@ -12,6 +13,9 @@ const chartController = require("../controllers/chartController");
 
 //route
 router.use(authenticateToken, authorizeRole(1));
+
+router.use(apiLogger);
+
 router.get("/mapAll", AllChoiceController.mapAll);
 router.get("/ChoiceValue", AllChoiceController.ChoiceValue);
 router.get("/anc", ancController.index);
@@ -31,14 +35,11 @@ router.get(
   "/show-service-by-id/:RoundId",
   ancserviceController.show_service_round_by_id
 );
-router.put(
-  "/edit-service-by-id/:id",
-  ancserviceController.edit
-);
+router.put("/edit-service-by-id/:id", ancserviceController.edit);
 
-router.get("/chart-anc-service", chartController.chart_bar_anc_service)
-router.get("/sum-anc-service", chartController.anc_service_sum)
-router.get("/radial-anc-service", chartController.radial_chart)
+router.get("/chart-anc-service", chartController.chart_bar_anc_service);
+router.get("/sum-anc-service", chartController.anc_service_sum);
+router.get("/radial-anc-service", chartController.radial_chart);
 // router.get("/PatReg/:value", patController.pat_reg);
 
 module.exports = router;

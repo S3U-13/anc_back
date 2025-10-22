@@ -1,5 +1,6 @@
 const db = require("../models");
 const bcrypt = require("bcryptjs");
+const { logAction } = require("../services/logService");
 
 exports.position = async (req, res) => {
   try {
@@ -26,6 +27,14 @@ exports.index = async (req, res) => {
         { model: db.Role, attributes: ["role_name"] },
         { model: db.Position, attributes: ["position_name"] },
       ],
+    });
+    await logAction({
+      userId: req.user.id,
+      action: "User index",
+      entity: "Auth",
+      entityId: req.user.id,
+      description: "เข้าดูข้อมูล User index",
+      req,
     });
     res.json(users);
   } catch (error) {
@@ -101,6 +110,14 @@ exports.addUser = async (req, res) => {
       position_id,
     });
 
+    await logAction({
+      userId: req.user.id,
+      action: "Add User",
+      entity: "Auth",
+      entityId: req.user.id,
+      description: "เพิ่ม User",
+      req,
+    });
     // ✅ 8. ตอบกลับเมื่อสำเร็จ
     res.status(201).json({
       message: "สร้างบัญชีผู้ใช้สำเร็จ",

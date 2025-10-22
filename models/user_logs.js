@@ -1,8 +1,8 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
-const UserLogs = sequelize.define(
-  "UserLogs",
+const UserLog = sequelize.define(
+  "UserLog", // ชื่อ model แนะนำใช้เอกพจน์
   {
     user_id: { type: DataTypes.INTEGER, allowNull: false },
     action: { type: DataTypes.STRING, allowNull: false },
@@ -14,10 +14,12 @@ const UserLogs = sequelize.define(
   },
   {
     sequelize,
-    modelName: "UserLogs",
+    modelName: "UserLog",
     tableName: "user_logs", // ต้องตรงกับชื่อ table จริง
-    timestamps: true,
+    timestamps: true, // เปิด timestamp
+    createdAt: "createdAt", // ให้ Sequelize ใส่ createdAt
+    updatedAt: false, // ปิด updatedAt
   }
 );
 
-module.exports = UserLogs;
+module.exports = UserLog;

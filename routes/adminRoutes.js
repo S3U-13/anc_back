@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const apiLogger = require("../middleware/apiLogger");
 const {
   authenticateToken,
   authorizeRole,
@@ -9,6 +10,9 @@ const authController = require("../controllers/authController");
 
 //route
 router.use(authenticateToken, authorizeRole(2));
+
+router.use(apiLogger);
+
 router.get("/position", userController.position);
 router.get("/role", userController.role);
 router.get("/user", userController.index);

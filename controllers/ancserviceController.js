@@ -2,6 +2,7 @@ const db = require("../models");
 const { sequelize } = db;
 const { Op, Model } = require("sequelize");
 const jwt = require("jsonwebtoken");
+const { logAction } = require("../services/logService");
 
 exports.anc_service = async (req, res) => {
   try {
@@ -108,6 +109,15 @@ exports.anc_service = async (req, res) => {
         };
       })
     );
+
+    await logAction({
+      userId: req.user.id,
+      action: "Anc Service Index",
+      entity: "Auth",
+      entityId: req.user.id,
+      description: "เข้าดูข้อมูล ANC SERVICE INDEX",
+      req,
+    });
 
     res.json(ancList);
   } catch (err) {
@@ -411,6 +421,16 @@ exports.create = async (req, res) => {
       create_by_user_id: userId,
     });
     await t.commit();
+
+    await logAction({
+      userId: req.user.id,
+      action: "Anc Service create",
+      entity: "Auth",
+      entityId: req.user.id,
+      description: "เพิ่มข้อมูล ANC SERVICE",
+      req,
+    });
+
     res.status(201).json({
       message: "เพิ่มข้อมูลสำเร็จ",
       blood_test_interpretation,
@@ -839,6 +859,15 @@ exports.edit = async (req, res) => {
 
     await t.commit();
 
+    await logAction({
+      userId: req.user.id,
+      action: "Anc Service Edit",
+      entity: "Auth",
+      entityId: req.user.id,
+      description: "แก้ไขข้อมูล ANC SERVICE",
+      req,
+    });
+
     return res.status(200).json({
       message: "แก้ไขข้อมูลสำเร็จ",
       anc_service,
@@ -1170,7 +1199,14 @@ exports.show_service_round_by_id = async (req, res) => {
         choices: service.husband_value || null,
       },
     };
-
+    await logAction({
+      userId: req.user.id,
+      action: "Anc Service View",
+      entity: "Auth",
+      entityId: req.user.id,
+      description: "ดูข้อมูล ANC SERVICE By Id",
+      req,
+    });
     return res.json(result);
   } catch (error) {
     console.error("❌ show_service_round_by_id error:", error);

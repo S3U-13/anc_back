@@ -1,5 +1,6 @@
 const db = require("../models");
 const { sequelize } = db;
+const { logAction } = require("../services/logService");
 
 exports.index = async (req, res) => {
   try {
@@ -35,7 +36,14 @@ exports.index = async (req, res) => {
         };
       })
     );
-
+    await logAction({
+      userId: req.user.id,
+      action: "Anc Index",
+      entity: "Auth",
+      entityId: req.user.id,
+      description: "เข้าดูข้อมูล ANC index",
+      req,
+    });
     res.json(dataWithPat);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -76,7 +84,14 @@ exports.pull_anc = async (req, res) => {
         };
       })
     );
-
+    await logAction({
+      userId: req.user.id,
+      action: "Anc Pull",
+      entity: "Auth",
+      entityId: req.user.id,
+      description: "ดึงข้อมูลทะเบียน ANC ",
+      req,
+    });
     res.json(dataWithPat);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -95,6 +110,14 @@ exports.create_anc = async (req, res) => {
     const anc = await db.Anc.create({
       hn_wife,
       hn_husband,
+    });
+    await logAction({
+      userId: req.user.id,
+      action: "Anc Create",
+      entity: "Auth",
+      entityId: req.user.id,
+      description: "เพิ่มทะเบียน ANC ",
+      req,
     });
     res.status(201).json({ message: "เพิ่มข้อมูลสำเร็จ", anc });
   } catch (error) {

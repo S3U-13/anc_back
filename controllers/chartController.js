@@ -2,6 +2,7 @@ const db = require("../models");
 const { sequelize } = db;
 const { Op, Model } = require("sequelize");
 const jwt = require("jsonwebtoken");
+const { logAction } = require("../services/logService");
 
 exports.chart_bar_anc_service = async (req, res) => {
   try {
@@ -24,6 +25,14 @@ exports.chart_bar_anc_service = async (req, res) => {
       };
     });
     const buddhistYear = currentYear + 543;
+    await logAction({
+      userId: req.user.id,
+      action: "Bar Chart",
+      entity: "Auth",
+      entityId: req.user.id,
+      description: "ดูข้อมูล Bar Chart",
+      req,
+    });
     return res.status(200).json({
       year: buddhistYear,
       sum_anc_by_month,
@@ -130,6 +139,14 @@ exports.anc_service_sum = async (req, res) => {
     }, {});
     const buddhistYear = currentYear + 543;
     // 🔹 ส่งข้อมูลพร้อมชื่อเดือนและปี
+    await logAction({
+      userId: req.user.id,
+      action: "ดูผลสรุป",
+      entity: "Auth",
+      entityId: req.user.id,
+      description: "ดูผลสรุปข้อมูล",
+      req,
+    });
     return res.status(200).json({
       month: currentMonth + 1,
       month_name,
@@ -186,7 +203,14 @@ exports.radial_chart = async (req, res) => {
     };
 
     const buddhistYear = currentYear + 543;
-
+    await logAction({
+      userId: req.user.id,
+      action: "Radial Bar",
+      entity: "Auth",
+      entityId: req.user.id,
+      description: "ดูข้อมูล Radial Bar",
+      req,
+    });
     return res.status(200).json({
       year: buddhistYear,
       am_count: full_am_count,

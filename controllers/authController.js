@@ -1,7 +1,7 @@
 const db = require("../models");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-// const { logAction } = require("../services/logService.js");
+const { logAction } = require("../services/logService");
 
 exports.login = async (req, res) => {
   try {
@@ -26,14 +26,14 @@ exports.login = async (req, res) => {
     );
 
     // บันทึก log
-    // await logAction({
-    //   userId: user.id,
-    //   action: "login",
-    //   entity: "User",
-    //   entityId: user.id,
-    //   description: "ผู้ใช้เข้าสู่ระบบ",
-    //   req,
-    // });
+    await logAction({
+      userId: user.id,
+      action: "login",
+      entity: "Auth",
+      entityId: user.id,
+      description: "ผู้ใช้เข้าสู่ระบบ",
+      req,
+    });
 
     res.json({
       message: "Login success",
@@ -48,6 +48,34 @@ exports.login = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+};
+
+exports.logout = async (req, res) => {
+  try {
+    console.log("🟢 Logout request received");
+
+    if (req.user) {
+      console.log("👤 Logout user:", req.user.id);
+
+      await logAction({
+        userId: req.user.id,
+        action: "logout",
+        entity: "Auth",
+        entityId: req.user.id,
+        description: "ผู้ใช้ออกจากระบบ",
+        req,
+      });
+    } else {
+      console.log(
+        "⚠️ req.user ไม่มีค่า (token อาจไม่ถูกส่งหรือ decode ไม่ได้)"
+      );
+    }
+
+    res.json({ message: "Logout success" });
+  } catch (err) {
+    console.error("❌ Logout error:", err);
     res.status(500).json({ error: "Something went wrong" });
   }
 };
