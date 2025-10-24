@@ -1,7 +1,9 @@
+require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORTAPP||3000;
+const HOST = "0.0.0.0"; // เปิดให้ทุก interface เข้าถึงได้
 
 const userRoutes = require("./routes/userRoutes");
 const adminRoutes = require("./routes/adminRoutes");
@@ -14,6 +16,7 @@ app.use("/api", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/admin", adminRoutes);
 
-app.listen(PORT, () =>
-  console.log(`Server running at http://localhost:${PORT}`)
-);
+app.listen(PORT, HOST, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server accessible at http://<YOUR_LOCAL_IP>:${PORT}`);
+});

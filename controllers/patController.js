@@ -49,14 +49,7 @@ exports.pat = async (req, res) => {
     if (pat.pat_reg && pat.pat_reg.length > 0) {
       pat.pat_reg = pat.pat_reg[0];
     }
-    await logAction({
-      userId: req.user.id,
-      action: "มีการเข้าถึงข้อมูล Pat ",
-      entity: "Auth",
-      entityId: req.user.id,
-      description: "ผ่านหน้า Anc service Create/edit/view",
-      req,
-    });
+
     res.json(pat);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -74,14 +67,6 @@ exports.pat_anc_index = async (req, res) => {
     });
 
     if (!pat) return res.status(404).json({ error: "Not found" });
-    await logAction({
-      userId: req.user.id,
-      action: "มีการเข้าถึงข้อมูล Pat ",
-      entity: "Auth",
-      entityId: req.user.id,
-      description: "ผ่านหน้า Anc Index",
-      req,
-    });
     res.json(pat);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -110,14 +95,6 @@ exports.pat_anc_service_index = async (req, res) => {
     });
 
     if (!pat) return res.status(404).json({ error: "Not found" });
-    await logAction({
-      userId: req.user.id,
-      action: "มีการเข้าถึงข้อมูล Pat ",
-      entity: "Auth",
-      entityId: req.user.id,
-      description: "ผ่านหน้า Anc Service Index",
-      req,
-    });
     res.json(pat);
   } catch (err) {
     res.status(500).json({ error: err.message });

@@ -10,8 +10,8 @@ exports.login = async (req, res) => {
     const user = await db.User.findOne({
       where: { user_name },
       include: [
-        { model: db.Role, attributes: ["role_name"] },
-        { model: db.Position, attributes: ["position_name"] },
+        { model: db.Role, as: "Role", attributes: ["role_name"] },
+        { model: db.Position, as: "Position", attributes: ["position_name"] },
       ],
     });
     if (!user) return res.status(404).json({ error: "User not found" });
@@ -20,9 +20,12 @@ exports.login = async (req, res) => {
     if (!match) return res.status(401).json({ error: "Invalid password" });
 
     const token = jwt.sign(
-      { id: user.id, role_id: user.role_id },
+      {
+        id: user.id,
+        role_id: user.role_id,
+      },
       process.env.JWT_SECRET || "secretkey",
-      { expiresIn: "1d" }
+      { expiresIn: process.env.JWT_EXPIRES_IN }
     );
 
     // บันทึก log

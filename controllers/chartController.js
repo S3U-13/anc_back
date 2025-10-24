@@ -25,14 +25,6 @@ exports.chart_bar_anc_service = async (req, res) => {
       };
     });
     const buddhistYear = currentYear + 543;
-    await logAction({
-      userId: req.user.id,
-      action: "Bar Chart",
-      entity: "Auth",
-      entityId: req.user.id,
-      description: "ดูข้อมูล Bar Chart",
-      req,
-    });
     return res.status(200).json({
       year: buddhistYear,
       sum_anc_by_month,
@@ -203,14 +195,6 @@ exports.radial_chart = async (req, res) => {
     };
 
     const buddhistYear = currentYear + 543;
-    await logAction({
-      userId: req.user.id,
-      action: "Radial Bar",
-      entity: "Auth",
-      entityId: req.user.id,
-      description: "ดูข้อมูล Radial Bar",
-      req,
-    });
     return res.status(200).json({
       year: buddhistYear,
       am_count: full_am_count,

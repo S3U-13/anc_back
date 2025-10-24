@@ -6,12 +6,11 @@ const {
   authorizeRole,
 } = require("../middleware/authMiddleware");
 const userController = require("../controllers/userController");
-const authController = require("../controllers/authController");
 
 //route
-router.use(authenticateToken, authorizeRole(2));
+router.use(authenticateToken, apiLogger, authorizeRole(2));
 
-router.use(apiLogger);
+// router.use(apiLogger);
 
 router.get("/position", userController.position);
 router.get("/role", userController.role);

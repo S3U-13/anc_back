@@ -192,8 +192,8 @@ db.AncService.belongsTo(db.HusbandValue, {
   as: "husband_value",
 });
 
-db.Role.hasMany(db.User, { foreignKey: "role_id" });
-db.Position.hasMany(db.User, { foreignKey: "position_id" });
+db.Role.hasMany(db.User, { foreignKey: "role_id", as: "Role" });
+db.Position.hasMany(db.User, { foreignKey: "position_id", as: "Position" });
 
 db.WifeChoiceValue.belongsTo(db.AllChoice, {
   foreignKey: "ma_id",

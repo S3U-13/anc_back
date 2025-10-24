@@ -12,9 +12,9 @@ const patController = require("../controllers/patController");
 const chartController = require("../controllers/chartController");
 
 //route
-router.use(authenticateToken, authorizeRole(1));
+router.use(authenticateToken, apiLogger, authorizeRole(1));
 
-router.use(apiLogger);
+// router.use(apiLogger);
 
 router.get("/mapAll", AllChoiceController.mapAll);
 router.get("/ChoiceValue", AllChoiceController.ChoiceValue);
