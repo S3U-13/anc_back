@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const PORT = process.env.PORTAPP||3000;
+const PORT = process.env.PORTAPP;
 const HOST = "0.0.0.0"; // เปิดให้ทุก interface เข้าถึงได้
 
 const userRoutes = require("./routes/userRoutes");

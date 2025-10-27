@@ -15,7 +15,8 @@ router.use(authenticateToken, apiLogger, authorizeRole(2));
 router.get("/position", userController.position);
 router.get("/role", userController.role);
 router.get("/user", userController.index);
+router.get("/viewUser/:id", userController.view_by_id);
 router.post("/addUser", userController.addUser);
-// router.get("/PatReg/:value", patController.pat_reg);
+router.put("/editUser/:id", userController.editUser);
 
 module.exports = router;
