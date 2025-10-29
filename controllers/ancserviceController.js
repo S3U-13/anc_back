@@ -252,18 +252,6 @@ exports.create = async (req, res) => {
       "vdrl_2",
       "h",
       "per_os_id",
-      "hbsag_husband",
-      "vdrl_husband",
-      "anti_hiv_husband",
-      "bl_gr_husband",
-      "rh_husband",
-      "hct_husband",
-      "of_husband",
-      "dcip_husband",
-      "mcv_husband",
-      "mch_husband",
-      "hb_typing_husband",
-      "pcr_hus_id",
     ];
     for (const field of requiredFields) {
       if (!req.body[field]) {
@@ -1053,6 +1041,11 @@ exports.show_service_round_by_id = async (req, res) => {
           model: db.WifeTextValue,
           as: "wife_text_value",
           include: [
+            {
+              model: db.AllChoice,
+              as: "vdrl_2_name",
+              attributes: ["choice_name"]
+            },
             {
               model: db.LabWifeResult,
               as: "lab_wife",

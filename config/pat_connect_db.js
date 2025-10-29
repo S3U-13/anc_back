@@ -1,14 +1,3 @@
-// const { Sequelize } = require("sequelize");
-//                                 //db name  user name  password
-// const sequelize = new Sequelize("ppkhosp", "applog", "applog", {
-//   host: "10.10.20.101",
-//   port: 3308,
-//   dialect: "mysql",
-//   logging: false, // ปิด SQL query log
-// });
-
-// module.exports = sequelize;
-
 require("dotenv").config();
 const { Sequelize } = require("sequelize");
 
