@@ -465,7 +465,15 @@ module.exports = {
         autoIncrement: true,
       },
       hn_wife: { type: Sequelize.INTEGER, allowNull: false },
-      hn_husband: { type: Sequelize.INTEGER, allowNull: false },
+      hn_husband: { type: Sequelize.INTEGER, allowNull: true },
+      create_by_user_id: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+      },
+      edit_by_user_id: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+      },
       createdAt: { allowNull: false, type: Sequelize.DATE },
       updatedAt: { allowNull: false, type: Sequelize.DATE },
     });

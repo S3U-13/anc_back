@@ -19,9 +19,11 @@ const Anc = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    create_by_user_id: DataTypes.INTEGER,
+    edit_by_user_id: DataTypes.INTEGER,
   },
   {
-    sequelize,      // connection
+    sequelize, // connection
     modelName: "Anc",
     tableName: "anc", // ต้องตรงกับชื่อ table จริง
   }
@@ -48,6 +50,5 @@ Anc.beforeCreate(async (anc) => {
 
   anc.anc_no = parseInt(`${yy}${nextNumber}`);
 });
-
 
 module.exports = Anc;

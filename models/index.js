@@ -22,9 +22,10 @@ db.WifeTextValue = require("./wife_text_value");
 db.LabHusbandResult = require("./lab_husband_result");
 db.HusbandValue = require("./husband_value");
 db.Anc = require("./anc");
+db.AncLog = require("./anc_loc");
 db.AncService = require("./anc_service");
 db.Pat = require("./pat");
-db.Occupation = require("./occupation");
+db.Lookup = require("./lookup");
 db.PatAddress = require("./pataddress");
 db.Address = require("./address");
 db.PatVitalSign = require("./pat_vitalsign");
@@ -44,10 +45,15 @@ db.AllChoice.belongsTo(db.AllChoiceType, { foreignKey: "choice_type_id" });
 db.Pat.hasOne(db.PatAddress, { foreignKey: "hn", as: "pat_address" });
 db.PatAddress.belongsTo(db.Pat, { foreignKey: "hn", as: "pat_address" });
 // pat -> occupation
-db.Pat.belongsTo(db.Occupation, {
+db.Pat.belongsTo(db.Lookup, {
   foreignKey: "occupation",
   targetKey: "lookupid",
   as: "occupation_detail",
+});
+db.Pat.belongsTo(db.Lookup, {
+  foreignKey: "sex",
+  targetKey: "lookupid",
+  as: "sex_name",
 });
 
 // Province

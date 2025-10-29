@@ -88,7 +88,7 @@ exports.addUser = async (req, res) => {
     }
 
     // ✅ 2. ตรวจสอบรูปแบบ user_name
-    const usernameRegex = /^[A-Za-z0-9]+$/;
+    const usernameRegex = /^[A-Za-z0-9_.-]+$/;
     if (!usernameRegex.test(user_name)) {
       return res.status(400).json({
         error: "ชื่อผู้ใช้ต้องเป็นตัวอักษรภาษาอังกฤษหรือตัวเลขเท่านั้น",
@@ -173,7 +173,7 @@ exports.editUser = async (req, res) => {
 
     // ✅ ตรวจสอบ user_name (ถ้ามีแก้)
     if (user_name) {
-      const usernameRegex = /^[A-Za-z0-9]+$/;
+      const usernameRegex = /^[A-Za-z0-9_.-]+$/;
       if (!usernameRegex.test(user_name)) {
         return res.status(400).json({
           error: "ชื่อผู้ใช้ต้องเป็นตัวอักษรภาษาอังกฤษหรือตัวเลขเท่านั้น",
@@ -216,6 +216,7 @@ exports.editUser = async (req, res) => {
       password: hashedPassword,
       role_id: role_id ?? user.role_id,
       position_id: position_id ?? user.position_id,
+      updated_by: req.user.id,
     });
 
     // ✅ log การแก้ไข
@@ -230,13 +231,7 @@ exports.editUser = async (req, res) => {
 
     res.json({
       message: "แก้ไขข้อมูลผู้ใช้สำเร็จ",
-      user: {
-        id: user.id,
-        name: user.name,
-        user_name: user.user_name,
-        role_id: user.role_id,
-        position_id: user.position_id,
-      },
+      user,
     });
   } catch (error) {
     console.error(error);

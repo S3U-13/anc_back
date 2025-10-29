@@ -13,8 +13,15 @@ exports.pat = async (req, res) => {
       },
       include: [
         {
-          model: db.Occupation,
+          model: db.Lookup,
           as: "occupation_detail",
+          attributes: ["lookupname"],
+        },
+        {
+          model: db.Lookup,
+          as: "sex_name",
+          attributes: ["lookupname"],
+          where: { lookuptypeid: 12 },
         },
         {
           model: db.PatAddress,
