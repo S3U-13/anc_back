@@ -448,11 +448,11 @@ module.exports = {
       },
       pcr_hus_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: { model: "all_choice", key: "id" },
         name: "fk_pcr_hus_id",
       },
-      pcr_hus_text: { type: Sequelize.STRING, allowNull: false },
+      pcr_hus_text: { type: Sequelize.STRING, allowNull: true },
       createdAt: { allowNull: false, type: Sequelize.DATE },
       updatedAt: { allowNull: false, type: Sequelize.DATE },
     });
