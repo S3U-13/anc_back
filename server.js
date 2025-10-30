@@ -1,6 +1,8 @@
 // server.js
 require("dotenv").config();
 const app = require("./app");
+require("./services/logCleanup");
+
 const PORT = process.env.PORTAPP || 3000;
 const HOST = "0.0.0.0";
 

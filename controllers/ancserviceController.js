@@ -1044,7 +1044,7 @@ exports.show_service_round_by_id = async (req, res) => {
             {
               model: db.AllChoice,
               as: "vdrl_2_name",
-              attributes: ["choice_name"]
+              attributes: ["choice_name"],
             },
             {
               model: db.LabWifeResult,

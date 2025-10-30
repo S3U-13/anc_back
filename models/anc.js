@@ -17,7 +17,7 @@ const Anc = sequelize.define(
     },
     hn_husband: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     create_by_user_id: DataTypes.INTEGER,
     edit_by_user_id: DataTypes.INTEGER,

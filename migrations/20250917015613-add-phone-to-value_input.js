@@ -536,12 +536,18 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("choice_value");
     await queryInterface.dropTable("blood_test_interpretation");
     await queryInterface.dropTable("cbe");
+    await queryInterface.dropTable("ref_in_choice");
+    await queryInterface.dropTable("ref_out_choice");
     await queryInterface.dropTable("referral");
-    await queryInterface.dropTable("text_value_wife");
-    await queryInterface.dropTable("text_value_husband");
+    await queryInterface.dropTable("wife_choice_value");
+    await queryInterface.dropTable("lab_wife_result");
+    await queryInterface.dropTable("lab_husband_result");
+    await queryInterface.dropTable("wife_text_value");
+    await queryInterface.dropTable("husband_value");
     await queryInterface.dropTable("anc");
+    await queryInterface.dropTable("anc_service");
+    
   },
 };

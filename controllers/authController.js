@@ -82,3 +82,17 @@ exports.logout = async (req, res) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 };
+
+exports.checkToken = (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) return res.status(401).json({ valid: false });
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      // token หมดอายุหรือไม่ถูกต้อง
+      return res.status(401).json({ valid: false, error: err.message });
+    }
+    // token valid
+    res.json({ valid: true, user: decoded });
+  });
+};
