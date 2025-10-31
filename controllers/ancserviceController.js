@@ -244,13 +244,8 @@ exports.create = async (req, res) => {
       "pcr_wife_id",
       "cordo_id",
       "abortion_id",
-      "td_num",
-      "td_last_date",
       "tdap_id",
       "iip_id",
-      "lab_2",
-      "vdrl_2",
-      "h",
       "per_os_id",
     ];
     for (const field of requiredFields) {
