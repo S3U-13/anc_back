@@ -548,6 +548,5 @@ module.exports = {
     await queryInterface.dropTable("husband_value");
     await queryInterface.dropTable("anc");
     await queryInterface.dropTable("anc_service");
-    
   },
 };

@@ -12,7 +12,7 @@ exports.index = async (req, res) => {
     const dataWithPat = await Promise.all(
       ancList.map(async (anc) => {
         const wifeRes = await fetch(
-          `http://localhost:3000/api/user/pat-anc-index/${anc.hn_wife}`,
+          `${process.env.API_URL}/user/pat-anc-index/${anc.hn_wife}`,
           {
             headers: {
               Authorization: token,
@@ -22,7 +22,7 @@ exports.index = async (req, res) => {
         const wife = await wifeRes.json();
 
         const husbandRes = await fetch(
-          `http://localhost:3000/api/user/pat-anc-index/${anc.hn_husband}`,
+          `${process.env.API_URL}/user/pat-anc-index/${anc.hn_husband}`,
           {
             headers: {
               Authorization: token,
@@ -64,7 +64,7 @@ exports.view_anc_by_id = async (req, res) => {
 
     // 🔹 ดึงข้อมูล wife
     const wifeRes = await fetch(
-      `http://localhost:3000/api/user/pat/${anc.hn_wife}`,
+      `${process.env.API_URL}/user/pat/${anc.hn_wife}`,
       {
         headers: { Authorization: token },
       }
@@ -73,7 +73,7 @@ exports.view_anc_by_id = async (req, res) => {
 
     // 🔹 ดึงข้อมูล husband
     const husbandRes = await fetch(
-      `http://localhost:3000/api/user/pat/${anc.hn_husband}`,
+      `${process.env.API_URL}/user/pat/${anc.hn_husband}`,
       {
         headers: { Authorization: token },
       }
@@ -112,7 +112,7 @@ exports.pull_anc = async (req, res) => {
     const dataWithPat = await Promise.all(
       ancList.map(async (anc) => {
         const wifeRes = await fetch(
-          `http://localhost:3000/api/user/pat/${anc.hn_wife}`,
+          `${process.env.API_URL}/user/pat/${anc.hn_wife}`,
           {
             headers: {
               Authorization: token,
@@ -122,7 +122,7 @@ exports.pull_anc = async (req, res) => {
         const wife = await wifeRes.json();
 
         const husbandRes = await fetch(
-          `http://localhost:3000/api/user/pat/${anc.hn_husband}`,
+          `${process.env.API_URL}/user/pat/${anc.hn_husband}`,
           {
             headers: {
               Authorization: token,

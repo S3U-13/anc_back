@@ -1,8 +1,10 @@
+
 const db = require("../models");
 const { sequelize } = db;
 const { Op, Model } = require("sequelize");
 const jwt = require("jsonwebtoken");
 const { logAction } = require("../services/logService");
+ 
 
 exports.anc_service = async (req, res) => {
   try {
@@ -61,13 +63,13 @@ exports.anc_service = async (req, res) => {
     const ancList = await Promise.all(
       groupedList.map(async (anc) => {
         const wifeRes = await fetch(
-          `http://localhost:3000/api/user/pat-anc-service-index/${anc.AncNo.hn_wife}`,
+          `${process.env.API_URL}/user/pat-anc-service-index/${anc.AncNo.hn_wife}`,
           { headers: { Authorization: token } }
         );
         const wife = wifeRes.ok ? await wifeRes.json() : null;
 
         const husbandRes = await fetch(
-          `http://localhost:3000/api/user/pat-anc-service-index/${anc.AncNo.hn_husband}`,
+          `${process.env.API_URL}/user/pat-anc-service-index/${anc.AncNo.hn_husband}`,
           { headers: { Authorization: token } }
         );
         const husband = husbandRes.ok ? await husbandRes.json() : null;
@@ -1134,12 +1136,12 @@ exports.show_service_round_by_id = async (req, res) => {
 
     const [wifeProfile, husbandProfile] = await Promise.all([
       hnWife
-        ? fetch(`http://localhost:3000/api/user/pat/${hnWife}`, {
+        ? fetch(`${process.env.API_URL}/user/pat/${hnWife}`, {
             headers: { Authorization: token },
           }).then((r) => (r.ok ? r.json() : null))
         : null,
       hnHusband
-        ? fetch(`http://localhost:3000/api/user/pat/${hnHusband}`, {
+        ? fetch(`${process.env.API_URL}/user/pat/${hnHusband}`, {
             headers: { Authorization: token },
           }).then((r) => (r.ok ? r.json() : null))
         : null,
@@ -1150,12 +1152,12 @@ exports.show_service_round_by_id = async (req, res) => {
 
     const [refIn, refOut] = await Promise.all([
       refInId
-        ? fetch(`http://localhost:3000/api/user/coveragesite/${refInId}`, {
+        ? fetch(`${process.env.API_URL}/user/coveragesite/${refInId}`, {
             headers: { Authorization: token },
           }).then((r) => (r.ok ? r.json() : null))
         : null,
       refOutId
-        ? fetch(`http://localhost:3000/api/user/coveragesite/${refOutId}`, {
+        ? fetch(`${process.env.API_URL}/user/coveragesite/${refOutId}`, {
             headers: { Authorization: token },
           }).then((r) => (r.ok ? r.json() : null))
         : null,

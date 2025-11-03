@@ -106,24 +106,5 @@ exports.ChoiceValue = async (req, res) => {
       },
     ],
   });
-  // const result = choice_value.map(item => {
-  //     const plain = item.get({ plain: true });
-
-  //     // loop ผ่าน key ที่เป็น relation
-  //     [
-  //         "ma", "hr", "am", "pcr_wife", "cordo", "abortion",
-  //         "tdap", "iip", "pcr_hus", "birads", "per_os",
-  //         "anc", "usg", "ref_in_choice", "ref_out_choice"
-  //     ].forEach(key => {
-  //         if (plain[key]) {
-  //             plain[key] = plain[key].choice_name; // เอาเฉพาะ string
-  //         } else {
-  //             plain[key] = null; // ถ้าไม่มีค่า
-  //         }
-  //     });
-
-  //     return plain;
-  // });
-
   res.json(choice_value);
 };
