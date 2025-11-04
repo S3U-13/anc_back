@@ -7,6 +7,7 @@ const AllChoice = sequelize.define(
     choice_type_id: DataTypes.INTEGER,
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     choice_name: DataTypes.STRING,
+    flag_status: DataTypes.STRING,
   },
   {
     sequelize,

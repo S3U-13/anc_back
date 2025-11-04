@@ -1,16 +1,15 @@
-
 const db = require("../models");
 const { sequelize } = db;
 const { Op, Model } = require("sequelize");
 const jwt = require("jsonwebtoken");
 const { logAction } = require("../services/logService");
- 
 
 exports.anc_service = async (req, res) => {
   try {
     const token = req.headers.authorization;
 
     const anc_data = await db.AncService.findAll({
+      where: { flag_status: "a" },
       attributes: ["id", "anc_no", "gravida", "round"],
       include: [
         {
@@ -372,6 +371,7 @@ exports.create = async (req, res) => {
       where: {
         anc_no,
         gravida,
+        flag_status: "a",
       },
       order: [["round", "DESC"]],
     });
@@ -907,6 +907,7 @@ exports.show_service_round_by_id = async (req, res) => {
 
     const service = await db.AncService.findOne({
       where: { id: RoundId },
+      // where: { flag_status: "a" },
       include: [
         { model: db.Anc, as: "AncNo" },
         {

@@ -4,7 +4,9 @@ const { logAction } = require("../services/logService");
 
 exports.position = async (req, res) => {
   try {
-    const position = await db.Position.findAll();
+    const position = await db.Position.findAll({
+      where: { flag_status: "a" },
+    });
     res.json(position);
   } catch (error) {
     res.status(500).json({ error: "Something went wrong!" });
@@ -13,7 +15,9 @@ exports.position = async (req, res) => {
 
 exports.role = async (req, res) => {
   try {
-    const role = await db.Role.findAll();
+    const role = await db.Role.findAll({
+      where: { flag_status: "a" },
+    });
     res.json(role);
   } catch (error) {
     res.status(500).json({ error: "Something went wrong!" });
@@ -23,6 +27,7 @@ exports.role = async (req, res) => {
 exports.index = async (req, res) => {
   try {
     const users = await db.User.findAll({
+      where: { flag_status: "a" },
       include: [
         { model: db.Role, attributes: ["role_name"] },
         { model: db.Position, attributes: ["position_name"] },

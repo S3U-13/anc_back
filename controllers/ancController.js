@@ -7,7 +7,9 @@ const { ancLog } = require("../services/ancLog");
 exports.index = async (req, res) => {
   try {
     const token = req.headers.authorization;
-    const ancList = await db.Anc.findAll(); // มาจาก DB A
+    const ancList = await db.Anc.findAll({
+      where: { flag_status: "a" },
+    }); // มาจาก DB A
 
     const dataWithPat = await Promise.all(
       ancList.map(async (anc) => {
@@ -107,7 +109,7 @@ exports.view_anc_by_id = async (req, res) => {
 exports.pull_anc = async (req, res) => {
   try {
     const token = req.headers.authorization;
-    const ancList = await db.Anc.findAll(); // มาจาก DB A
+    const ancList = await db.Anc.findAll({ where: { flag_status: "a" } }); // มาจาก DB A
 
     const dataWithPat = await Promise.all(
       ancList.map(async (anc) => {

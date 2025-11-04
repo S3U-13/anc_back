@@ -7,6 +7,7 @@ const { logAction } = require("../services/logService");
 exports.chart_bar_anc_service = async (req, res) => {
   try {
     const chart_anc_service = await db.AncService.findAll({
+      where: { flag_status: "a" },
       attributes: ["id", "anc_no", "createdAt"],
     });
 
@@ -38,6 +39,7 @@ exports.chart_bar_anc_service = async (req, res) => {
 exports.anc_service_sum = async (req, res) => {
   try {
     const chart_anc_service = await db.AncService.findAll({
+      where: { flag_status: "a" },
       attributes: ["id", "anc_no", "createdAt"],
       include: [
         {
@@ -156,6 +158,7 @@ exports.anc_service_sum = async (req, res) => {
 exports.radial_chart = async (req, res) => {
   try {
     const chart_anc_service = await db.AncService.findAll({
+      where: { flag_status: "a" },
       attributes: ["id", "anc_no", "createdAt"],
       include: [
         {

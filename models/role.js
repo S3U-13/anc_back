@@ -1,9 +1,13 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
-const Role = sequelize.define("Role", {
+const Role = sequelize.define(
+  "Role",
+  {
     role_name: DataTypes.STRING,
-},  {
+    flag_status: DataTypes.STRING,
+  },
+  {
     sequelize,
     modelName: "Role",
     tableName: "role", // ต้องตรงกับชื่อ table จริง

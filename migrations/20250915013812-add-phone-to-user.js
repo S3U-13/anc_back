@@ -43,6 +43,11 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
+      flag_status: {
+        allowNull: true,
+        type: Sequelize.STRING(1),
+        defaultValue: "a",
+      },
       updated_by: {
         allowNull: true,
         type: Sequelize.INTEGER,

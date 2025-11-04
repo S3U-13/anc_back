@@ -1,7 +1,6 @@
 const db = require("../models");
 const { sequelize } = db;
 const { Op } = require("sequelize");
-const { logAction } = require("../services/logService");
 
 exports.pat = async (req, res) => {
   try {

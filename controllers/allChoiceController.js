@@ -2,6 +2,7 @@ const db = require("../models");
 
 exports.mapAll = async (req, res) => {
   const all_choice = await db.AllChoice.findAll({
+    where: { flag_status: "a" },
     attributes: { exclude: ["createdAt", "updatedAt"] },
     include: [{ model: db.AllChoiceType, attributes: ["choice_type_name"] }],
   });
@@ -9,6 +10,7 @@ exports.mapAll = async (req, res) => {
 };
 exports.ChoiceValue = async (req, res) => {
   const choice_value = await db.ChoiceValue.findAll({
+    where: { flag_status: "a" },
     attributes: { exclude: ["createdAt", "updatedAt"] },
     include: [
       { model: db.AllChoice, as: "ma", attributes: ["choice_name"] },

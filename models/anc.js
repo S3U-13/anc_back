@@ -19,6 +19,7 @@ const Anc = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: true,
     },
+    flag_status: DataTypes.STRING,
     create_by_user_id: DataTypes.INTEGER,
     edit_by_user_id: DataTypes.INTEGER,
   },

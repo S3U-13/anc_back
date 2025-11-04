@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -8,20 +8,25 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       choice_type_name: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+      },
+      flag_status: {
+        allowNull: true,
+        type: Sequelize.STRING(1),
+        defaultValue: "a",
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
 
     await queryInterface.createTable("all_choice", {
@@ -41,21 +46,26 @@ module.exports = {
       },
       choice_name: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+      },
+      flag_status: {
+        allowNull: true,
+        type: Sequelize.STRING(1),
+        defaultValue: "a",
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('all_choice_type');
-    await queryInterface.dropTable('all_choice');
-  }
+    await queryInterface.dropTable("all_choice_type");
+    await queryInterface.dropTable("all_choice");
+  },
 };

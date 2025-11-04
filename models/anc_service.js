@@ -18,6 +18,7 @@ const AncService = sequelize.define(
     husband_value_id: DataTypes.INTEGER,
     round: DataTypes.STRING,
     gravida: DataTypes.STRING,
+    flag_status: DataTypes.STRING,
     create_by_user_id: DataTypes.INTEGER,
     edit_by_user_id: DataTypes.INTEGER,
   },

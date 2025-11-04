@@ -9,6 +9,7 @@ const User = sequelize.define(
     password: DataTypes.STRING,
     role_id: DataTypes.INTEGER,
     position_id: DataTypes.INTEGER,
+    flag_status: DataTypes.STRING,
     updated_by: DataTypes.INTEGER,
   },
   {
