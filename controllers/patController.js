@@ -56,7 +56,7 @@ exports.pat = async (req, res) => {
       pat.pat_reg = pat.pat_reg[0];
     }
 
-    res.json(pat);
+    return res.status(200).json(pat);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
