@@ -16,10 +16,10 @@ build/
 .DS_Store
 Thumbs.db
 
-all_lab_in_project_anc.sql
-coveragesite_in_22.sql
-INSERT INTO pathopat (.sql
-Untitled-1.sql
-Untitled-2.sql
-Untitled-3.sql
-Untitled-4.sql
+all_lab_in_project_anc
+coveragesite_in_22
+INSERT INTO pathopat (
+Untitled-1
+Untitled-2
+Untitled-3
+Untitled-4
