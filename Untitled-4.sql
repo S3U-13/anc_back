@@ -1,1 +1,0 @@
-SELECT * FROM pat_reg WHERE locationid = "3062" and visitdate > '2025-02-01'

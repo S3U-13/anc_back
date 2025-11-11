@@ -1,1 +1,0 @@
-SELECT * FROM lab_item WHERE itemid = "334213"
