@@ -204,6 +204,14 @@ module.exports = {
         allowNull: true,
         type: Sequelize.INTEGER,
       },
+      ppr: {
+        allowNull: true,
+        type: Sequelize.STRING(40),
+      },
+      tpha: {
+        allowNull: true,
+        type: Sequelize.STRING(40),
+      },
       anti_hiv_wife: {
         allowNull: true,
         type: Sequelize.INTEGER,
@@ -243,6 +251,14 @@ module.exports = {
       vdrl_husband: {
         allowNull: true,
         type: Sequelize.INTEGER,
+      },
+      ppr: {
+        allowNull: true,
+        type: Sequelize.STRING(40),
+      },
+      tpha: {
+        allowNull: true,
+        type: Sequelize.STRING(40),
       },
       anti_hiv_husband: {
         allowNull: true,

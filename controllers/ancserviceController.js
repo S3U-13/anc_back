@@ -127,6 +127,157 @@ exports.anc_service = async (req, res) => {
   }
 };
 
+exports.getGravidaByAncNo = async (req, res) => {
+  try {
+    const { anc_no } = req.params;
+
+    if (!anc_no) {
+      return res.status(400).json({ error: "Missing anc_no" });
+    }
+
+    // ดึงค่า distinct ของ gravida สำหรับ anc_no นั้น
+    const gravidas = await db.AncService.findAll({
+      where: { anc_no },
+      attributes: [
+        [db.Sequelize.fn("DISTINCT", db.Sequelize.col("gravida")), "gravida"],
+      ],
+      order: [["gravida", "ASC"]],
+      raw: true, // คืนค่าเป็น plain object
+    });
+
+    // map เอาเฉพาะค่าของ gravida
+    const result = gravidas.map((g) => g.gravida.toString()); // แปลงเป็น string เลย เพื่อใช้กับ <Select>
+
+    res.json(result);
+  } catch (err) {
+    console.error("❌ getGravidaByAncNo error:", err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.anc_service_pull = async (req, res) => {
+  try {
+    const { AncNo, Gravida } = req.params; // รับ id จาก body
+
+    if (!AncNo || !Gravida) {
+      return res.status(400).json({ error: "Missing anc_no or gravida" });
+    }
+
+    // ✅ ดึงข้อมูล AncService ตาม anc_no และ gravida ของ ANC ที่ส่งมา
+    const anc_data = await db.AncService.findAll({
+      where: {
+        anc_no: AncNo,
+        gravida: Gravida,
+        flag_status: "a",
+      },
+      attributes: ["id", "anc_no", "gravida", "round"],
+      include: [
+        {
+          model: db.Anc,
+          as: "AncNo",
+        },
+        {
+          model: db.WifeChoiceValue,
+          as: "wife_choice_value",
+          attributes: ["abortion_id"],
+          include: [
+            {
+              model: db.AllChoice,
+              as: "abortion",
+              attributes: ["choice_name"],
+            },
+          ],
+        },
+      ],
+      order: [
+        ["anc_no", "ASC"],
+        ["gravida", "ASC"],
+        ["round", "ASC"],
+      ],
+    });
+
+    if (anc_data.length === 0) {
+      return res.json([]);
+    }
+
+    // ✅ Group ข้อมูลด้วย anc_no + gravida
+    const grouped = {};
+    anc_data.forEach((item) => {
+      const key = `${item.anc_no}_${item.gravida}`;
+      if (!grouped[key]) {
+        grouped[key] = {
+          anc_no: item.anc_no,
+          gravida: item.gravida,
+          AncNo: item.AncNo,
+          rounds: [],
+        };
+      }
+      grouped[key].rounds.push({
+        id: item.id,
+        round: item.round,
+        abortion_id: item.wife_choice_value?.abortion_id ?? null,
+        abortion_name: item.wife_choice_value?.abortion?.choice_name ?? null,
+      });
+    });
+
+    const groupedList = Object.values(grouped);
+
+    // ✅ ดึงข้อมูล wife/husband และเช็กสถานะครรภ์
+    const ancList = await Promise.all(
+      groupedList.map(async (anc) => {
+        // ✅ หา round ล่าสุด (รอบที่มากสุด)
+        const lastRound = anc.rounds[anc.rounds.length - 1];
+
+        // ✅ ถ้ามี abortion_id = 12 ในรอบใดรอบหนึ่ง → ถือว่าสิ้นสุดการตั้งครรภ์
+        const endedRound = anc.rounds.find((r) => r.abortion_id === 12);
+        const isEnded = Boolean(endedRound);
+
+        // ✅ นับจำนวนรอบ
+        const totalRounds = anc.rounds.length;
+        const roundStatus = totalRounds >= 6 ? "ครบ" : "ไม่ครบ";
+
+        // ✅ choice ใช้จากรอบล่าสุด (หรือรอบที่สิ้นสุด)
+        const choice = isEnded
+          ? {
+              abortion_id: 12,
+              choice_name: "สิ้นสุดการตั้งครรภ์",
+            }
+          : {
+              abortion_id: lastRound.abortion_id,
+              choice_name: lastRound.abortion_name || "ตั้งครรภ์ต่อ",
+            };
+
+        return {
+          anc_no: anc.anc_no,
+          gravida: anc.gravida,
+          choice,
+          round_status: roundStatus,
+
+          rounds: anc.rounds.map((r) => ({
+            id: r.id,
+            label: `รอบที่ ${r.round}`,
+            abortion_id: r.abortion_id,
+          })),
+        };
+      })
+    );
+
+    await logAction({
+      userId: req.user.id,
+      action: "Anc Service Get Data BY ID",
+      entity: "Auth",
+      entityId: req.user.id,
+      description: "ดึง ID ANC SERVICE ",
+      req,
+    });
+
+    res.json(ancList);
+  } catch (err) {
+    console.error("❌ anc_service error:", err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
 exports.create = async (req, res) => {
   const t = await sequelize.transaction(); // เริ่ม transaction
   try {
@@ -415,6 +566,7 @@ exports.create = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
 exports.edit = async (req, res) => {
   const t = await sequelize.transaction();
 

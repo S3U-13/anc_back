@@ -25,10 +25,16 @@ router.put("/anc/:AncNo", ancController.edit_anc);
 router.get("/coveragesite", ancserviceController.coverage_site);
 router.get("/coveragesite/:HosId", ancserviceController.coverage_site_by_it);
 router.get("/ancservice", ancserviceController.anc_service);
+router.get("/ancservice/gravida/:anc_no", ancserviceController.getGravidaByAncNo);
+router.get("/ancservice/:AncNo/:Gravida", ancserviceController.anc_service_pull);
 router.post("/ancservice", ancserviceController.create);
 router.get("/pull-anc", ancController.pull_anc);
 router.get("/pat/:value", patController.pat);
 router.get("/pat-anc-index/:value", patController.pat_anc_index);
+router.get(
+  "/pat-anc-service-index/:value",
+  patController.pat_anc_service_index
+);
 router.get(
   "/pat-anc-service-index/:value",
   patController.pat_anc_service_index
