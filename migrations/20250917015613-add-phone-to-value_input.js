@@ -72,6 +72,10 @@ module.exports = {
         allowNull: true,
         type: Sequelize.INTEGER,
       },
+      ref_in_detail: {
+        allowNull: true,
+        type: Sequelize.STRING,
+      },
       hos_in_id: { allowNull: true, type: Sequelize.INTEGER },
       receive_in_detail: { allowNull: true, type: Sequelize.STRING },
       createdAt: { allowNull: false, type: Sequelize.DATE },
@@ -88,6 +92,10 @@ module.exports = {
       receive_out_id: {
         allowNull: true,
         type: Sequelize.INTEGER,
+      },
+      ref_out_detail: {
+        allowNull: true,
+        type: Sequelize.STRING,
       },
       hos_out_id: { allowNull: true, type: Sequelize.INTEGER },
       receive_out_detail: { allowNull: true, type: Sequelize.STRING },
@@ -204,11 +212,11 @@ module.exports = {
         allowNull: true,
         type: Sequelize.INTEGER,
       },
-      ppr: {
+      ppr_wife: {
         allowNull: true,
         type: Sequelize.STRING(40),
       },
-      tpha: {
+      tpha_wife: {
         allowNull: true,
         type: Sequelize.STRING(40),
       },
@@ -252,11 +260,11 @@ module.exports = {
         allowNull: true,
         type: Sequelize.INTEGER,
       },
-      ppr: {
+      ppr_husband: {
         allowNull: true,
         type: Sequelize.STRING(40),
       },
-      tpha: {
+      tpha_husband: {
         allowNull: true,
         type: Sequelize.STRING(40),
       },

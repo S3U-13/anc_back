@@ -6,6 +6,8 @@ const LabHusbandResult = sequelize.define(
   {
     hbsag_husband: DataTypes.INTEGER,
     vdrl_husband: DataTypes.INTEGER,
+    ppr_husband: DataTypes.STRING,
+    tpha_husband: DataTypes.STRING,
     anti_hiv_husband: DataTypes.INTEGER,
     bl_gr_husband: DataTypes.INTEGER,
     rh_husband: DataTypes.INTEGER,

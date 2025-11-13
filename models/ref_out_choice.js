@@ -5,6 +5,7 @@ const RefOutChoice = sequelize.define(
   "RefOutChoice",
   {
     receive_out_id: DataTypes.INTEGER,
+    ref_out_detail: DataTypes.STRING,
     hos_out_id: DataTypes.INTEGER,
     receive_out_detail: DataTypes.STRING,
   },

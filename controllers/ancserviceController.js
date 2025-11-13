@@ -137,7 +137,7 @@ exports.getGravidaByAncNo = async (req, res) => {
 
     // ดึงค่า distinct ของ gravida สำหรับ anc_no นั้น
     const gravidas = await db.AncService.findAll({
-      where: { anc_no },
+      where: { anc_no, flag_status: "a" },
       attributes: [
         [db.Sequelize.fn("DISTINCT", db.Sequelize.col("gravida")), "gravida"],
       ],
@@ -145,8 +145,11 @@ exports.getGravidaByAncNo = async (req, res) => {
       raw: true, // คืนค่าเป็น plain object
     });
 
-    // map เอาเฉพาะค่าของ gravida
-    const result = gravidas.map((g) => g.gravida.toString()); // แปลงเป็น string เลย เพื่อใช้กับ <Select>
+    // map เป็น object { value, label }
+    const result = gravidas.map((g) => ({
+      value: g.gravida.toString(), // ใช้เป็น value
+      label: `ท้องที่ ${g.gravida}`, // ใช้เป็น label
+    }));
 
     res.json(result);
   } catch (err) {
@@ -304,6 +307,8 @@ exports.create = async (req, res) => {
       ogtt_2_wife,
       hbsag_wife,
       vdrl_wife,
+      ppr_wife,
+      tpha_wife,
       anti_hiv_wife,
       bl_gr_wife,
       rh_wife,
@@ -347,6 +352,8 @@ exports.create = async (req, res) => {
       per_os_id,
       hbsag_husband,
       vdrl_husband,
+      ppr_husband,
+      tpha_husband,
       anti_hiv_husband,
       bl_gr_husband,
       rh_husband,
@@ -361,9 +368,11 @@ exports.create = async (req, res) => {
       ref_value_1_id,
       ref_value_2_id,
       receive_in_id,
+      ref_in_detail,
       receive_in_detail,
       hos_in_id,
       receive_out_id,
+      ref_out_detail,
       receive_out_detail,
       hos_out_id,
     } = req.body;
@@ -396,11 +405,13 @@ exports.create = async (req, res) => {
     });
     const ref_in_choice = await db.RefInChoice.create({
       receive_in_id,
+      ref_in_detail,
       hos_in_id,
       receive_in_detail,
     });
     const ref_out_choice = await db.RefOutChoice.create({
       receive_out_id,
+      ref_out_detail,
       hos_out_id,
       receive_out_detail,
     });
@@ -434,6 +445,8 @@ exports.create = async (req, res) => {
       ogtt_2_wife,
       hbsag_wife,
       vdrl_wife,
+      ppr_wife,
+      tpha_wife,
       anti_hiv_wife,
       bl_gr_wife,
       rh_wife,
@@ -477,6 +490,8 @@ exports.create = async (req, res) => {
     const lab_husband_result = await db.LabHusbandResult.create({
       hbsag_husband,
       vdrl_husband,
+      ppr_husband,
+      tpha_husband,
       anti_hiv_husband,
       bl_gr_husband,
       rh_husband,
@@ -768,6 +783,7 @@ exports.edit = async (req, res) => {
           receive_in_id: req.body.receive_in_id
             ? parseInt(req.body.receive_in_id)
             : null,
+          ref_in_detail: req.body.ref_in_detail || "",
           hos_in_id: req.body.hos_in_id ? parseInt(req.body.hos_in_id) : null,
           receive_in_detail: req.body.receive_in_detail || "",
         },
@@ -786,6 +802,7 @@ exports.edit = async (req, res) => {
           receive_out_id: req.body.receive_out_id
             ? parseInt(req.body.receive_out_id)
             : null,
+          ref_out_detail: req.body.ref_out_detail || "",
           hos_out_id: req.body.hos_out_id
             ? parseInt(req.body.hos_out_id)
             : null,
@@ -854,6 +871,8 @@ exports.edit = async (req, res) => {
             ? parseInt(req.body.hbsag_wife)
             : null,
           vdrl_wife: req.body.vdrl_wife ? parseInt(req.body.vdrl_wife) : null,
+          ppr_wife: req.body.ppr_wife || null,
+          tpha_wife: req.body.tpha_wife || null,
           anti_hiv_wife: req.body.anti_hiv_wife
             ? parseInt(req.body.anti_hiv_wife)
             : null,
@@ -919,6 +938,8 @@ exports.edit = async (req, res) => {
           vdrl_husband: req.body.vdrl_husband
             ? parseInt(req.body.vdrl_husband)
             : null,
+          ppr_husband: req.body.ppr_wife || null,
+          tpha_husband: req.body.tpha_wife || null,
           anti_hiv_husband: req.body.anti_hiv_husband
             ? parseInt(req.body.anti_hiv_husband)
             : null,
@@ -1136,7 +1157,12 @@ exports.show_service_round_by_id = async (req, res) => {
             {
               model: db.RefInChoice,
               as: "ref_in_choice",
-              attributes: ["receive_in_id", "hos_in_id", "receive_in_detail"],
+              attributes: [
+                "receive_in_id",
+                "hos_in_id",
+                "receive_in_detail",
+                "ref_in_detail",
+              ],
               include: [
                 {
                   model: db.AllChoice,
@@ -1152,6 +1178,7 @@ exports.show_service_round_by_id = async (req, res) => {
                 "receive_out_id",
                 "hos_out_id",
                 "receive_out_detail",
+                "ref_out_detail",
               ],
               include: [
                 {

@@ -10,6 +10,8 @@ const LabWifeResult = sequelize.define(
     ogtt_2_wife: DataTypes.STRING,
     hbsag_wife: DataTypes.INTEGER,
     vdrl_wife: DataTypes.INTEGER,
+    ppr_wife: DataTypes.STRING,
+    tpha_wife: DataTypes.STRING,
     anti_hiv_wife: DataTypes.INTEGER,
     bl_gr_wife: DataTypes.INTEGER,
     rh_wife: DataTypes.INTEGER,

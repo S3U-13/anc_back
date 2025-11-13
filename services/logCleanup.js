@@ -20,5 +20,7 @@ const deleteOldLogs = async () => {
 
 // รันทุกวันตอนเที่ยงคืน
 cron.schedule("0 0 * * *", deleteOldLogs);
+// deleteOldLogs(); // รันเลย ไม่ต้องรอเวลา cron
 
 module.exports = { deleteOldLogs };
+
