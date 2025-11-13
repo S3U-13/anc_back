@@ -29,6 +29,21 @@
             "username": "applog",
             "database": "ppkhosp",
             "askForPassword": true
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "192.168.1.42",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "ppktest",
+            "database": "ppkhosp",
+            "username": "nes_ppk",
+            "askForPassword": true
         }
     ]
 }
