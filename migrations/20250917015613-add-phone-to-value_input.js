@@ -398,6 +398,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
+      pat_vitalsign_id: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+      },
       wife_choice_value_id: {
         allowNull: false,
         type: Sequelize.INTEGER,

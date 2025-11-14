@@ -13,6 +13,7 @@ const AncService = sequelize.define(
     anc_no: DataTypes.INTEGER,
     patvisit_id: DataTypes.INTEGER,
     patreg_id: DataTypes.INTEGER,
+    pat_vitalsign_id: DataTypes.INTEGER,
     wife_choice_value_id: DataTypes.INTEGER,
     wife_text_value_id: DataTypes.INTEGER,
     husband_value_id: DataTypes.INTEGER,

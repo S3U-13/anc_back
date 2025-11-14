@@ -4,10 +4,14 @@ const sequelize = require("../config/pat_connect_db");
 const PatVitalSign = sequelize.define(
   "PatVitalSign",
   {
+    id: {
+      allowNull: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER,
+    },
     hn: {
       type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
+      allowNull: true,
     },
     weight: {
       type: DataTypes.DECIMAL(5, 2), // เช่น 70.55
@@ -31,6 +35,10 @@ const PatVitalSign = sequelize.define(
     },
     pulse: {
       type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    dodate: {
+      type: DataTypes.DATE,
       allowNull: true,
     },
   },

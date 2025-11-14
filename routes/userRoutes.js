@@ -25,11 +25,20 @@ router.put("/anc/:AncNo", ancController.edit_anc);
 router.get("/coveragesite", ancserviceController.coverage_site);
 router.get("/coveragesite/:HosId", ancserviceController.coverage_site_by_it);
 router.get("/ancservice", ancserviceController.anc_service);
-router.get("/ancservice/gravida/:anc_no", ancserviceController.getGravidaByAncNo);
-router.get("/ancservice/:AncNo/:Gravida", ancserviceController.anc_service_pull);
+router.get(
+  "/ancservice/gravida/:anc_no",
+  ancserviceController.getGravidaByAncNo
+);
+router.get(
+  "/ancservice/:AncNo/:Gravida",
+  ancserviceController.anc_service_pull
+);
 router.post("/ancservice", ancserviceController.create);
 router.get("/pull-anc", ancController.pull_anc);
 router.get("/pat/:value", patController.pat);
+router.get("/pat-view/:value", patController.pat_view);
+router.get("/pat-vitalsign/:value", patController.pat_vitalsign);
+router.get("/pat-reg/:value", patController.pat_reg);
 router.get("/pat-anc-index/:value", patController.pat_anc_index);
 router.get(
   "/pat-anc-service-index/:value",
@@ -43,6 +52,7 @@ router.get(
   "/show-service-by-id/:RoundId",
   ancserviceController.show_service_round_by_id
 );
+router.get("/show-edit-view/:RoundId", ancserviceController.show_edit_view);
 router.put("/edit-service-by-id/:id", ancserviceController.edit);
 
 router.get("/chart-anc-service", chartController.chart_bar_anc_service);

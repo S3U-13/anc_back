@@ -3,6 +3,7 @@ const { sequelize } = db;
 const { Op, Model } = require("sequelize");
 const jwt = require("jsonwebtoken");
 const { logAction } = require("../services/logService");
+const { pat_vitalsign } = require("./patController");
 
 exports.anc_service = async (req, res) => {
   try {
@@ -288,6 +289,7 @@ exports.create = async (req, res) => {
       anc_no,
       patvisit_id,
       patreg_id,
+      pat_vitalsign_id,
       para,
       gravida,
       p,
@@ -540,6 +542,7 @@ exports.create = async (req, res) => {
       anc_no,
       patvisit_id,
       patreg_id,
+      pat_vitalsign_id,
       wife_choice_value_id: wife_choice_value.id,
       wife_text_value_id: wife_text_value.id,
       husband_value_id: husband_value.id,
@@ -984,6 +987,9 @@ exports.edit = async (req, res) => {
           ? parseInt(req.body.patvisit_id)
           : null,
         patreg_id: req.body.patreg_id ? parseInt(req.body.patreg_id) : null,
+        pat_vitalsign_id: req.body.pat_vitalsign_id
+          ? parseInt(req.body.pat_vitalsign_id)
+          : null,
         gravida: req.body.gravida || "",
         round: req.body.round || anc_service.round,
         edit_by_user_id: userId,
@@ -1328,6 +1334,7 @@ exports.show_service_round_by_id = async (req, res) => {
         round: service.round || null,
         patvisit_id: service.patvisit_id || null,
         patreg_id: service.patreg_id || null,
+        pat_vitalsign_id: service.pat_vitalsign_id || null,
         service_date: service.createdAt,
       },
       wife: {
@@ -1335,6 +1342,331 @@ exports.show_service_round_by_id = async (req, res) => {
         choices: service.wife_choice_value || null,
         text_values: service.wife_text_value || null,
 
+        referral: {
+          ref_in: refIn || null,
+          ref_out: refOut || null,
+        },
+      },
+      husband: {
+        profile: husbandProfile || null,
+        choices: service.husband_value || null,
+      },
+    };
+    await logAction({
+      userId: req.user.id,
+      action: "Anc Service View",
+      entity: "Auth",
+      entityId: req.user.id,
+      description: "ดูข้อมูล ANC SERVICE By Id",
+      req,
+    });
+    return res.json(result);
+  } catch (error) {
+    console.error("❌ show_service_round_by_id error:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.show_edit_view = async (req, res) => {
+  try {
+    const { RoundId } = req.params;
+    const token = req.headers.authorization;
+
+    const service = await db.AncService.findOne({
+      where: { id: RoundId },
+      // where: { flag_status: "a" },
+      include: [
+        { model: db.Anc, as: "AncNo" },
+        {
+          model: db.WifeChoiceValue,
+          as: "wife_choice_value",
+          include: [
+            { model: db.AllChoice, as: "ma", attributes: ["choice_name"] },
+            { model: db.AllChoice, as: "hr", attributes: ["choice_name"] },
+            { model: db.AllChoice, as: "am", attributes: ["choice_name"] },
+            {
+              model: db.AllChoice,
+              as: "pcr_wife",
+              attributes: ["choice_name"],
+            },
+            { model: db.AllChoice, as: "cordo", attributes: ["choice_name"] },
+            {
+              model: db.AllChoice,
+              as: "abortion",
+              attributes: ["choice_name"],
+            },
+            { model: db.AllChoice, as: "tdap", attributes: ["choice_name"] },
+            { model: db.AllChoice, as: "iip", attributes: ["choice_name"] },
+            { model: db.AllChoice, as: "birads", attributes: ["choice_name"] },
+            { model: db.AllChoice, as: "per_os", attributes: ["choice_name"] },
+            {
+              model: db.BloodTestInterpretation,
+              as: "bti",
+              include: [
+                {
+                  model: db.AllChoice,
+                  as: "bti_value_1",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "bti_value_2",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "bti_value_3",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "bti_value_4",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "bti_value_5",
+                  attributes: ["choice_name"],
+                },
+              ],
+            },
+            {
+              model: db.Cbe,
+              as: "cbe",
+              include: [
+                {
+                  model: db.AllChoice,
+                  as: "cbe_value_1",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "cbe_value_2",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "cbe_value_3",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "cbe_value_4",
+                  attributes: ["choice_name"],
+                },
+              ],
+            },
+            {
+              model: db.Referral,
+              as: "referral_value",
+              include: [
+                {
+                  model: db.AllChoice,
+                  as: "ref_in",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "ref_out",
+                  attributes: ["choice_name"],
+                },
+              ],
+            },
+            {
+              model: db.RefInChoice,
+              as: "ref_in_choice",
+              attributes: [
+                "receive_in_id",
+                "hos_in_id",
+                "receive_in_detail",
+                "ref_in_detail",
+              ],
+              include: [
+                {
+                  model: db.AllChoice,
+                  as: "receive_in",
+                  attributes: ["choice_name"],
+                },
+              ],
+            },
+            {
+              model: db.RefOutChoice,
+              as: "ref_out_choice",
+              attributes: [
+                "receive_out_id",
+                "hos_out_id",
+                "receive_out_detail",
+                "ref_out_detail",
+              ],
+              include: [
+                {
+                  model: db.AllChoice,
+                  as: "receive_out",
+                  attributes: ["choice_name"],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          model: db.WifeTextValue,
+          as: "wife_text_value",
+          include: [
+            {
+              model: db.AllChoice,
+              as: "vdrl_2_name",
+              attributes: ["choice_name"],
+            },
+            {
+              model: db.LabWifeResult,
+              as: "lab_wife",
+              include: [
+                {
+                  model: db.AllChoice,
+                  as: "hbsag_wife_detail",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "vdrl_wife_detail",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "anti_hiv_wife_detail",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "bl_gr_wife_detail",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "rh_wife_detail",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "dcip_wife_detail",
+                  attributes: ["choice_name"],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          model: db.HusbandValue,
+          as: "husband_value",
+          include: [
+            { model: db.AllChoice, as: "pcr_hus", attributes: ["choice_name"] },
+            {
+              model: db.LabHusbandResult,
+              as: "lab_husband",
+              include: [
+                {
+                  model: db.AllChoice,
+                  as: "hbsag_husband_detail",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "vdrl_husband_detail",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "anti_hiv_husband_detail",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "bl_gr_husband_detail",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "rh_husband_detail",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "dcip_husband_detail",
+                  attributes: ["choice_name"],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+
+    if (!service) {
+      return res.status(404).json({ error: "ไม่พบข้อมูลรอบบริการนี้" });
+    }
+
+    const hnWife = service.AncNo?.hn_wife;
+    const hnHusband = service.AncNo?.hn_husband;
+    const refInId = service?.wife_choice_value?.ref_in_choice?.hos_in_id;
+    const refOutId = service?.wife_choice_value?.ref_out_choice?.hos_out_id;
+    const wifeVitalsignID = service?.pat_vitalsign_id;
+    const wifeRegID = service?.patreg_id;
+
+    const [wifeProfile, husbandProfile, refIn, refOut, PatReg, PatVitalsign] =
+      await Promise.all([
+        hnWife
+          ? fetch(`${process.env.API_URL}/user/pat-view/${hnWife}`, {
+              headers: { Authorization: token },
+            }).then((r) => (r.ok ? r.json() : null))
+          : null,
+        hnHusband
+          ? fetch(`${process.env.API_URL}/user/pat-view/${hnHusband}`, {
+              headers: { Authorization: token },
+            }).then((r) => (r.ok ? r.json() : null))
+          : null,
+        refInId
+          ? fetch(`${process.env.API_URL}/user/coveragesite/${refInId}`, {
+              headers: { Authorization: token },
+            }).then((r) => (r.ok ? r.json() : null))
+          : null,
+        refOutId
+          ? fetch(`${process.env.API_URL}/user/coveragesite/${refOutId}`, {
+              headers: { Authorization: token },
+            }).then((r) => (r.ok ? r.json() : null))
+          : null,
+        wifeRegID
+          ? fetch(`${process.env.API_URL}/user/pat-reg/${wifeRegID}`, {
+              headers: { Authorization: token },
+            }).then((r) => (r.ok ? r.json() : null))
+          : null,
+        wifeVitalsignID
+          ? fetch(
+              `${process.env.API_URL}/user/pat-vitalsign/${wifeVitalsignID}`,
+              {
+                headers: { Authorization: token },
+              }
+            ).then((r) => (r.ok ? r.json() : null))
+          : null,
+      ]);
+
+    // ✅ แยกโครงสร้างให้ชัดเจน
+    const result = {
+      service_info: {
+        id: service.id,
+        anc_no: service.AncNo?.anc_no || null,
+        gravida: service.gravida || null,
+        round: service.round || null,
+        patvisit_id: service.patvisit_id || null,
+        patreg_id: service.patreg_id || null,
+        pat_vitalsign_id: service.pat_vitalsign_id || null,
+        service_date: service.createdAt,
+      },
+      wife: {
+        profile: wifeProfile || null,
+        choices: service.wife_choice_value || null,
+        text_values: service.wife_text_value || null,
+        pat_reg: PatReg,
+        pat_vitalsign: PatVitalsign,
         referral: {
           ref_in: refIn || null,
           ref_out: refOut || null,
