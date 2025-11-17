@@ -37,10 +37,10 @@
             },
             "ssh": "Disabled",
             "previewLimit": 50,
-            "server": "192.168.1.42",
+            "server": "192.168.1.40",
             "port": 3306,
             "driver": "MySQL",
-            "name": "ppktest",
+            "name": "ppk_test",
             "database": "ppkhosp",
             "username": "nes_ppk",
             "askForPassword": true

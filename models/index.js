@@ -56,6 +56,18 @@ db.Pat.belongsTo(db.Lookup, {
   as: "sex_name",
 });
 
+db.Pat.belongsTo(db.Lookup, {
+  foreignKey: "race",
+  targetKey: "lookupid",
+  as: "race_text",
+});
+
+db.Pat.belongsTo(db.Lookup, {
+  foreignKey: "citizenship",
+  targetKey: "lookupid",
+  as: "citizenship_text",
+});
+
 // Province
 db.PatAddress.belongsTo(db.Address, {
   foreignKey: "province",

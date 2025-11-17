@@ -16,6 +16,8 @@ const Pat = sequelize.define(
     birthdatetime: DataTypes.DATE,
     citizencardno: DataTypes.STRING,
     occupation: DataTypes.INTEGER,
+    race: DataTypes.INTEGER,
+    citizenship: DataTypes.INTEGER,
   },
   {
     tableName: "pat",

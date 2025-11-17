@@ -156,7 +156,17 @@ exports.pull_anc = async (req, res) => {
 
 exports.create_anc = async (req, res) => {
   try {
-    const { hn_wife, hn_husband } = req.body;
+    const {
+      hn_wife,
+      wife_address,
+      wife_tel,
+      hn_husband,
+      husband_name,
+      husband_age,
+      husband_citizencardno,
+      husband_race,
+      husband_tel,
+    } = req.body;
     const requiredFields = ["hn_wife"];
     for (const field of requiredFields) {
       if (!req.body[field]) {
@@ -165,7 +175,14 @@ exports.create_anc = async (req, res) => {
     }
     const anc = await db.Anc.create({
       hn_wife,
+      wife_address,
+      wife_tel,
       hn_husband,
+      husband_name,
+      husband_age,
+      husband_citizencardno,
+      husband_race,
+      husband_tel,
       create_by_user_id: req.user.id,
     });
     await logAction({

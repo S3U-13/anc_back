@@ -12,7 +12,7 @@ const LabHusbandResult = sequelize.define(
     bl_gr_husband: DataTypes.INTEGER,
     rh_husband: DataTypes.INTEGER,
     hct_husband: DataTypes.STRING,
-    of_husband: DataTypes.STRING,
+    of_husband: DataTypes.INTEGER,
     dcip_husband: DataTypes.INTEGER,
     mcv_husband: DataTypes.STRING,
     mch_husband: DataTypes.STRING,

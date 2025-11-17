@@ -2,12 +2,14 @@ const fs = require("fs");
 const path = require("path");
 
 async function seedAll() {
-  const seedersDir = __dirname; // ใช้โฟลเดอร์ปัจจุบัน
+  // สมมติว่าไฟล์อยู่โฟลเดอร์ seeders
+  const seedersDir = __dirname;
 
-  // อ่านไฟล์ทั้งหมดใน seeders
+  // อ่านไฟล์ทั้งหมดในโฟลเดอร์ seeders และ filter .js
   const files = fs
     .readdirSync(seedersDir)
-    .filter((file) => file.endsWith(".js"));
+    .filter((file) => file.endsWith(".js") && file !== "seedAll.js")
+    .sort(); // <--- เรียงตามชื่อไฟล์
 
   for (const file of files) {
     const filePath = path.join(seedersDir, file);

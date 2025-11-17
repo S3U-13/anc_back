@@ -23,6 +23,18 @@ exports.pat = async (req, res) => {
           where: { lookuptypeid: 12 },
         },
         {
+          model: db.Lookup,
+          as: "race_text",
+          attributes: ["lookupname"],
+          where: { lookuptypeid: 15 },
+        },
+        {
+          model: db.Lookup,
+          as: "citizenship_text",
+          attributes: ["lookupname"],
+          where: { lookuptypeid: 15 },
+        },
+        {
           model: db.PatAddress,
           as: "pat_address",
           include: [
@@ -86,6 +98,18 @@ exports.pat_view = async (req, res) => {
           as: "sex_name",
           attributes: ["lookupname"],
           where: { lookuptypeid: 12 },
+        },
+        {
+          model: db.Lookup,
+          as: "race_text",
+          attributes: ["lookupname"],
+          where: { lookuptypeid: 15 },
+        },
+        {
+          model: db.Lookup,
+          as: "citizenship_text",
+          attributes: ["lookupname"],
+          where: { lookuptypeid: 15 },
         },
         {
           model: db.PatAddress,
