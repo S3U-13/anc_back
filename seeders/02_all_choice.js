@@ -230,6 +230,18 @@ async function seed() {
       choice_type_id: "22",
       choice_name: "Positive",
     },
+    {
+      choice_type_id: "23",
+      choice_name: "Influenza",
+    },
+    {
+      choice_type_id: "23",
+      choice_name: "ap",
+    },
+    {
+      choice_type_id: "23",
+      choice_name: "t-dap",
+    },
   ]);
 
   console.log(

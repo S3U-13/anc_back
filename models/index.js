@@ -242,6 +242,10 @@ db.WifeChoiceValue.belongsTo(db.AllChoice, {
   as: "abortion",
 });
 db.WifeChoiceValue.belongsTo(db.AllChoice, {
+  foreignKey: "vaccine",
+  as: "Vaccine",
+});
+db.WifeChoiceValue.belongsTo(db.AllChoice, {
   foreignKey: "tdap_id",
   as: "tdap",
 });
@@ -282,6 +286,10 @@ db.LabWifeResult.belongsTo(db.AllChoice, {
   foreignKey: "dcip_wife",
   as: "dcip_wife_detail",
 });
+db.LabWifeResult.belongsTo(db.AllChoice, {
+  foreignKey: "of_wife",
+  as: "of_wife_detail",
+});
 
 // Husband
 db.LabHusbandResult.belongsTo(db.AllChoice, {
@@ -307,5 +315,9 @@ db.LabHusbandResult.belongsTo(db.AllChoice, {
 db.LabHusbandResult.belongsTo(db.AllChoice, {
   foreignKey: "dcip_husband",
   as: "dcip_husband_detail",
+});
+db.LabHusbandResult.belongsTo(db.AllChoice, {
+  foreignKey: "of_husband",
+  as: "of_husband_detail",
 });
 module.exports = db;

@@ -291,6 +291,7 @@ exports.create = async (req, res) => {
       patreg_id,
       pat_vitalsign_id,
       para,
+      prep_weight,
       gravida,
       p,
       a,
@@ -326,6 +327,7 @@ exports.create = async (req, res) => {
       cordo_text,
       cordo_other_text,
       abortion_id,
+      vaccine,
       td_num,
       td_last_date,
       tdap_id,
@@ -428,6 +430,7 @@ exports.create = async (req, res) => {
       pcr_wife_id,
       cordo_id,
       abortion_id,
+      vaccine,
       tdap_id,
       iip_id,
       bti_id: blood_test_interpretation.id,
@@ -461,6 +464,7 @@ exports.create = async (req, res) => {
     });
 
     const wife_text_value = await db.WifeTextValue.create({
+      prep_weight,
       para,
       p,
       a,
@@ -618,6 +622,7 @@ exports.edit = async (req, res) => {
             { model: db.AllChoice, as: "ma", attributes: ["choice_name"] },
             { model: db.AllChoice, as: "hr", attributes: ["choice_name"] },
             { model: db.AllChoice, as: "am", attributes: ["choice_name"] },
+            { model: db.AllChoice, as: "Vaccine", attributes: ["choice_name"] },
             {
               model: db.AllChoice,
               as: "pcr_wife",
@@ -679,6 +684,11 @@ exports.edit = async (req, res) => {
                   as: "dcip_wife_detail",
                   attributes: ["choice_name"],
                 },
+                {
+                  model: db.AllChoice,
+                  as: "of_wife_detail",
+                  attributes: ["choice_name"],
+                },
               ],
             },
           ],
@@ -719,6 +729,11 @@ exports.edit = async (req, res) => {
                 {
                   model: db.AllChoice,
                   as: "dcip_husband_detail",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "of_husband_detail",
                   attributes: ["choice_name"],
                 },
               ],
@@ -851,6 +866,7 @@ exports.edit = async (req, res) => {
         abortion_id: req.body.abortion_id
           ? parseInt(req.body.abortion_id)
           : null,
+        vaccine: req.body.vaccine ? parseInt(req.body.vaccine) : null,
         tdap_id: req.body.tdap_id ? parseInt(req.body.tdap_id) : null,
         iip_id: req.body.iip_id ? parseInt(req.body.iip_id) : null,
         birads_id: req.body.birads_id ? parseInt(req.body.birads_id) : null,
@@ -884,7 +900,7 @@ exports.edit = async (req, res) => {
             : null,
           rh_wife: req.body.rh_wife ? parseInt(req.body.rh_wife) : null,
           hct_wife: req.body.hct_wife || null,
-          of_wife: req.body.of_wife || null,
+          of_wife: req.body.of_wife ? parseInt(req.body.of_wife) : null,
           dcip_wife: req.body.dcip_wife ? parseInt(req.body.dcip_wife) : null,
           mcv_wife: req.body.mcv_wife || null,
           mch_wife: req.body.mch_wife || null,
@@ -902,6 +918,7 @@ exports.edit = async (req, res) => {
     await anc_service.wife_text_value.update(
       {
         para: req.body.para || "",
+        prep_weight: req.body.prep_weight || "",
         p: req.body.p || "",
         a: req.body.a || "",
         last: req.body.last || "",
@@ -953,7 +970,9 @@ exports.edit = async (req, res) => {
             ? parseInt(req.body.rh_husband)
             : null,
           hct_husband: req.body.hct_husband || null,
-          of_husband: req.body.of_husband || null,
+          of_husband: req.body.of_husband
+            ? parseInt(req.body.of_husband)
+            : null,
           dcip_husband: req.body.dcip_husband
             ? parseInt(req.body.dcip_husband)
             : null,
@@ -1035,6 +1054,7 @@ exports.coverage_site = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
+
 exports.coverage_site_by_it = async (req, res) => {
   try {
     const { HosId } = req.params;
@@ -1239,6 +1259,11 @@ exports.show_service_round_by_id = async (req, res) => {
                   as: "dcip_wife_detail",
                   attributes: ["choice_name"],
                 },
+                {
+                  model: db.AllChoice,
+                  as: "of_wife_detail",
+                  attributes: ["choice_name"],
+                },
               ],
             },
           ],
@@ -1280,6 +1305,11 @@ exports.show_service_round_by_id = async (req, res) => {
                 {
                   model: db.AllChoice,
                   as: "dcip_husband_detail",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "of_husband_detail",
                   attributes: ["choice_name"],
                 },
               ],
@@ -1330,6 +1360,15 @@ exports.show_service_round_by_id = async (req, res) => {
       service_info: {
         id: service.id,
         anc_no: service.AncNo?.anc_no || null,
+        hn_wife: service.AncNo?.hn_wife || null,
+        wife_address: service.AncNo?.wife_address || null,
+        wife_tel: service.AncNo?.wife_tel || null,
+        hn_husband: service.AncNo?.hn_husband || null,
+        husband_name: service.AncNo?.husband_name || null,
+        husband_age: service.AncNo?.husband_age || null,
+        husband_race: service.AncNo?.husband_race || null,
+        husband_citizencardno: service.AncNo?.husband_citizencardno || null,
+        husband_tel: service.AncNo?.husband_tel || null,
         gravida: service.gravida || null,
         round: service.round || null,
         patvisit_id: service.patvisit_id || null,
@@ -1551,6 +1590,11 @@ exports.show_edit_view = async (req, res) => {
                   as: "dcip_wife_detail",
                   attributes: ["choice_name"],
                 },
+                {
+                  model: db.AllChoice,
+                  as: "of_wife_detail",
+                  attributes: ["choice_name"],
+                },
               ],
             },
           ],
@@ -1592,6 +1636,11 @@ exports.show_edit_view = async (req, res) => {
                 {
                   model: db.AllChoice,
                   as: "dcip_husband_detail",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "of_husband_detail",
                   attributes: ["choice_name"],
                 },
               ],
@@ -1654,6 +1703,15 @@ exports.show_edit_view = async (req, res) => {
       service_info: {
         id: service.id,
         anc_no: service.AncNo?.anc_no || null,
+        hn_wife: service.AncNo?.hn_wife || null,
+        wife_address: service.AncNo?.wife_address || null,
+        wife_tel: service.AncNo?.wife_tel || null,
+        hn_husband: service.AncNo?.hn_husband || null,
+        husband_name: service.AncNo?.husband_name || null,
+        husband_age: service.AncNo?.husband_age || null,
+        husband_race: service.AncNo?.husband_race || null,
+        husband_citizencardno: service.AncNo?.husband_citizencardno || null,
+        husband_tel: service.AncNo?.husband_tel || null,
         gravida: service.gravida || null,
         round: service.round || null,
         patvisit_id: service.patvisit_id || null,

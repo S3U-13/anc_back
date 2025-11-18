@@ -10,6 +10,7 @@ const WifeChoiceValue = sequelize.define(
     pcr_wife_id: DataTypes.INTEGER,
     cordo_id: DataTypes.INTEGER,
     abortion_id: DataTypes.INTEGER,
+    vaccine: DataTypes.INTEGER,
     tdap_id: DataTypes.INTEGER,
     iip_id: DataTypes.INTEGER,
     bti_id: DataTypes.INTEGER,

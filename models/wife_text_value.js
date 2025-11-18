@@ -5,6 +5,7 @@ const WifeTextValue = sequelize.define(
   "WifeTextValue",
   {
     para: DataTypes.STRING,
+    prep_weight: DataTypes.DECIMAL(5, 2),
     p: DataTypes.STRING,
     a: DataTypes.STRING,
     last: DataTypes.STRING,

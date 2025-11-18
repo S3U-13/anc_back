@@ -24,6 +24,7 @@ async function seed() {
         { choice_type_name: "lab Bl.gr choice" },
         { choice_type_name: "lab Rh choice" },
         { choice_type_name: "lab DCIP choice" },
+        { choice_type_name: "vaccine" },
     ]);
     
     console.log("✅ AllChoiceType seeded with all_choice_type and AllChoice seeded with all_choice_type");

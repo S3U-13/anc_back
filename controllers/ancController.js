@@ -201,7 +201,17 @@ exports.create_anc = async (req, res) => {
 exports.edit_anc = async (req, res) => {
   try {
     const { AncNo } = req.params;
-    const { hn_wife, hn_husband } = req.body;
+    const {
+      hn_wife,
+      wife_address,
+      wife_tel,
+      hn_husband,
+      husband_name,
+      husband_age,
+      husband_citizencardno,
+      husband_race,
+      husband_tel,
+    } = req.body;
 
     // ✅ ตรวจสอบว่ามี id
     if (!AncNo) {
@@ -231,7 +241,14 @@ exports.edit_anc = async (req, res) => {
     // ✅ อัปเดตข้อมูล
     await anc.update({
       hn_wife,
+      wife_address,
+      wife_tel,
       hn_husband,
+      husband_name,
+      husband_age,
+      husband_citizencardno,
+      husband_race,
+      husband_tel,
       edit_by_user_id: req.user.id,
     });
 

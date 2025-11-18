@@ -153,6 +153,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true,
       },
+      vaccine: { type: Sequelize.INTEGER, allowNull: true },
       tdap_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
@@ -233,7 +234,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       hct_wife: { allowNull: true, type: Sequelize.STRING(30) },
-      of_wife: { allowNull: true, type: Sequelize.STRING(30) },
+      of_wife: { allowNull: true, type: Sequelize.INTEGER },
       dcip_wife: {
         allowNull: true,
         type: Sequelize.INTEGER,
@@ -281,7 +282,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       hct_husband: { allowNull: true, type: Sequelize.STRING(30) },
-      of_husband: { allowNull: true, type: Sequelize.STRING(30) },
+      of_husband: { allowNull: true, type: Sequelize.INTEGER },
       dcip_husband: {
         allowNull: true,
         type: Sequelize.INTEGER,
@@ -300,7 +301,7 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
-      prep_weight: { type: Sequelize.STRING(20), allowNull: true },
+      prep_weight: { type: Sequelize.DECIMAL(5, 2), allowNull: true },
       para: { type: Sequelize.STRING(20), allowNull: false },
       p: { type: Sequelize.STRING(20), allowNull: false },
       a: { type: Sequelize.STRING(20), allowNull: false },
@@ -319,7 +320,7 @@ module.exports = {
       cordo_other_text: { type: Sequelize.STRING, allowNull: true },
       td_num: { type: Sequelize.STRING, allowNull: true },
       td_last_date: { type: Sequelize.DATE, allowNull: true },
-      vaccine: { type: Sequelize.STRING(40), allowNUll: true },
+
       tdap_round_1: { type: Sequelize.DATE, allowNull: true },
       tdap_round_2: { type: Sequelize.DATE, allowNull: true },
       tdap_round_3: { type: Sequelize.DATE, allowNull: true },
