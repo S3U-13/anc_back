@@ -101,6 +101,7 @@ async function seed() {
     {
       choice_type_id: "10",
       choice_name: "ตรวจภายใน",
+      flag_status: "c",
     },
     {
       choice_type_id: "10",
@@ -241,6 +242,34 @@ async function seed() {
     {
       choice_type_id: "23",
       choice_name: "t-dap",
+    },
+    {
+      choice_type_id: "24",
+      choice_name: "LMP",
+    },
+    {
+      choice_type_id: "24",
+      choice_name: "U/S",
+    },
+    {
+      choice_type_id: "12",
+      choice_name: "Amoxicillin",
+    },
+    {
+      choice_type_id: "12",
+      choice_name: "Utrogestan",
+    },
+    {
+      choice_type_id: "25",
+      choice_name: "จำได้",
+    },
+    {
+      choice_type_id: "จำไม่ได้",
+      choice_name: "Utrogestan",
+    },
+    {
+      choice_type_id: "15",
+      choice_name: "อื่นๆ",
     },
   ]);
 

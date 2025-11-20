@@ -241,7 +241,7 @@ module.exports = {
       },
       mcv_wife: { allowNull: true, type: Sequelize.STRING(30) },
       mch_wife: { allowNull: true, type: Sequelize.STRING(30) },
-      hb_typing_wife: { allowNull: true, type: Sequelize.STRING(30) },
+      hb_typing_wife: { allowNull: true, type: Sequelize.STRING(100) },
       createdAt: { allowNull: false, type: Sequelize.DATE },
       updatedAt: { allowNull: false, type: Sequelize.DATE },
     });
@@ -289,7 +289,7 @@ module.exports = {
       },
       mcv_husband: { allowNull: true, type: Sequelize.STRING(30) },
       mch_husband: { allowNull: true, type: Sequelize.STRING(30) },
-      hb_typing_husband: { allowNull: true, type: Sequelize.STRING(30) },
+      hb_typing_husband: { allowNull: true, type: Sequelize.STRING(100) },
       createdAt: { allowNull: false, type: Sequelize.DATE },
       updatedAt: { allowNull: false, type: Sequelize.DATE },
     });
@@ -302,6 +302,7 @@ module.exports = {
         allowNull: false,
       },
       prep_weight: { type: Sequelize.DECIMAL(5, 2), allowNull: true },
+      bmi: { type: Sequelize.DECIMAL(5, 2), allowNull: true },
       para: { type: Sequelize.STRING(20), allowNull: false },
       p: { type: Sequelize.STRING(20), allowNull: false },
       a: { type: Sequelize.STRING(20), allowNull: false },
@@ -318,9 +319,21 @@ module.exports = {
       pcr_wife_text: { type: Sequelize.STRING, allowNull: true },
       cordo_text: { type: Sequelize.STRING, allowNull: true },
       cordo_other_text: { type: Sequelize.STRING, allowNull: true },
+      // เพิ่มใหม่
+      am_detail_1: { type: Sequelize.STRING, allowNull: true },
+      am_detail_2: { type: Sequelize.STRING, allowNull: true },
+      am_detail_3: { type: Sequelize.STRING, allowNull: true },
+      //
       td_num: { type: Sequelize.STRING, allowNull: true },
       td_last_date: { type: Sequelize.DATE, allowNull: true },
-
+      // เพิ่มใหม่
+      vaccine_detail_1: { type: Sequelize.STRING(150), allowNull: true },
+      vaccine_detail_2: { type: Sequelize.STRING(150), allowNull: true },
+      vaccine_detail_3: { type: Sequelize.STRING(150), allowNull: true },
+      vaccine_date_1: { type: Sequelize.DATE, allowNull: true },
+      vaccine_date_2: { type: Sequelize.DATE, allowNull: true },
+      vaccine_date_3: { type: Sequelize.DATE, allowNull: true },
+      //
       tdap_round_1: { type: Sequelize.DATE, allowNull: true },
       tdap_round_2: { type: Sequelize.DATE, allowNull: true },
       tdap_round_3: { type: Sequelize.DATE, allowNull: true },
@@ -328,9 +341,12 @@ module.exports = {
       lab_2: { type: Sequelize.DATE, allowNull: true },
       hct: { type: Sequelize.STRING, allowNull: true },
       vdrl_2: { type: Sequelize.STRING, allowNull: true },
-      h: { type: Sequelize.STRING, allowNull: true },
+      hiv: { type: Sequelize.INTEGER, allowNull: true },
       bti_1_date: { type: Sequelize.DATE, allowNull: true },
       bti_2_date: { type: Sequelize.DATE, allowNull: true },
+      birads_detail_1: { type: Sequelize.STRING(150), allowNull: true },
+      birads_detail_2: { type: Sequelize.STRING(150), allowNull: true },
+      birads_detail_3: { type: Sequelize.STRING(150), allowNull: true },
       cbe_result: { type: Sequelize.STRING, allowNull: true },
       createdAt: { allowNull: false, type: Sequelize.DATE },
       updatedAt: { allowNull: false, type: Sequelize.DATE },
