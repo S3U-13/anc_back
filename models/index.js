@@ -145,6 +145,10 @@ db.Cbe.belongsTo(db.AllChoice, {
 });
 
 db.WifeChoiceValue.belongsTo(db.Cbe, { foreignKey: "cbe_id", as: "cbe" });
+db.WifeChoiceValue.belongsTo(db.RefOther, {
+  foreignKey: "ref_other_id",
+  as: "refOther",
+});
 
 db.HusbandValue.belongsTo(db.AllChoice, {
   foreignKey: "pcr_hus_id",
@@ -219,6 +223,10 @@ db.Role.hasMany(db.User, { foreignKey: "role_id", as: "Role" });
 db.Position.hasMany(db.User, { foreignKey: "position_id", as: "Position" });
 
 db.WifeChoiceValue.belongsTo(db.AllChoice, {
+  foreignKey: "verified_by",
+  as: "vb",
+});
+db.WifeChoiceValue.belongsTo(db.AllChoice, {
   foreignKey: "ma_id",
   as: "ma",
 });
@@ -243,6 +251,10 @@ db.WifeChoiceValue.belongsTo(db.AllChoice, {
   as: "abortion",
 });
 db.WifeChoiceValue.belongsTo(db.AllChoice, {
+  foreignKey: "forget_or_remember",
+  as: "FOR",
+});
+db.WifeChoiceValue.belongsTo(db.AllChoice, {
   foreignKey: "vaccine",
   as: "Vaccine",
 });
@@ -261,6 +273,10 @@ db.WifeChoiceValue.belongsTo(db.AllChoice, {
 db.WifeChoiceValue.belongsTo(db.AllChoice, {
   foreignKey: "per_os_id",
   as: "per_os",
+});
+db.WifeTextValue.belongsTo(db.AllChoice, {
+  foreignKey: "hiv",
+  as: "HIV",
 });
 
 db.LabWifeResult.belongsTo(db.AllChoice, {

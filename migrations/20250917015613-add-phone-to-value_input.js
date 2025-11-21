@@ -171,6 +171,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true,
       },
+      forget_or_remember: { type: Sequelize.INTEGER, allowNull: true },
       vaccine: { type: Sequelize.INTEGER, allowNull: true },
       tdap_id: {
         type: Sequelize.INTEGER,
@@ -402,7 +403,7 @@ module.exports = {
       vac_lab_date_2_wife_2: { allowNull: true, type: Sequelize.DATE },
       vac_lab_date_3_wife_2: { allowNull: true, type: Sequelize.DATE },
       //
-      h: { type: Sequelize.INTEGER, allowNull: true },
+      hiv: { type: Sequelize.INTEGER, allowNull: true },
       bti_1_date: { type: Sequelize.DATE, allowNull: true },
       bti_2_date: { type: Sequelize.DATE, allowNull: true },
       birads_detail_1: { type: Sequelize.STRING(150), allowNull: true },
