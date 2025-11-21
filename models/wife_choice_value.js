@@ -4,6 +4,7 @@ const sequelize = require("../config/db");
 const WifeChoiceValue = sequelize.define(
   "WifeChoiceValue",
   {
+    verified_by: DataTypes.INTEGER,
     ma_id: DataTypes.INTEGER,
     hr_id: DataTypes.INTEGER,
     am_id: DataTypes.INTEGER,
@@ -20,6 +21,7 @@ const WifeChoiceValue = sequelize.define(
     referral_id: DataTypes.INTEGER,
     ref_in_choice_id: DataTypes.INTEGER,
     ref_out_choice_id: DataTypes.INTEGER,
+    ref_other_id: DataTypes.INTEGER,
   },
   {
     sequelize,

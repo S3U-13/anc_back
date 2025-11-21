@@ -17,6 +17,7 @@ const Anc = sequelize.define(
     },
     wife_address: { type: DataTypes.STRING, allowNull: true },
     wife_tel: { type: DataTypes.STRING(10), allowNull: true },
+    wife_job: { type: DataTypes.STRING(100), allowNull: true },
     hn_husband: {
       type: DataTypes.INTEGER,
       allowNull: true,
@@ -39,6 +40,10 @@ const Anc = sequelize.define(
     },
     husband_tel: {
       type: DataTypes.STRING(10),
+      allowNull: true,
+    },
+    husband_job: {
+      type: DataTypes.STRING(100),
       allowNull: true,
     },
     flag_status: DataTypes.STRING,

@@ -160,12 +160,14 @@ exports.create_anc = async (req, res) => {
       hn_wife,
       wife_address,
       wife_tel,
+      wife_job,
       hn_husband,
       husband_name,
       husband_age,
       husband_citizencardno,
       husband_race,
       husband_tel,
+      husband_job,
     } = req.body;
     const requiredFields = ["hn_wife"];
     for (const field of requiredFields) {
@@ -177,12 +179,14 @@ exports.create_anc = async (req, res) => {
       hn_wife,
       wife_address,
       wife_tel,
+      wife_job,
       hn_husband,
       husband_name,
       husband_age,
       husband_citizencardno,
       husband_race,
       husband_tel,
+      husband_job,
       create_by_user_id: req.user.id,
     });
     await logAction({
@@ -205,12 +209,14 @@ exports.edit_anc = async (req, res) => {
       hn_wife,
       wife_address,
       wife_tel,
+      wife_job,
       hn_husband,
       husband_name,
       husband_age,
       husband_citizencardno,
       husband_race,
       husband_tel,
+      husband_job,
     } = req.body;
 
     // ✅ ตรวจสอบว่ามี id
@@ -243,12 +249,14 @@ exports.edit_anc = async (req, res) => {
       hn_wife,
       wife_address,
       wife_tel,
+      wife_job,
       hn_husband,
       husband_name,
       husband_age,
       husband_citizencardno,
       husband_race,
       husband_tel,
+      husband_job,
       edit_by_user_id: req.user.id,
     });
 

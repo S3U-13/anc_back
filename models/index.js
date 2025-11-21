@@ -34,6 +34,7 @@ db.Location = require("./location");
 db.PatVisit = require("./pat_visit");
 db.CoverageSite = require("./coveragesite");
 db.UserLog = require("./user_logs");
+db.RefOther = require("./ref_other");
 
 //associations
 db.User.belongsTo(db.Role, { foreignKey: "role_id" });

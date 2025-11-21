@@ -6,6 +6,7 @@ const Referral = sequelize.define(
   {
     ref_value_1_id: DataTypes.INTEGER,
     ref_value_2_id: DataTypes.INTEGER,
+    ref_value_3_id: DataTypes.INTEGER,
   },
   {
     sequelize,

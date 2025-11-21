@@ -33,10 +33,6 @@ module.exports = {
       choice_type_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: "all_choice_type",
-          key: "id",
-        },
       },
       id: {
         primaryKey: true,
