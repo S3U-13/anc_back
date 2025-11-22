@@ -697,6 +697,7 @@ exports.edit = async (req, res) => {
               as: "abortion",
               attributes: ["choice_name"],
             },
+            { model: db.AllChoice, as: "vb", attributes: ["choice_name"] },
             { model: db.AllChoice, as: "ma", attributes: ["choice_name"] },
             { model: db.AllChoice, as: "hr", attributes: ["choice_name"] },
             { model: db.AllChoice, as: "am", attributes: ["choice_name"] },
@@ -706,6 +707,8 @@ exports.edit = async (req, res) => {
               as: "pcr_wife",
               attributes: ["choice_name"],
             },
+            { model: db.AllChoice, as: "FOR", attributes: ["choice_name"] },
+            { model: db.AllChoice, as: "Vaccine", attributes: ["choice_name"] },
             { model: db.AllChoice, as: "cordo", attributes: ["choice_name"] },
             { model: db.AllChoice, as: "tdap", attributes: ["choice_name"] },
             { model: db.AllChoice, as: "iip", attributes: ["choice_name"] },
@@ -722,12 +725,26 @@ exports.edit = async (req, res) => {
               as: "ref_out_choice",
             },
             { model: db.Referral, as: "referral_value" },
+            {
+              model: db.RefOther,
+              as: "refOther",
+            },
           ],
         },
         {
           model: db.WifeTextValue,
           as: "wife_text_value",
           include: [
+            {
+              model: db.AllChoice,
+              as: "vdrl_2_name",
+              attributes: ["choice_name"],
+            },
+            {
+              model: db.AllChoice,
+              as: "HIV",
+              attributes: ["choice_name"],
+            },
             {
               model: db.LabWifeResult,
               as: "lab_wife",
@@ -910,6 +927,17 @@ exports.edit = async (req, res) => {
         }
       );
     }
+    if (anc_service.wife_choice_value?.ref_other_id) {
+      await db.RefOther.update(
+        {
+          ref_other_detail: req.body.ref_other_detail || "",
+        },
+        {
+          where: { id: anc_service.wife_choice_value.ref_other_id },
+          transaction: t,
+        }
+      );
+    }
 
     // -----------------------------
     // update referral
@@ -921,6 +949,9 @@ exports.edit = async (req, res) => {
             : null,
           ref_value_2_id: req.body.ref_value_2_id
             ? parseInt(req.body.ref_value_2_id)
+            : null,
+          ref_value_3_id: req.body.ref_value_3_id
+            ? parseInt(req.body.ref_value_3_id)
             : null,
         },
         {
@@ -934,6 +965,12 @@ exports.edit = async (req, res) => {
     // update wife_choice_value
     await anc_service.wife_choice_value.update(
       {
+        verified_by: req.body.verified_by
+          ? parseInt(req.body.verified_by)
+          : null,
+        forget_or_remember: req.body.forget_or_remember
+          ? parseInt(req.body.forget_or_remember)
+          : null,
         ma_id: req.body.ma_id ? parseInt(req.body.ma_id) : null,
         hr_id: req.body.hr_id ? parseInt(req.body.hr_id) : null,
         am_id: req.body.am_id ? parseInt(req.body.am_id) : null,
@@ -970,6 +1007,10 @@ exports.edit = async (req, res) => {
           vdrl_wife: req.body.vdrl_wife ? parseInt(req.body.vdrl_wife) : null,
           ppr_wife: req.body.ppr_wife || null,
           tpha_wife: req.body.tpha_wife || null,
+          treatment_detail_wife: req.body.treatment_detail_wife || "",
+          vac_lab_date_1_wife: req.body.vac_lab_date_1_wife || null,
+          vac_lab_date_2_wife: req.body.vac_lab_date_2_wife || null,
+          vac_lab_date_3_wife: req.body.vac_lab_date_3_wife || null,
           anti_hiv_wife: req.body.anti_hiv_wife
             ? parseInt(req.body.anti_hiv_wife)
             : null,
@@ -997,6 +1038,7 @@ exports.edit = async (req, res) => {
       {
         para: req.body.para || "",
         prep_weight: req.body.prep_weight || "",
+        bmi: req.body.bmi || "",
         p: req.body.p || "",
         a: req.body.a || "",
         last: req.body.last || "",
@@ -1008,19 +1050,43 @@ exports.edit = async (req, res) => {
         pcr_wife_text: req.body.pcr_wife_text || "",
         cordo_text: req.body.cordo_text || "",
         cordo_other_text: req.body.cordo_other_text || "",
-        td_num: req.body.td_num ? parseInt(req.body.td_num) : null,
+        am_detail_1: req.body.am_detail_1 || "",
+        am_detail_2: req.body.am_detail_2 || "",
+        am_detail_3: req.body.am_detail_3 || "",
+        td_num: req.body.td_num || "",
         td_last_date: req.body.td_last_date || null,
+        td_forget_date: req.body.td_forget_date || "",
+        vaccine_detail_1: req.body.vaccine_detail_1 || "",
+        vaccine_detail_2: req.body.vaccine_detail_2 || "",
+        vaccine_detail_3: req.body.vaccine_detail_3 || "",
+        vaccine_date_1: req.body.vaccine_date_1 || null,
+        vaccine_date_2: req.body.vaccine_date_2 || null,
+        vaccine_date_3: req.body.vaccine_date_3 || null,
         tdap_round_1: req.body.tdap_round_1 || null,
         tdap_round_2: req.body.tdap_round_2 || null,
         tdap_round_3: req.body.tdap_round_3 || null,
         iip_date: req.body.iip_date || null,
         lab_2: req.body.lab_2 || null,
         hct: req.body.hct || null,
-        vdrl_2: req.body.vdrl_2 || null,
-        h: req.body.h || null,
+        vdrl_2: req.body.vdrl_2 ? parseInt(req.body.vdrl_2) : null,
+        ppr_wife_2: req.body.ppr_wife_2 || null,
+        tpha_wife_2: req.body.tpha_wife_2 || null,
+        treatment_detail_wife_2: req.body.treatment_detail_wife_2 || "",
+        vac_lab_date_1_wife_2: req.body.vac_lab_date_1_wife_2 || null,
+        vac_lab_date_2_wife_2: req.body.vac_lab_date_2_wife_2 || null,
+        vac_lab_date_3_wife_2: req.body.vac_lab_date_3_wife_2 || null,
+        hiv: req.body.hiv ? parseInt(req.body.hiv) : null,
         bti_1_date: req.body.bti_1_date || null,
         bti_2_date: req.body.bti_2_date || null,
         cbe_result: req.body.cbe_result || "",
+        birads_detail_1: req.body.birads_detail_1 || "",
+        birads_detail_2: req.body.birads_detail_2 || "",
+        birads_detail_3: req.body.birads_detail_3 || "",
+        per_os_detail_1: req.body.per_os_detail_1 || "",
+        per_os_detail_2: req.body.per_os_detail_2 || "",
+        per_os_detail_3: req.body.per_os_detail_3 || "",
+        per_os_detail_4: req.body.per_os_detail_4 || "",
+        per_os_detail_5: req.body.per_os_detail_5 || "",
       },
       { transaction: t }
     );
@@ -1038,6 +1104,10 @@ exports.edit = async (req, res) => {
             : null,
           ppr_husband: req.body.ppr_wife || null,
           tpha_husband: req.body.tpha_wife || null,
+          treatment_detail_husband: req.body.treatment_detail_husband || "",
+          vac_lab_date_1_husband: req.body.vac_lab_date_1_husband || null,
+          vac_lab_date_2_husband: req.body.vac_lab_date_2_husband || null,
+          vac_lab_date_3_husband: req.body.vac_lab_date_3_husband || null,
           anti_hiv_husband: req.body.anti_hiv_husband
             ? parseInt(req.body.anti_hiv_husband)
             : null,
