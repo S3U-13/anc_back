@@ -385,7 +385,7 @@ module.exports = {
       iip_date: { type: Sequelize.DATE, allowNull: true },
       lab_2: { type: Sequelize.DATE, allowNull: true },
       hct: { type: Sequelize.STRING, allowNull: true },
-      vdrl_2: { type: Sequelize.STRING, allowNull: true },
+      vdrl_2: { type: Sequelize.INTEGER, allowNull: true },
       ppr_wife_2: {
         allowNull: true,
         type: Sequelize.STRING(40),

@@ -164,6 +164,10 @@ db.Referral.belongsTo(db.AllChoice, {
   foreignKey: "ref_value_2_id",
   as: "ref_out",
 });
+db.Referral.belongsTo(db.AllChoice, {
+  foreignKey: "ref_value_3_id",
+  as: "ref_other",
+});
 db.RefInChoice.belongsTo(db.AllChoice, {
   foreignKey: "receive_in_id",
   as: "receive_in",

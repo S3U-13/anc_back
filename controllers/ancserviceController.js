@@ -1329,6 +1329,11 @@ exports.show_service_round_by_id = async (req, res) => {
                   as: "ref_out",
                   attributes: ["choice_name"],
                 },
+                {
+                  model: db.AllChoice,
+                  as: "ref_other",
+                  attributes: ["choice_name"],
+                },
               ],
             },
             {
@@ -1673,6 +1678,11 @@ exports.show_edit_view = async (req, res) => {
                 {
                   model: db.AllChoice,
                   as: "ref_out",
+                  attributes: ["choice_name"],
+                },
+                {
+                  model: db.AllChoice,
+                  as: "ref_other",
                   attributes: ["choice_name"],
                 },
               ],

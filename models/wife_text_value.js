@@ -37,7 +37,7 @@ const WifeTextValue = sequelize.define(
     tdap_round_3: DataTypes.DATE,
     iip_date: DataTypes.DATE,
     lab_2: DataTypes.DATE,
-    vdrl_2: { type: DataTypes.STRING(30), allowNull: true },
+    vdrl_2: { type: DataTypes.INTEGER, allowNull: true },
     ppr_wife_2: DataTypes.STRING,
     tpha_wife_2: DataTypes.STRING,
     treatment_detail_wife_2: DataTypes.STRING,
