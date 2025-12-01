@@ -249,9 +249,9 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING(150),
       },
-      vac_lab_date_1_wife: { allowNull: true, type: Sequelize.DATE },
-      vac_lab_date_2_wife: { allowNull: true, type: Sequelize.DATE },
-      vac_lab_date_3_wife: { allowNull: true, type: Sequelize.DATE },
+      treatment_date_1_wife: { allowNull: true, type: Sequelize.DATE },
+      treatment_date_2_wife: { allowNull: true, type: Sequelize.DATE },
+      treatment_date_3_wife: { allowNull: true, type: Sequelize.DATE },
       //
       anti_hiv_wife: {
         allowNull: true,
@@ -306,9 +306,9 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING(150),
       },
-      vac_lab_date_1_husband: { allowNull: true, type: Sequelize.DATE },
-      vac_lab_date_2_husband: { allowNull: true, type: Sequelize.DATE },
-      vac_lab_date_3_husband: { allowNull: true, type: Sequelize.DATE },
+      treatment_date_1_husband: { allowNull: true, type: Sequelize.DATE },
+      treatment_date_2_husband: { allowNull: true, type: Sequelize.DATE },
+      treatment_date_3_husband: { allowNull: true, type: Sequelize.DATE },
       //
       anti_hiv_husband: {
         allowNull: true,
@@ -364,20 +364,20 @@ module.exports = {
       cordo_text: { type: Sequelize.STRING, allowNull: true },
       cordo_other_text: { type: Sequelize.STRING, allowNull: true },
       // เพิ่มใหม่
-      am_detail_1: { type: Sequelize.STRING(150), allowNull: true },
-      am_detail_2: { type: Sequelize.STRING(150), allowNull: true },
-      am_detail_3: { type: Sequelize.STRING(150), allowNull: true },
+      am_reason_checked: { type: Sequelize.STRING(150), allowNull: true },
+      am_reason_not_checked: { type: Sequelize.STRING(150), allowNull: true },
+      am_reason_consult: { type: Sequelize.STRING(150), allowNull: true },
       //
       td_num: { type: Sequelize.STRING(100), allowNull: true },
       td_last_date: { type: Sequelize.DATE, allowNull: true },
       td_forget_date: { type: Sequelize.STRING(100), allowNull: true },
       // เพิ่มใหม่
-      vaccine_detail_1: { type: Sequelize.STRING(150), allowNull: true },
-      vaccine_detail_2: { type: Sequelize.STRING(150), allowNull: true },
-      vaccine_detail_3: { type: Sequelize.STRING(150), allowNull: true },
-      vaccine_date_1: { type: Sequelize.DATE, allowNull: true },
-      vaccine_date_2: { type: Sequelize.DATE, allowNull: true },
-      vaccine_date_3: { type: Sequelize.DATE, allowNull: true },
+      influenza_reason: { type: Sequelize.STRING(150), allowNull: true },
+      ap_reason: { type: Sequelize.STRING(150), allowNull: true },
+      tdap_reason: { type: Sequelize.STRING(150), allowNull: true },
+      influenza_date: { type: Sequelize.DATE, allowNull: true },
+      ap_date: { type: Sequelize.DATE, allowNull: true },
+      tdap_date: { type: Sequelize.DATE, allowNull: true },
       //
       tdap_round_1: { type: Sequelize.DATE, allowNull: true },
       tdap_round_2: { type: Sequelize.DATE, allowNull: true },
@@ -385,37 +385,40 @@ module.exports = {
       iip_date: { type: Sequelize.DATE, allowNull: true },
       lab_2: { type: Sequelize.DATE, allowNull: true },
       hct: { type: Sequelize.STRING, allowNull: true },
-      vdrl_2: { type: Sequelize.INTEGER, allowNull: true },
-      ppr_wife_2: {
+      vdrl_lab_2: { type: Sequelize.INTEGER, allowNull: true },
+      ppr_lab_2: {
         allowNull: true,
         type: Sequelize.STRING(40),
       },
-      tpha_wife_2: {
+      tpha_lab_2: {
         allowNull: true,
         type: Sequelize.STRING(40),
       },
       //new
-      treatment_detail_wife_2: {
+      treatment_detail_lab_2: {
         allowNull: true,
         type: Sequelize.STRING(150),
       },
-      vac_lab_date_1_wife_2: { allowNull: true, type: Sequelize.DATE },
-      vac_lab_date_2_wife_2: { allowNull: true, type: Sequelize.DATE },
-      vac_lab_date_3_wife_2: { allowNull: true, type: Sequelize.DATE },
+      treatment_date_1_lab_2: { allowNull: true, type: Sequelize.DATE },
+      treatment_date_2_lab_2: { allowNull: true, type: Sequelize.DATE },
+      treatment_date_3_lab_2: { allowNull: true, type: Sequelize.DATE },
       //
       hiv: { type: Sequelize.INTEGER, allowNull: true },
       bti_1_date: { type: Sequelize.DATE, allowNull: true },
       bti_2_date: { type: Sequelize.DATE, allowNull: true },
-      birads_detail_1: { type: Sequelize.STRING(150), allowNull: true },
-      birads_detail_2: { type: Sequelize.STRING(150), allowNull: true },
-      birads_detail_3: { type: Sequelize.STRING(150), allowNull: true },
+      birads_reason_left: { type: Sequelize.STRING(150), allowNull: true },
+      birads_reason_right: { type: Sequelize.STRING(150), allowNull: true },
+      birads_reason_both_sides: {
+        type: Sequelize.STRING(150),
+        allowNull: true,
+      },
       cbe_result: { type: Sequelize.STRING, allowNull: true },
       //new
-      per_os_detail_1: { type: Sequelize.STRING(150), allowNull: true },
-      per_os_detail_2: { type: Sequelize.STRING(150), allowNull: true },
-      per_os_detail_3: { type: Sequelize.STRING(150), allowNull: true },
-      per_os_detail_4: { type: Sequelize.STRING(150), allowNull: true },
-      per_os_detail_5: { type: Sequelize.STRING(150), allowNull: true },
+      iodine_reason: { type: Sequelize.STRING(150), allowNull: true },
+      iron_reason: { type: Sequelize.STRING(150), allowNull: true },
+      folic_reason: { type: Sequelize.STRING(150), allowNull: true },
+      amoxicillin_reason: { type: Sequelize.STRING(150), allowNull: true },
+      utrogestan_reason: { type: Sequelize.STRING(150), allowNull: true },
       //
       createdAt: { allowNull: false, type: Sequelize.DATE },
       updatedAt: { allowNull: false, type: Sequelize.DATE },

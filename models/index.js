@@ -199,7 +199,7 @@ db.WifeTextValue.belongsTo(db.LabWifeResult, {
   as: "lab_wife",
 });
 db.WifeTextValue.belongsTo(db.AllChoice, {
-  foreignKey: "vdrl_2",
+  foreignKey: "vdrl_lab_2",
   as: "vdrl_2_name",
 });
 db.HusbandValue.belongsTo(db.LabHusbandResult, {
